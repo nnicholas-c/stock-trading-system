@@ -1,0 +1,62 @@
+{
+  "_comment": "OpenClaw configuration for stock-trading-system. Copy relevant sections into your ~/.openclaw/config.json",
+
+  "skills": [
+    {
+      "name": "stock-alerts",
+      "path": "./openclaw/skills/stock-alerts.md",
+      "description": "ML/RL-powered buy/sell alerts for PLTR, AAPL, NVDA, TSLA"
+    }
+  ],
+
+  "heartbeats": [
+    {
+      "name": "stock-signal-check",
+      "schedule": "0 */6 * * *",
+      "skill": "stock-alerts",
+      "task": "Run the trading signal engine by executing `python scripts/run_signal.py` from the stock-trading-system directory. Parse the JSON output from trading_system/signals/current_signals.json. For any ticker where signal is BUY or STRONG BUY with confidence > 0.55, or SELL with confidence > 0.55, send a detailed alert to the configured notification channel. Include: ticker, signal, confidence, current price, analyst target, upside %, top 3 ML feature drivers, RSI, MACD direction, PPO agent action, risk score, and 2-3 latest news headlines from a web search. Always end with: 'Not financial advice. DYOR.' Never send an alert for HOLD signals unless the signal changed from the previous run."
+    },
+    {
+      "name": "market-open-brief",
+      "schedule": "30 13 * * 1-5",
+      "skill": "stock-alerts",
+      "task": "Send a concise pre-market briefing for PLTR, AAPL, NVDA, TSLA. Search the web for overnight news on each ticker. Read current_signals.json for ML signals. Format as: emoji + ticker + signal + price + key news in 1 line. End with overall market sentiment. Keep total message under 400 words."
+    },
+    {
+      "name": "market-close-summary",
+      "schedule": "0 21 * * 1-5",
+      "skill": "stock-alerts",
+      "task": "End-of-day summary for PLTR, AAPL, NVDA, TSLA. Search for today's price moves and notable news. Re-run signal engine if last run was >4 hours ago. Report: today's % move, signal status, any signal changes from morning, and one key catalyst to watch tomorrow."
+    },
+    {
+      "name": "earnings-monitor",
+      "schedule": "0 20 * * 1-5",
+      "skill": "stock-alerts",
+      "task": "Check if any of PLTR, AAPL, NVDA, or TSLA are reporting earnings this week or next week. If yes, send an alert with the expected date, consensus EPS estimate, whisper number if available, and the ML model's signal heading into earnings. Flag if the stock is up >5% or down >5% into the print."
+    }
+  ],
+
+  "tools": {
+    "python_runner": {
+      "command": "python",
+      "script": "scripts/run_signal.py",
+      "working_dir": "."
+    },
+    "news_scanner": {
+      "command": "python",
+      "script": "scripts/news_scanner.py",
+      "working_dir": "."
+    }
+  },
+
+  "notification": {
+    "_comment": "Set your preferred channel. OpenClaw will route alerts there.",
+    "channel": "telegram",
+    "available_channels": ["telegram", "whatsapp", "discord", "slack", "signal", "imessage"],
+    "on_signal_change": true,
+    "on_strong_signal_only": false,
+    "confidence_threshold": 0.55,
+    "quiet_hours": {"start": "22:00", "end": "07:00", "timezone": "America/Los_Angeles"},
+    "emergency_override": true
+  }
+}
