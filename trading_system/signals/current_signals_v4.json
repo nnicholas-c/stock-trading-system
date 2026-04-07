@@ -1,0 +1,330 @@
+{
+  "version": "v4",
+  "generated_at": "2026-04-07T23:46:47.624769",
+  "training_period": "2021-01-04 to 2026-04-07",
+  "data_points": 5280,
+  "features": 68,
+  "data_sources": [
+    "Perplexity Finance OHLCV (daily)",
+    "Macro: SPY/QQQ/TLT/GLD",
+    "Earnings: real EPS/rev surprise history (Perplexity Finance)",
+    "News: live Google News RSS + VADER NLP",
+    "CB Insights: AI market context",
+    "Statista: GPU/AI semiconductor TAM"
+  ],
+  "market_sentiment": "UNCERTAIN",
+  "signals": {
+    "PLTR": {
+      "signal": "SELL",
+      "signal_int": 1,
+      "confidence": 0.362,
+      "lstm_1d": -0.05371,
+      "lstm_5d": -0.02239,
+      "lstm_10d": -0.0634,
+      "lstm_20d": -0.1467,
+      "lstm_60d": 0.06302,
+      "lgb_5d": 0.00826,
+      "lgb_20d": 0.03682,
+      "price": 150.07,
+      "analyst_target": 197.57,
+      "analyst_upside": 0.3165,
+      "vol_regime": "NORMAL_VOL",
+      "market_regime": "BEAR",
+      "news_sentiment_live": {
+        "compound": 0.1716,
+        "bull_bear_ratio": 2.2,
+        "article_count": 24,
+        "top_headlines": [
+          {
+            "title": "Forget Palantir: This Beaten-Down \u201cFed\u201d AI Stock Has More Upside Potential - 24/7 Wall St.",
+            "compound": -0.226
+          },
+          {
+            "title": "Why Palantir\u2019s Best Days May Still Be Ahead (NASDAQ:PLTR) - Seeking Alpha",
+            "compound": 0.856
+          },
+          {
+            "title": "Palantir Technologies Inc. (PLTR) Laps the Stock Market: Here's Why - Yahoo Finance",
+            "compound": 0.0
+          }
+        ]
+      },
+      "earnings_context": {
+        "last_eps_surprise": 0.01,
+        "last_rev_surprise_m": 65.77,
+        "last_post_move": 0.0685,
+        "sell_news_risk": false,
+        "avg_3q_eps_surprise": -0.01
+      },
+      "market_context": {
+        "cb_insights_sector_funding": 100400000000,
+        "nvda_gpu_share": null,
+        "competitive_moat_score": 0.7,
+        "tam_growth_rate": 0.35
+      },
+      "top_features": [
+        {
+          "feature": "rev_surprise_actual",
+          "importance": 0.04018363356590271
+        },
+        {
+          "feature": "post_earnings_move_actual",
+          "importance": 0.03985964506864548
+        },
+        {
+          "feature": "days_to_next_earnings",
+          "importance": 0.03686973825097084
+        },
+        {
+          "feature": "sell_news_risk",
+          "importance": 0.03525267913937569
+        },
+        {
+          "feature": "month_sin",
+          "importance": 0.027679648250341415
+        }
+      ],
+      "model_accuracy": {
+        "xgb": 0.229,
+        "lstm_dir_accuracy": 0.5772,
+        "lstm_val_loss": 0.020438,
+        "lgb_5d_mae": 0.058793,
+        "ensemble_acc": 0.2061
+      }
+    },
+    "AAPL": {
+      "signal": "BUY",
+      "signal_int": 3,
+      "confidence": 0.2788,
+      "lstm_1d": 0.00959,
+      "lstm_5d": 0.05009,
+      "lstm_10d": 0.0583,
+      "lstm_20d": 0.08157,
+      "lstm_60d": 0.15072,
+      "lgb_5d": 0.00322,
+      "lgb_20d": 0.02484,
+      "price": 253.5,
+      "analyst_target": 227.84,
+      "analyst_upside": -0.1012,
+      "vol_regime": "NORMAL_VOL",
+      "market_regime": "BEAR",
+      "news_sentiment_live": {
+        "compound": -0.0466,
+        "bull_bear_ratio": 1.5,
+        "article_count": 24,
+        "top_headlines": [
+          {
+            "title": "Apple said still on track to release foldable phone in September, pares losses - Investing.com",
+            "compound": -0.402
+          },
+          {
+            "title": "Why Apple Stock (AAPL) Is Down Nearly 5% Today - TipRanks",
+            "compound": 0.0
+          },
+          {
+            "title": "SPY is down 0.8% today, on AAPL stock price movement - Quiver Quantitative",
+            "compound": 0.0
+          }
+        ]
+      },
+      "earnings_context": {
+        "last_eps_surprise": 0.19,
+        "last_rev_surprise_m": 5365.0,
+        "last_post_move": 0.0046,
+        "sell_news_risk": false,
+        "avg_3q_eps_surprise": 0.1333
+      },
+      "market_context": {
+        "cb_insights_sector_funding": 45000000000,
+        "nvda_gpu_share": null,
+        "competitive_moat_score": 0.85,
+        "tam_growth_rate": 0.08
+      },
+      "top_features": [
+        {
+          "feature": "post_earnings_move_actual",
+          "importance": 0.04532948136329651
+        },
+        {
+          "feature": "vol_60d",
+          "importance": 0.031711917370557785
+        },
+        {
+          "feature": "month_cos",
+          "importance": 0.03010522574186325
+        },
+        {
+          "feature": "rev_surprise_actual",
+          "importance": 0.030091628432273865
+        },
+        {
+          "feature": "macro_corr_spy_60d",
+          "importance": 0.028237711638212204
+        }
+      ],
+      "model_accuracy": {
+        "xgb": 0.229,
+        "lstm_dir_accuracy": 0.5493,
+        "lstm_val_loss": 0.003003,
+        "lgb_5d_mae": 0.032946,
+        "ensemble_acc": 0.2519
+      }
+    },
+    "NVDA": {
+      "signal": "BUY",
+      "signal_int": 3,
+      "confidence": 0.5395,
+      "lstm_1d": 0.00733,
+      "lstm_5d": 0.05047,
+      "lstm_10d": 0.12983,
+      "lstm_20d": 0.14812,
+      "lstm_60d": 0.31996,
+      "lgb_5d": 0.01847,
+      "lgb_20d": 0.05457,
+      "price": 178.1,
+      "analyst_target": 174.43,
+      "analyst_upside": -0.0206,
+      "vol_regime": "NORMAL_VOL",
+      "market_regime": "BEAR",
+      "news_sentiment_live": {
+        "compound": 0.0051,
+        "bull_bear_ratio": 1.8,
+        "article_count": 24,
+        "top_headlines": [
+          {
+            "title": "Nvidia Stock Shivers as CEO Jensen Huang Declares that \u2018We Are 100% in Israel. We Are 100% Behind the Families There\u2019 - ",
+            "compound": 0.0
+          },
+          {
+            "title": "Goldman Sachs spots Nvidia-linked shift not seen in 13 years - thestreet.com",
+            "compound": 0.0
+          },
+          {
+            "title": "Prediction: This Will Be Nvidia's Stock Price by the End of the Year - The Motley Fool",
+            "compound": -0.44
+          }
+        ]
+      },
+      "earnings_context": {
+        "last_eps_surprise": 0.238,
+        "last_rev_surprise_m": 2000.53,
+        "last_post_move": -0.0546,
+        "sell_news_risk": false,
+        "avg_3q_eps_surprise": 0.0893
+      },
+      "market_context": {
+        "cb_insights_sector_funding": 100400000000,
+        "nvda_gpu_share": 0.87,
+        "competitive_moat_score": 0.95,
+        "tam_growth_rate": 0.55
+      },
+      "top_features": [
+        {
+          "feature": "earnings_beat_streak",
+          "importance": 0.04781264066696167
+        },
+        {
+          "feature": "days_to_next_earnings",
+          "importance": 0.02908490225672722
+        },
+        {
+          "feature": "eps_surprise_actual",
+          "importance": 0.026513569056987762
+        },
+        {
+          "feature": "macro_corr_qqq_60d",
+          "importance": 0.025782981887459755
+        },
+        {
+          "feature": "bb_pos_50",
+          "importance": 0.025606099516153336
+        }
+      ],
+      "model_accuracy": {
+        "xgb": 0.1794,
+        "lstm_dir_accuracy": 0.4532,
+        "lstm_val_loss": 0.012615,
+        "lgb_5d_mae": 0.040299,
+        "ensemble_acc": 0.2634
+      }
+    },
+    "TSLA": {
+      "signal": "HOLD",
+      "signal_int": 2,
+      "confidence": 0.2908,
+      "lstm_1d": 0.00933,
+      "lstm_5d": 0.0452,
+      "lstm_10d": 0.0248,
+      "lstm_20d": -0.09239,
+      "lstm_60d": -0.1135,
+      "lgb_5d": 0.00386,
+      "lgb_20d": 0.03778,
+      "price": 346.65,
+      "analyst_target": 315.0,
+      "analyst_upside": -0.0913,
+      "vol_regime": "HIGH_VOL",
+      "market_regime": "BEAR",
+      "news_sentiment_live": {
+        "compound": -0.3028,
+        "bull_bear_ratio": 1.1,
+        "article_count": 24,
+        "top_headlines": [
+          {
+            "title": "JPMorgan warns Tesla stock could sink 60% in new note. Here's why. - Yahoo Finance",
+            "compound": -0.664
+          },
+          {
+            "title": "Cathie Wood Defies Delivery Slump and Bets $14M on Tesla\u2019s (TSLA) Dip, Dumps Teradyne Stock (TER) - TipRanks",
+            "compound": -0.66
+          },
+          {
+            "title": "Tesla Stock: It's Cheap Again (Rating Upgrade) (NASDAQ:TSLA) - Seeking Alpha",
+            "compound": 0.0
+          }
+        ]
+      },
+      "earnings_context": {
+        "last_eps_surprise": -0.14,
+        "last_rev_surprise_m": 124.56,
+        "last_post_move": -0.0345,
+        "sell_news_risk": false,
+        "avg_3q_eps_surprise": -0.16
+      },
+      "market_context": {
+        "cb_insights_sector_funding": 12000000000,
+        "nvda_gpu_share": null,
+        "competitive_moat_score": 0.4,
+        "tam_growth_rate": 0.22
+      },
+      "top_features": [
+        {
+          "feature": "market_regime_bull",
+          "importance": 0.03485672548413277
+        },
+        {
+          "feature": "bb_pos_20",
+          "importance": 0.028786271810531616
+        },
+        {
+          "feature": "month_cos",
+          "importance": 0.028441784903407097
+        },
+        {
+          "feature": "month_sin",
+          "importance": 0.02737218327820301
+        },
+        {
+          "feature": "vol_20d",
+          "importance": 0.027298634871840477
+        }
+      ],
+      "model_accuracy": {
+        "xgb": 0.1069,
+        "lstm_dir_accuracy": 0.6417,
+        "lstm_val_loss": 0.006879,
+        "lgb_5d_mae": 0.053137,
+        "ensemble_acc": 0.2214
+      }
+    }
+  }
+}
