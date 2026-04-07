@@ -1,0 +1,218 @@
+{
+  "version": "v4",
+  "fetched_at": "2026-04-07T23:43:26.227280",
+  "news": {
+    "PLTR": {
+      "compound": 0.17157961087052914,
+      "compound_mean": 0.21495416666666667,
+      "compound_std": 0.45742074056051235,
+      "positive": 0.10595833333333333,
+      "negative": 0.05295833333333333,
+      "article_count": 24,
+      "bull_articles": 11,
+      "bear_articles": 5,
+      "bull_bear_ratio": 2.2,
+      "articles": [
+        {
+          "title": "Forget Palantir: This Beaten-Down \u201cFed\u201d AI Stock Has More Upside Potential - 24/7 Wall St.",
+          "published": "Mon, 06 Apr 2026 17:52:22 GMT",
+          "compound": -0.2263,
+          "positive": 0.0,
+          "negative": 0.06,
+          "neutral": 0.94
+        },
+        {
+          "title": "Why Palantir\u2019s Best Days May Still Be Ahead (NASDAQ:PLTR) - Seeking Alpha",
+          "published": "Mon, 06 Apr 2026 15:48:51 GMT",
+          "compound": 0.8555,
+          "positive": 0.268,
+          "negative": 0.0,
+          "neutral": 0.732
+        },
+        {
+          "title": "Palantir Technologies Inc. (PLTR) Laps the Stock Market: Here's Why - Yahoo Finance",
+          "published": "Tue, 07 Apr 2026 21:45:02 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        },
+        {
+          "title": "PLTR Rides AI Momentum and Strong Profitability: A Stock Worth Buying? - TradingView",
+          "published": "Mon, 06 Apr 2026 16:31:00 GMT",
+          "compound": 0.9207,
+          "positive": 0.419,
+          "negative": 0.0,
+          "neutral": 0.581
+        },
+        {
+          "title": "SoundHound (SOUN) vs. Palantir (PLTR): Which AI Stock Could Double in 2026? - TipRanks",
+          "published": "Tue, 07 Apr 2026 12:31:12 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        }
+      ]
+    },
+    "AAPL": {
+      "compound": -0.04655280679729432,
+      "compound_mean": 0.17676666666666666,
+      "compound_std": 0.49390445358931756,
+      "positive": 0.09345833333333332,
+      "negative": 0.04558333333333334,
+      "article_count": 24,
+      "bull_articles": 9,
+      "bear_articles": 6,
+      "bull_bear_ratio": 1.5,
+      "articles": [
+        {
+          "title": "Apple said still on track to release foldable phone in September, pares losses - Investing.com",
+          "published": "Tue, 07 Apr 2026 17:37:40 GMT",
+          "compound": -0.4019,
+          "positive": 0.0,
+          "negative": 0.083,
+          "neutral": 0.917
+        },
+        {
+          "title": "Why Apple Stock (AAPL) Is Down Nearly 5% Today - TipRanks",
+          "published": "Tue, 07 Apr 2026 15:07:07 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        },
+        {
+          "title": "SPY is down 0.8% today, on AAPL stock price movement - Quiver Quantitative",
+          "published": "Tue, 07 Apr 2026 16:15:00 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        },
+        {
+          "title": "Bank of America resets Apple stock forecast - thestreet.com",
+          "published": "Tue, 07 Apr 2026 08:03:00 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        },
+        {
+          "title": "Apple Inc Stock (AAPL) Moved Down by 3.54% on Apr 7: Facts Behind the Movement - TradingKey",
+          "published": "Tue, 07 Apr 2026 14:15:40 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        }
+      ]
+    },
+    "NVDA": {
+      "compound": 0.0050822808225728724,
+      "compound_mean": 0.12377083333333333,
+      "compound_std": 0.46873484159065293,
+      "positive": 0.075125,
+      "negative": 0.035625,
+      "article_count": 24,
+      "bull_articles": 9,
+      "bear_articles": 5,
+      "bull_bear_ratio": 1.8,
+      "articles": [
+        {
+          "title": "Nvidia Stock Shivers as CEO Jensen Huang Declares that \u2018We Are 100% in Israel. We Are 100% Behind the Families There\u2019 - ",
+          "published": "Tue, 07 Apr 2026 16:20:02 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        },
+        {
+          "title": "Goldman Sachs spots Nvidia-linked shift not seen in 13 years - thestreet.com",
+          "published": "Mon, 06 Apr 2026 14:17:59 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        },
+        {
+          "title": "Prediction: This Will Be Nvidia's Stock Price by the End of the Year - The Motley Fool",
+          "published": "Sun, 05 Apr 2026 09:02:00 GMT",
+          "compound": -0.4404,
+          "positive": 0.0,
+          "negative": 0.079,
+          "neutral": 0.921
+        },
+        {
+          "title": "Where Nvidia Stock Needs to Trade to Get Out of Its Sideways Trap - Barron's",
+          "published": "Tue, 07 Apr 2026 21:37:00 GMT",
+          "compound": -0.3182,
+          "positive": 0.0,
+          "negative": 0.071,
+          "neutral": 0.929
+        },
+        {
+          "title": "Can Nvidia Stock (NVDA) Hit $20 Trillion by 2030? One Investor Thinks It Can - TipRanks",
+          "published": "Sun, 05 Apr 2026 16:31:28 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        }
+      ]
+    },
+    "TSLA": {
+      "compound": -0.3027921046230042,
+      "compound_mean": 0.0065125,
+      "compound_std": 0.6571225312993798,
+      "positive": 0.10241666666666667,
+      "negative": 0.10054166666666665,
+      "article_count": 24,
+      "bull_articles": 11,
+      "bear_articles": 10,
+      "bull_bear_ratio": 1.1,
+      "articles": [
+        {
+          "title": "JPMorgan warns Tesla stock could sink 60% in new note. Here's why. - Yahoo Finance",
+          "published": "Mon, 06 Apr 2026 14:20:44 GMT",
+          "compound": -0.6641,
+          "positive": 0.0,
+          "negative": 0.099,
+          "neutral": 0.901
+        },
+        {
+          "title": "Cathie Wood Defies Delivery Slump and Bets $14M on Tesla\u2019s (TSLA) Dip, Dumps Teradyne Stock (TER) - TipRanks",
+          "published": "Tue, 07 Apr 2026 03:12:31 GMT",
+          "compound": -0.6597,
+          "positive": 0.0,
+          "negative": 0.134,
+          "neutral": 0.866
+        },
+        {
+          "title": "Tesla Stock: It's Cheap Again (Rating Upgrade) (NASDAQ:TSLA) - Seeking Alpha",
+          "published": "Tue, 07 Apr 2026 17:20:27 GMT",
+          "compound": 0.0,
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 1.0
+        },
+        {
+          "title": "Tesla stock gets hit with shock move from Wall Street analysts - Teslarati",
+          "published": "Mon, 06 Apr 2026 21:12:44 GMT",
+          "compound": -0.6369,
+          "positive": 0.0,
+          "negative": 0.172,
+          "neutral": 0.828
+        },
+        {
+          "title": "Tesla Stock Tumbles, Cathie Wood Buys Shares For First Time Since July - Investor's Business Daily",
+          "published": "Tue, 07 Apr 2026 16:32:00 GMT",
+          "compound": 0.5267,
+          "positive": 0.124,
+          "negative": 0.0,
+          "neutral": 0.876
+        }
+      ]
+    }
+  }
+}
