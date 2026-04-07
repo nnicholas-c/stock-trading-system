@@ -1,62 +1,100 @@
 {
-  "_comment": "OpenClaw configuration for stock-trading-system. Copy relevant sections into your ~/.openclaw/config.json",
+  "_doc": "AXIOM Enterprise v4 — OpenClaw Configuration. Copy to ~/.openclaw/config.json",
+  "_setup": "See openclaw/skills/axiom-alerts.md for full setup instructions",
 
   "skills": [
     {
-      "name": "stock-alerts",
-      "path": "./openclaw/skills/stock-alerts.md",
-      "description": "ML/RL-powered buy/sell alerts for PLTR, AAPL, NVDA, TSLA"
+      "name": "axiom-alerts",
+      "path": "~/stock-trading-system/openclaw/skills/axiom-alerts.md",
+      "description": "AXIOM Enterprise v4: ML/RL trading signals for PLTR, AAPL, NVDA, TSLA with live news NLP"
     }
   ],
 
-  "heartbeats": [
-    {
-      "name": "stock-signal-check",
-      "schedule": "0 */6 * * *",
-      "skill": "stock-alerts",
-      "task": "Run the trading signal engine by executing `python scripts/run_signal.py` from the stock-trading-system directory. Parse the JSON output from trading_system/signals/current_signals.json. For any ticker where signal is BUY or STRONG BUY with confidence > 0.55, or SELL with confidence > 0.55, send a detailed alert to the configured notification channel. Include: ticker, signal, confidence, current price, analyst target, upside %, top 3 ML feature drivers, RSI, MACD direction, PPO agent action, risk score, and 2-3 latest news headlines from a web search. Always end with: 'Not financial advice. DYOR.' Never send an alert for HOLD signals unless the signal changed from the previous run."
+  "notification": {
+    "channel": "telegram",
+    "_available": ["telegram", "whatsapp", "discord", "signal", "imessage", "slack"],
+    "confidence_threshold": 0.55,
+    "quiet_hours": {
+      "start": "22:00",
+      "end": "06:30",
+      "timezone": "America/Los_Angeles"
     },
-    {
-      "name": "market-open-brief",
-      "schedule": "30 13 * * 1-5",
-      "skill": "stock-alerts",
-      "task": "Send a concise pre-market briefing for PLTR, AAPL, NVDA, TSLA. Search the web for overnight news on each ticker. Read current_signals.json for ML signals. Format as: emoji + ticker + signal + price + key news in 1 line. End with overall market sentiment. Keep total message under 400 words."
-    },
-    {
-      "name": "market-close-summary",
-      "schedule": "0 21 * * 1-5",
-      "skill": "stock-alerts",
-      "task": "End-of-day summary for PLTR, AAPL, NVDA, TSLA. Search for today's price moves and notable news. Re-run signal engine if last run was >4 hours ago. Report: today's % move, signal status, any signal changes from morning, and one key catalyst to watch tomorrow."
-    },
-    {
-      "name": "earnings-monitor",
-      "schedule": "0 20 * * 1-5",
-      "skill": "stock-alerts",
-      "task": "Check if any of PLTR, AAPL, NVDA, or TSLA are reporting earnings this week or next week. If yes, send an alert with the expected date, consensus EPS estimate, whisper number if available, and the ML model's signal heading into earnings. Flag if the stock is up >5% or down >5% into the print."
-    }
-  ],
+    "emergency_override": true,
+    "_emergency_note": "earnings alerts and signals > 70% confidence bypass quiet hours"
+  },
 
-  "tools": {
-    "python_runner": {
-      "command": "python",
-      "script": "scripts/run_signal.py",
-      "working_dir": "."
+  "data": {
+    "signals_file":  "~/stock-trading-system/trading_system/signals/current_signals_v4.json",
+    "news_file":     "~/stock-trading-system/trading_system/signals/live_news_v4.json",
+    "eod_dir":       "~/stock-trading-system/cron_tracking/aa62c16e/",
+    "scripts_dir":   "~/stock-trading-system/scripts/",
+    "last_signals":  "~/.axiom_last_signals.json"
+  },
+
+  "tickers": {
+    "PLTR": {
+      "price": 150.07, "signal": "SELL", "confidence": 0.362,
+      "lstm_5d": -0.0224, "lgb_5d": 0.0083,
+      "news_compound": 0.172,
+      "earnings_date": "2026-05-04", "earnings_days": 27,
+      "analyst_target": 197.57, "pe": 242,
+      "sell_news_risk": true,
+      "ma20_pct": -0.355, "ma50_pct": 2.676
     },
-    "news_scanner": {
-      "command": "python",
-      "script": "scripts/news_scanner.py",
-      "working_dir": "."
+    "AAPL": {
+      "price": 253.50, "signal": "BUY", "confidence": 0.279,
+      "lstm_5d": 0.0501, "lgb_5d": 0.0032,
+      "news_compound": -0.047,
+      "earnings_date": "2026-04-30", "earnings_days": 23,
+      "analyst_target": 306.25, "pe": 32,
+      "sell_news_risk": false,
+      "ma20_pct": 0.134, "ma50_pct": -2.755
+    },
+    "NVDA": {
+      "price": 178.10, "signal": "BUY", "confidence": 0.539,
+      "lstm_5d": 0.0505, "lgb_5d": 0.0185,
+      "news_compound": 0.005,
+      "earnings_date": "2026-05-20", "earnings_days": 43,
+      "analyst_target": 281.04, "pe": 36,
+      "sell_news_risk": false,
+      "ma20_pct": 0.402, "ma50_pct": -2.312
+    },
+    "TSLA": {
+      "price": 346.65, "signal": "HOLD", "confidence": 0.291,
+      "lstm_5d": 0.0452, "lgb_5d": 0.0039,
+      "news_compound": -0.303,
+      "earnings_date": "2026-04-22", "earnings_days": 15,
+      "analyst_target": 315.00, "pe": 208,
+      "sell_news_risk": false,
+      "ma20_pct": -8.551, "ma50_pct": -13.229,
+      "_alert": "NEAREST EARNINGS — 15 days. JPMorgan 60% downside. -8.5% below MA20."
     }
   },
 
-  "notification": {
-    "_comment": "Set your preferred channel. OpenClaw will route alerts there.",
-    "channel": "telegram",
-    "available_channels": ["telegram", "whatsapp", "discord", "slack", "signal", "imessage"],
-    "on_signal_change": true,
-    "on_strong_signal_only": false,
-    "confidence_threshold": 0.55,
-    "quiet_hours": {"start": "22:00", "end": "07:00", "timezone": "America/Los_Angeles"},
-    "emergency_override": true
-  }
+  "heartbeats": [
+    {
+      "name": "axiom-premarket",
+      "schedule": "0 13 * * 1-5",
+      "skill": "axiom-alerts",
+      "description": "6:00 AM PDT weekdays — pre-market brief with live news + ML signals"
+    },
+    {
+      "name": "axiom-signal-check",
+      "schedule": "0 */4 * * 1-5",
+      "skill": "axiom-alerts",
+      "description": "Every 4 hours weekdays — signal monitor, alert only if conf > 55% and signal is BUY/SELL"
+    },
+    {
+      "name": "axiom-eod",
+      "schedule": "0 23 * * 1-5",
+      "skill": "axiom-alerts",
+      "description": "4:00 PM PDT weekdays — EOD summary with moves, technicals, catalysts"
+    },
+    {
+      "name": "axiom-earnings-watch",
+      "schedule": "0 20 * * 1-5",
+      "skill": "axiom-alerts",
+      "description": "3:00 PM PDT weekdays — earnings countdown + pre-brief when within 3 days"
+    }
+  ]
 }
