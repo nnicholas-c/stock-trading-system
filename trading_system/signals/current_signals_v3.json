@@ -1,0 +1,203 @@
+{
+  "generated_at": "2026-04-07T23:05:02.882991",
+  "data_points_used": 5280,
+  "training_period": "2021-01-04 to 2026-04-07",
+  "features_count": 82,
+  "models_trained": [
+    "LSTMv3_4L_BiLSTM_4HeadAttn_proj32",
+    "XGBoostv3_n500_d6_5class",
+    "LightGBMv3_n600_d7_regression",
+    "PPOv3_Sortino_7action_256_128_64",
+    "MetaEnsemblev3_XGB_LGB_RF_LSTM_Logistic"
+  ],
+  "signals": {
+    "PLTR": {
+      "signal": "STRONG_BUY",
+      "signal_int": 2,
+      "confidence": 0.8092,
+      "lstm_1d": -0.13,
+      "lstm_5d": 0.75,
+      "lstm_10d": 1.82,
+      "lstm_20d": -1.69,
+      "lstm_60d": 14.05,
+      "lgb_20d_return": 2.1949,
+      "ppo_latest_action": "Buy25",
+      "price": 150.07,
+      "analyst_target": 197.57,
+      "analyst_upside": 31.65,
+      "vol_regime": "MEDIUM",
+      "market_regime": "BEAR",
+      "earnings_proximity": 90,
+      "news_impact_score": 0.2837,
+      "top_features": [
+        "market_regime",
+        "tlt_spy_ratio",
+        "atr14",
+        "w_vol_4w",
+        "sma200_ratio",
+        "obv",
+        "w_ret_13w",
+        "obv_sma20",
+        "macd_cross",
+        "vix_proxy"
+      ],
+      "model_accuracy": {
+        "xgb_test_acc": 0.2602,
+        "xgb_cv_acc": 0.3537,
+        "lgb_dir_acc": 0.5663,
+        "lgb_rmse": 0.129293,
+        "meta_test_acc": 0.4388,
+        "lstm_dir_acc_20d": 0.367,
+        "ppo_test_return": 0.284
+      },
+      "backtest": {
+        "total_return": -0.3252,
+        "sharpe_ratio": -0.9504,
+        "max_drawdown": -0.463,
+        "win_rate": 0.4667,
+        "n_trades": 195
+      }
+    },
+    "AAPL": {
+      "signal": "STRONG_SELL",
+      "signal_int": -2,
+      "confidence": 0.3139,
+      "lstm_1d": 0.64,
+      "lstm_5d": -0.39,
+      "lstm_10d": -0.22,
+      "lstm_20d": -1.65,
+      "lstm_60d": -4.15,
+      "lgb_20d_return": 1.4755,
+      "ppo_latest_action": "Buy75",
+      "price": 253.5,
+      "analyst_target": 235.0,
+      "analyst_upside": -7.3,
+      "vol_regime": "LOW",
+      "market_regime": "BEAR",
+      "earnings_proximity": 90,
+      "news_impact_score": 0.1926,
+      "top_features": [
+        "obv",
+        "w_ret_13w",
+        "pchan60",
+        "tlt_spy_ratio",
+        "obv_sma20",
+        "rs_vs_spy20",
+        "vix_proxy",
+        "macd",
+        "ret_252d",
+        "ret_120d"
+      ],
+      "model_accuracy": {
+        "xgb_test_acc": 0.3776,
+        "xgb_cv_acc": 0.3204,
+        "lgb_dir_acc": 0.699,
+        "lgb_rmse": 0.058335,
+        "meta_test_acc": 0.2347,
+        "lstm_dir_acc_20d": 0.572,
+        "ppo_test_return": 0.081
+      },
+      "backtest": {
+        "total_return": 0.0559,
+        "sharpe_ratio": 0.4319,
+        "max_drawdown": -0.1909,
+        "win_rate": 0.4718,
+        "n_trades": 195
+      }
+    },
+    "NVDA": {
+      "signal": "STRONG_BUY",
+      "signal_int": 2,
+      "confidence": 0.3744,
+      "lstm_1d": 1.44,
+      "lstm_5d": -1.59,
+      "lstm_10d": -0.93,
+      "lstm_20d": 8.88,
+      "lstm_60d": 21.19,
+      "lgb_20d_return": 6.6389,
+      "ppo_latest_action": "Buy100",
+      "price": 178.1,
+      "analyst_target": 165.0,
+      "analyst_upside": -7.36,
+      "vol_regime": "LOW",
+      "market_regime": "BEAR",
+      "earnings_proximity": 90,
+      "news_impact_score": -0.0125,
+      "top_features": [
+        "w_ret_13w",
+        "beta_spy20",
+        "obv",
+        "macd_signal",
+        "atr14_pct",
+        "market_regime",
+        "obv_sma20",
+        "atr21_pct",
+        "atr21",
+        "ret_60d"
+      ],
+      "model_accuracy": {
+        "xgb_test_acc": 0.3367,
+        "xgb_cv_acc": 0.3065,
+        "lgb_dir_acc": 0.6378,
+        "lgb_rmse": 0.081447,
+        "meta_test_acc": 0.2041,
+        "lstm_dir_acc_20d": 0.75,
+        "ppo_test_return": 0.07
+      },
+      "backtest": {
+        "total_return": -0.0547,
+        "sharpe_ratio": -0.0495,
+        "max_drawdown": -0.2805,
+        "win_rate": 0.5128,
+        "n_trades": 195
+      }
+    },
+    "TSLA": {
+      "signal": "STRONG_BUY",
+      "signal_int": 2,
+      "confidence": 0.4756,
+      "lstm_1d": -0.24,
+      "lstm_5d": -0.91,
+      "lstm_10d": -1.56,
+      "lstm_20d": -9.19,
+      "lstm_60d": -22.86,
+      "lgb_20d_return": 1.2202,
+      "ppo_latest_action": "SellAll",
+      "price": 346.65,
+      "analyst_target": 300.0,
+      "analyst_upside": -13.46,
+      "vol_regime": "MEDIUM",
+      "market_regime": "BEAR",
+      "earnings_proximity": 90,
+      "news_impact_score": -0.2424,
+      "top_features": [
+        "atr14",
+        "obv_sma20",
+        "atr21",
+        "pchan60",
+        "don55_pct",
+        "macd_signal",
+        "ret_60d",
+        "beta_qqq20",
+        "ret_20d",
+        "atr14_pct"
+      ],
+      "model_accuracy": {
+        "xgb_test_acc": 0.301,
+        "xgb_cv_acc": 0.4593,
+        "lgb_dir_acc": 0.4796,
+        "lgb_rmse": 0.111349,
+        "meta_test_acc": 0.2959,
+        "lstm_dir_acc_20d": 0.433,
+        "ppo_test_return": 0.498
+      },
+      "backtest": {
+        "total_return": -0.1684,
+        "sharpe_ratio": -0.9774,
+        "max_drawdown": -0.296,
+        "win_rate": 0.4615,
+        "n_trades": 195
+      }
+    }
+  }
+}
