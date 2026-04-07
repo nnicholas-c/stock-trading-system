@@ -1,0 +1,25 @@
+{
+  "tickers": ["PLTR", "AAPL", "NVDA", "TSLA"],
+  "notification_channel": "telegram",
+  "notify_phone": "+1XXXXXXXXXX",
+  "confidence_threshold": 0.55,
+  "run_every_hours": 6,
+  "openclaw": {
+    "skills_dir": "~/.openclaw/skills/",
+    "heartbeat_config": "~/.openclaw/config.json"
+  },
+  "backtest": {
+    "buy_threshold_pct": 5.0,
+    "sell_threshold_pct": -3.0,
+    "forward_weeks": 4
+  },
+  "rl": {
+    "learning_rate": 0.0003,
+    "total_timesteps_multiplier": 20,
+    "policy_arch": [128, 64, 32]
+  },
+  "data": {
+    "history_start": "2022-01-01",
+    "interval": "1week"
+  }
+}
