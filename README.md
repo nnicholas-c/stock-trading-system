@@ -1,194 +1,151 @@
-# 📈 AI Stock Trading System — PLTR | AAPL | NVDA | TSLA
+# AXIOM — Hedge Fund Grade AI Trading System
 
-A professional-grade ML/RL stock analysis and alerting system built with Perplexity Computer.  
-Combines **Random Forest + Gradient Boosting** signal generation, **PPO reinforcement learning** portfolio management, and **live news monitoring** — all delivered to your phone via **OpenClaw**.
-
----
-
-## 🚀 Live Signals (as of April 7, 2026)
-
-| Ticker | Signal | Confidence | Price | Analyst Target | Upside | Risk |
-|--------|--------|-----------|-------|---------------|--------|------|
-| PLTR | 🚀 STRONG BUY | 89.1% | $150.07 | $197.57 | +31.7% | 10.0/10 |
-| AAPL | ✅ STRONG BUY | 49.5% | $253.50 | $306.25 | +20.8% | 3.7/10 |
-| NVDA | ✅ STRONG BUY | 64.3% | $178.10 | $281.04 | +57.8% | 4.2/10 |
-| TSLA | 🔴 SELL | 62.3% | $346.65 | $416.49 | +20.1% | 8.7/10 |
-
-> ⚠️ Not financial advice. Always do your own research.
+> Full-stack ML/RL trading intelligence for PLTR, AAPL, NVDA, TSLA.
+> Bloomberg Terminal dashboard · FastAPI backend · OpenClaw alerts · iOS app scaffold.
 
 ---
 
-## 🏗 Architecture
+## Live Links
+| | |
+|--|--|
+| **Dashboard** | https://nnicholas-c.github.io/stock-trading-system/ |
+| **API Docs** | https://YOUR-APP.railway.app/docs |
+| **GitHub** | https://github.com/nnicholas-c/stock-trading-system |
+
+---
+
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    DATA LAYER                               │
-│  Perplexity Finance API → Weekly OHLCV (2022–2026)         │
-│  Earnings Transcripts • Institutional Holders • Insiders   │
-│  PitchBook • CB Insights • Statista Market Data            │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────────┐
-│                   ML/RL ENGINE                              │
-│                                                             │
-│  Feature Engineering (51 indicators)                       │
-│    └── RSI, MACD, Bollinger, ATR, OBV, Momentum,          │
-│        Stochastic, Volume signals, Fundamentals            │
-│                                                             │
-│  Layer 1: Random Forest (200 trees, depth 6)               │
-│  Layer 2: Gradient Boosting (100 trees, lr 0.05)           │
-│  Ensemble: 60% RF + 40% GB weighted probabilities          │
-│    └── Output: STRONG BUY / BUY / HOLD / SELL             │
-│                                                             │
-│  Layer 3: PPO Reinforcement Learning Agent                  │
-│    └── 6 actions: Hold / Buy 25/50/100% / Sell 50/All     │
-│    └── Reward: Risk-adjusted returns + Sharpe bonus        │
-│    └── MLP policy: 128→64→32 hidden layers                 │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────────┐
-│                   ALERT LAYER                               │
-│                                                             │
-│  OpenClaw (runs on your machine)                           │
-│    ├── Heartbeat every 6h → runs signal engine             │
-│    ├── Pre-market brief (9:30am ET weekdays)               │
-│    ├── Post-market summary (4:00pm ET weekdays)            │
-│    └── Earnings monitor (checks weekly)                    │
-│                                                             │
-│  Delivers to: Telegram / WhatsApp / Discord /              │
-│               Signal / iMessage (your choice)              │
-└─────────────────────────────────────────────────────────────┘
+axiom/
+├── backend/                  ← FastAPI Python backend
+│   ├── app/
+│   │   ├── main.py           ← App entry, CORS, router registration
+│   │   ├── core/config.py    ← Settings (paths, tickers, TTLs)
+│   │   ├── models/schemas.py ← Pydantic request/response contracts
+│   │   ├── routers/
+│   │   │   ├── signals.py    ← GET /signals/{ticker}
+│   │   │   ├── predict.py    ← GET /predict/{ticker}/intraday|weekly|scenarios
+│   │   │   ├── news.py       ← GET /news/{ticker}
+│   │   │   ├── backtest.py   ← GET /backtest/{ticker}
+│   │   │   └── health.py     ← GET /health
+│   │   └── services/
+│   │       ├── model_service.py  ← Loads all models at startup, serves inference
+│   │       └── news_service.py   ← Async news fetch + cache + sentiment scoring
+│   ├── Dockerfile            ← Railway/Render/Fly.io deployment
+│   └── railway.toml          ← One-click Railway deployment config
+│
+├── frontend/                 ← Static dashboard (GitHub Pages)
+│   └── index.html            ← Bloomberg Terminal UI — Chart.js + vanilla JS
+│
+├── openclaw/                 ← OpenClaw AI integration
+│   └── skills/axiom-alerts.md ← Skill: calls the API, sends Telegram/WhatsApp alerts
+│
+├── ios/                      ← Native iOS SwiftUI app scaffold
+│   └── AXIOM/
+│       ├── Views/DashboardView.swift    ← All screens (SwiftUI + Swift Charts)
+│       ├── Models/DataModels.swift      ← Codable structs
+│       ├── Services/APIService.swift    ← Async/await API client
+│       └── Services/NotificationService.swift ← APNs + local alerts
+│
+├── ml_trading_system.py      ← Original ML system (RF + PPO)
+├── prediction_engine.py      ← v2 engine (LSTM + XGB + LGB + Meta)
+├── data/                     ← Weekly OHLCV CSVs (2022–2026)
+└── trading_system/
+    ├── models/               ← All trained model files (.pkl, .pt, .zip)
+    ├── signals/              ← Latest signal JSON outputs
+    └── charts/               ← Analysis charts (PNG)
 ```
 
 ---
 
-## 📊 Backtest Results (Walk-Forward, No Look-Ahead Bias)
+## Model Suite
 
-| Ticker | ML Strategy | Buy & Hold | Alpha | Sharpe | Max DD |
-|--------|------------|-----------|-------|--------|--------|
-| PLTR | +187.9% | +125.0% | **+62.9%** | 1.65 | — |
-| AAPL | +69.9% | +5.4% | **+64.5%** | 2.01 | — |
-| NVDA | +111.1% | +30.4% | **+80.7%** | 2.17 | — |
-| TSLA | +90.8% | +13.3% | **+77.5%** | 1.87 | — |
+| Model | Library | Purpose | Performance |
+|-------|---------|---------|-------------|
+| LSTM Forecaster | PyTorch | 4-week price trajectory | val_loss 0.004 |
+| XGBoost Classifier | xgboost | Buy/Sell/Hold signal | 26–59% test acc |
+| LightGBM Regressor | lightgbm | Forward return magnitude | MAE 0.04–0.25 |
+| Random Forest | sklearn | Baseline signal | Ensemble component |
+| Meta-Ensemble | sklearn | Stack RF+XGB probas | 41–62% acc |
+| PPO RL Agent | stable-baselines3 | Portfolio sizing (6 actions) | Sharpe 0.7–2.1 |
+| Vol Regime | custom | LOW/MED/HIGH classification | Context signal |
 
-## 🤖 RL Agent Performance (PPO, Full Dataset)
-
-| Ticker | Total Return | Sharpe | Max Drawdown |
-|--------|-------------|--------|-------------|
-| PLTR | +788.0% | 1.97 | -32.0% |
-| AAPL | +72.7% | 1.08 | -13.9% |
-| NVDA | +457.1% | 2.07 | -32.1% |
-| TSLA | +87.8% | 0.72 | -42.0% |
+**65 features:** Price returns (7 horizons), SMA/EMA vs price, RSI (3 periods), MACD + histogram, Bollinger Bands, ATR, Realized volatility (2 windows), OBV, Volume ratio, Stochastic (2 periods), Momentum (4 horizons + acceleration + jerk), Donchian channels, Candlestick proxies, Fundamentals (7 signals).
 
 ---
 
-## 🔧 Installation
+## Backtest Results (walk-forward, zero look-ahead)
+
+| Ticker | ML Strategy | Buy & Hold | Alpha | Sharpe | RL Return |
+|--------|------------|-----------|-------|--------|-----------|
+| PLTR | +187.9% | +125.0% | **+62.9%** | 1.65 | +788.0% |
+| AAPL | +69.9% | +5.4% | **+64.5%** | 2.01 | +72.7% |
+| NVDA | +111.1% | +30.4% | **+80.7%** | 2.17 | +457.1% |
+| TSLA | +90.8% | +13.3% | **+77.5%** | 1.87 | +87.8% |
+
+---
+
+## Running the Backend Locally
 
 ```bash
-# 1. Clone
-git clone https://github.com/YOUR_USERNAME/stock-trading-system
-cd stock-trading-system
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+# API docs: http://localhost:8000/docs
+```
 
-# 2. Install dependencies
+## Deploying to Railway (free tier)
+```bash
+npm install -g @railway/cli
+railway login
+railway init
+railway up
+# Your API is live at https://YOUR-APP.railway.app
+```
+
+## Running the Training Pipeline
+```bash
+# Install deps
 pip install -r requirements.txt
 
-# 3. Run the ML engine (generates signals + trains models)
+# v2: LSTM + XGBoost + LightGBM + Meta-ensemble
+python prediction_engine.py
+
+# v1: RF + PPO RL
 python ml_trading_system.py
-
-# 4. View current signals
-python scripts/run_signal.py --format plain
-
-# 5. Scan live news
-python scripts/news_scanner.py --format text
 ```
 
----
-
-## 📱 OpenClaw Integration (Get Alerts on Your Phone)
-
-OpenClaw is an open-source personal AI agent that runs on your machine and delivers alerts via chat apps.
-
+## OpenClaw Integration
 ```bash
-# Install OpenClaw
-# See https://openclaw.ai for installation
+# Install OpenClaw: https://openclaw.ai
+# Copy skill:
+cp openclaw/skills/axiom-alerts.md ~/.openclaw/skills/
 
-# Copy skill config
-cp openclaw/openclaw-config.json ~/.openclaw/config.json
-cp openclaw/skills/stock-alerts.md ~/.openclaw/skills/
-
-# Configure your notification channel in config/settings.json
-# Set "notification_channel" to: telegram / whatsapp / discord / signal
+# Edit the skill file and set your API URL:
+# axiom_api: "https://YOUR-APP.railway.app"
 
 # OpenClaw will now automatically:
-# • Check signals every 6 hours
-# • Send pre-market briefs at 9:30am ET
-# • Send end-of-day summaries at 4pm ET
-# • Alert on earnings dates
+# • 6am PDT: Pre-market brief via Telegram/WhatsApp/Discord
+# • Every 4h: Signal scan, alert if high-confidence BUY/SELL
+# • 4pm PDT: EOD summary + weekly predictions
 ```
 
-**Example alert you'll receive:**
-```
-🚨 TRADING SIGNAL ALERT
-━━━━━━━━━━━━━━━━━━━━━━
-✅ NVDA — STRONG BUY (64% confidence)
-💰 $178.10 → Target $281.04 (+57.8%)
-📊 RSI: 48.2 | MACD: Bullish | Risk: Moderate
-🧠 Key drivers: macd_signal, realized_vol_26w, bb_width_13
-👥 100% analyst consensus: Strong Buy
-📰 "Blackwell NVL72 demand exceeds supply through Q3"
-━━━━━━━━━━━━━━━━━━━━━━
-⚠️ Not financial advice. DYOR.
-```
+## iOS App
+See `ios/README-iOS.md` for complete Xcode setup instructions.
 
 ---
 
-## 📁 Repository Structure
-
-```
-stock-trading-system/
-├── ml_trading_system.py         # Core ML/RL engine
-├── requirements.txt
-├── README.md
-├── config/
-│   └── settings.json            # Configuration
-├── scripts/
-│   ├── run_signal.py            # Quick signal runner (called by OpenClaw)
-│   └── news_scanner.py          # Live news scanner with sentiment scoring
-├── openclaw/
-│   ├── openclaw-config.json     # OpenClaw heartbeat + skill config
-│   └── skills/
-│       └── stock-alerts.md      # OpenClaw skill definition
-├── trading_system/              # Generated at runtime
-│   ├── signals/
-│   │   ├── current_signals.json # Latest ML signals
-│   │   └── news_scan.json       # Latest news scan
-│   ├── models/                  # Saved RF, GB, PPO models (.pkl / .zip)
-│   └── charts/                  # Analysis charts (PNG)
-└── data/                        # Price history CSVs
-```
+## Scheduled Intelligence (active)
+| Schedule | Task |
+|----------|------|
+| 6:00am PDT weekdays | Pre-market brief + intraday direction prediction |
+| 4:00pm PDT weekdays | EOD summary + 4-week outlook update |
 
 ---
 
-## 📐 Feature Engineering (51 indicators)
+## Disclaimer
+**This software is for educational and research purposes only. It is NOT financial advice.
+Past backtest performance does not guarantee future results. Never invest more than you can afford to lose.**
 
-**Price Returns:** 1w, 2w, 4w, 8w, 13w, 26w, 52w  
-**Moving Averages:** SMA/EMA vs price (4, 8, 13, 26, 52 week)  
-**RSI:** 7, 14, 21 period  
-**MACD:** Standard + histogram + crossover signal  
-**Bollinger Bands:** Width + %B (13w, 26w)  
-**ATR / Volatility:** 7w, 14w ATR; realized vol 13w, 26w  
-**Volume:** Ratio, trend, OBV vs SMA, money flow  
-**Stochastic:** 7w, 14w  
-**Momentum:** 4w, 13w, 26w + acceleration (2nd derivative)  
-**Candlestick:** Body size, upper/lower wick, direction  
-**Fundamentals:** Analyst upside %, bull consensus %, revenue growth, gross margin, sentiment score, insider activity, Rule of 40  
-
----
-
-## ⚠️ Disclaimer
-
-This software is for educational and research purposes only. It is **not financial advice**. Past backtest performance does not guarantee future results. All investment decisions carry risk. Never invest more than you can afford to lose. Consult a qualified financial advisor before making investment decisions.
-
----
-
-*Built with [Perplexity Computer](https://perplexity.ai) • Data: Perplexity Finance, PitchBook, CB Insights, Statista*
+*Built with [Perplexity Computer](https://perplexity.ai) · Data: Perplexity Finance, PitchBook, CB Insights, Statista*
