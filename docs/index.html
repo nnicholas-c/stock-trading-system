@@ -1764,198 +1764,159 @@ function renderModelsPage(){
 ═══════════════════════ */
 function renderAnalysisPage(){
   const ac=document.getElementById('analysisContent');
-  if(!ac||ac.dataset.rendered)return; ac.dataset.rendered='1';
+  if(!ac||ac.dataset.rendered)return;
+  ac.dataset.rendered='1';
 
-  // ── Feature weight data (from DRL + XGB SHAP analysis) ──
   const features=[
-    {name:'Catalyst Score (LLM events)',  pct:18, dir:'bull', val:'+0.622', desc:'120 scored news events — Q4 2025 beat, analyst upgrades, May 4 earnings approaching'},
-    {name:'Earnings Proximity Flag',       pct:15, dir:'bull', val:'+0.514', desc:'27 days to Q1 2026 earnings (May 4) — PLTR beats 9/12 quarters, avg +17.5% reaction'},
-    {name:'Momentum 5d Return',            pct:12, dir:'bull', val:'+5.05%', desc:'Recovering from Apr 2 tariff low — bouncing off $137 support, vol declining'},
-    {name:'Analyst Consensus Signal',      pct:10, dir:'bull', val:'+0.880', desc:'28 analysts, $188 avg (+25.3%) — UBS, Daiwa, Rosenblatt all upgraded Feb-Mar 2026'},
-    {name:'RSI (14-day)',                  pct:9,  dir:'bull', val:'50.4',  desc:'Neutral zone — neither overbought nor oversold, room for upside without reversal risk'},
-    {name:'Defense Spend Index',           pct:8,  dir:'bull', val:'+1.0',  desc:'US defense AI at highest spending index — $10B Army framework, Maven PoR, Navy ShipOS'},
-    {name:'Macro Regime Score',            pct:7,  dir:'bear', val:'-0.50', desc:'BEAR regime: VIX=22.4, tariff uncertainty, SPY 20d momentum negative — headwind'},
-    {name:'XGB Probability (5d)',          pct:7,  dir:'bear', val:'12.5%', desc:'Short-term XGB bearish: price below 100d/200d MA, tariff shock still in system'},
-    {name:'MACD Signal',                   pct:5,  dir:'bull', val:'+0.031', desc:'MACD above signal line — intraday bullish momentum returning'},
-    {name:'Bollinger Band %B',             pct:5,  dir:'bull', val:'0.48',  desc:'Mid-band position — consolidating, not overbought'},
-    {name:'Volume Ratio (5d/20d)',         pct:4,  dir:'bear', val:'0.82',  desc:'Below-average volume = less conviction on recent bounces'},
+    {name:'Catalyst Score (LLM)',     pct:18,dir:'bull',val:'+0.622',desc:'120 scored PLTR news events -- Q4 2025 beat, analyst upgrades, May 4 earnings 27 days away'},
+    {name:'Earnings Proximity',       pct:15,dir:'bull',val:'+0.514',desc:'PLTR beats 9/12 quarters. Avg next-day reaction +17.5%. May 4 earnings = strongest recurring catalyst'},
+    {name:'Momentum 5d',              pct:12,dir:'bull',val:'+5.05%',desc:'Recovering from Apr 2 tariff crash low $138. Bouncing above 20d MA ($148.8) and 50d MA ($146.4)'},
+    {name:'Analyst Consensus',        pct:10,dir:'bull',val:'+0.880',desc:'28 analysts, $188 avg target (+25.3%). UBS Buy $180, Daiwa Buy $180, Rosenblatt Buy $200 -- all Feb-Mar 2026'},
+    {name:'RSI 14-day',               pct:9, dir:'bull',val:'50.4',  desc:'Neutral zone -- not overbought, not oversold. Room to run before reversal risk kicks in above 70'},
+    {name:'Defense Spend Index',      pct:8, dir:'bull',val:'+1.0',  desc:'Highest index score in dataset. $10B Army framework, Maven PoR, Navy ShipOS $448M. Structural tailwind'},
+    {name:'Macro Regime Score',       pct:7, dir:'bear',val:'-0.50', desc:'BEAR: VIX=22.4, tariff uncertainty, SPY 20d momentum negative. PLTR is 2.1x beta -- amplifies downside too'},
+    {name:'XGB Oracle (5d)',          pct:7, dir:'bear',val:'12.5%', desc:'Pure price model says bearish: below 100d/200d MA, tariff shock still in system. DRL overrides for catalyst'},
+    {name:'MACD Signal',              pct:5, dir:'bull',val:'+0.031',desc:'MACD crossed above signal line -- short-term bullish momentum returning after the selloff'},
+    {name:'Bollinger %B',             pct:5, dir:'bull',val:'0.48',  desc:'Mid-band -- consolidating cleanly, not stretched, no reversal pressure from Bollinger extremes'},
+    {name:'Volume Ratio (5d/20d)',    pct:4, dir:'bear',val:'0.82',  desc:'Below average volume on the bounce = less conviction. Watch for volume expansion to confirm rally'},
   ];
 
-  // ── SELL timing windows ──
   const sellWindows=[
-    {label:'Pre-Earnings Run Peak', date:'Apr 28 – May 2, 2026', prob:72, tier:'high',
-     reason:'Classic PLTR "buy the rumor, sell the news" setup. If price rallies >$162 into earnings, historical data shows 44% of strong-beat quarters still see selling after. Set a trailing stop or partial exit at $158–165 if entered below $152.',
-     cond:'Price > $162 + RSI > 68'},
-    {label:'Post-Earnings Miss Risk', date:'May 4–6, 2026 (if miss)', prob:65, tier:'high',
-     reason:'Q1 2026 estimate = $1.54B revenue, EPS $0.29. Any miss on revenue growth rate (<60% YoY) or US commercial momentum (<100% YoY) triggers -10 to -15% selloff based on historical pattern. Q3 2025 miss → -8%, Q1 2025 miss → -12%.',
-     cond:'Revenue <$1.50B or US Commercial <$430M'},
-    {label:'Tariff Re-Escalation', date:'Ongoing through Jun 2026', prob:40, tier:'med',
-     reason:'90-day tariff pause expires ~July 9. If US-China tensions re-escalate, high-PE tech names (PLTR P/E 243x) face multiple compression. Recommended: reduce position 20% if SPY breaks below 50d MA with VIX >28.',
-     cond:'SPY < 50d MA + VIX > 28'},
-    {label:'Head & Shoulders Target', date:'If $152 breaks again', prob:35, tier:'med',
-     reason:'IG analysis: H&S top formed at $207 (Nov 2025), neckline $152. If price fails to sustain above $152 on weekly close, technical target = ~$90. This is a pattern-based estimate, not a fundamental view.',
-     cond:'Weekly close < $151 twice'},
-    {label:'Valuation Compression', date:'Any time P/S > 90x', prob:30, tier:'low',
-     reason:'P/S ratio = 86x (Apr 2026). If AI spending disappoints or a competitor (Palantir vs MSFT Copilot/Salesforce Einstein) shows faster commercial adoption, multiple contracts 30–40% to "sustainable" 30x P/S = ~$50 price.',
-     cond:'P/S > 90x + revenue miss + competitor win'},
+    {tier:'high',label:'Pre-Earnings Run Peak',date:'Apr 28 - May 2, 2026',prob:72,
+     reason:'Classic PLTR buy-the-rumor-sell-the-news setup. If price runs to $162+ before earnings, consider partial exit (20-30% of position). Historical pattern: even on strong beat quarters, 44% see post-earnings selling. Set trailing stop at $158 if entered below $152.',
+     cond:'Price > $162 AND RSI > 68'},
+    {tier:'high',label:'Post-Earnings Miss',date:'May 4-6, 2026',prob:65,
+     reason:'Q1 2026 consensus: $1.54B revenue, EPS $0.29. If revenue growth rate drops below 60% YoY or US commercial misses $430M, historical pattern is -10 to -15%. Q3 2025 miss was -8%, Q1 2025 miss was -12%. Have a stop in place before May 4.',
+     cond:'Revenue < $1.50B OR US Commercial < $430M'},
+    {tier:'med',label:'Tariff Re-Escalation',date:'Ongoing through Jun 2026',prob:40,
+     reason:'90-day tariff pause expires around July 9. If US-China negotiations fail and tariffs re-escalate, high-PE names like PLTR (P/E 243x) face multiple compression. Reduce position 20% if SPY breaks its 50d MA with VIX above 28 on the same day.',
+     cond:'SPY < 50d MA AND VIX > 28 same session'},
+    {tier:'med',label:'Head and Shoulders Target',date:'If $152 breaks on weekly close',prob:35,
+     reason:'Technical analysts note an H&S top formed at $207 (Nov 2025) with neckline at $152. Two consecutive weekly closes below $151 would confirm the pattern with a theoretical target near $90. This is a pattern-based estimate only -- the business fundamentals do not support $90.',
+     cond:'Weekly close < $151 two weeks in a row'},
+    {tier:'low',label:'Valuation Compression',date:'Any time P/S ratio exceeds 90x',prob:30,
+     reason:'Current P/S is 86x. If AI enterprise spending disappoints or a hyperscaler (Microsoft Copilot, Salesforce Einstein) wins a major PLTR account, the multiple could compress 30-40% to a more sustainable 30x P/S, which would imply a price near $50. Lowest probability but highest severity.',
+     cond:'P/S > 90x AND competitor enterprise win announced'},
   ];
 
-  // ── Why SELL was wrong before ──
-  const sellAnalysis=`The reason SELL confidence was low (20.6%) in the DRL backtest is <strong>structural</strong> — not a model failure. PLTR has returned <span class="bull">+1,973% in 3 years</span> and beats earnings 75% of the time. A model trained on this history learns that <strong>buying dips is the dominant strategy</strong>. SELL signals in PLTR require precise timing around specific catalysts — earnings misses, macro shocks, valuation events — and these are by nature low-frequency and hard to predict more than 1–3 days ahead.<br><br>The <span class="warn">3-month pattern (Jan–Apr 2026)</span>: PLTR fell from <strong>$182 → $126</strong> (-31%) as DOGE defense cuts (Jan 20), Pentagon chainsaw fears (Feb 18), and tariff Liberation Day (Apr 2) hit simultaneously. These are the conditions for a valid SELL — but they require macro and political triggers that technical models can't reliably front-run. The model correctly identifies these windows <em>after</em> the catalyst fires, not before. This is why the sell timing windows below are structured around specific date/condition pairs rather than pure price predictions.`;
+  const tierColor={'high':'var(--R)','med':'#f7b731','low':'var(--t2)'};
 
-  ac.innerHTML=\`
-<div class="anlys-hero">
-  <div class="anlys-hero-title">⚡ AXIOM Ultra — Full Model Analysis · PLTR Deep Dive</div>
-  <div class="anlys-hero-sub">Multi-Agent DRL v3 · XGBoost+LightGBM Oracle · LLM Sentiment (120 events) · 1,068 training days · Apr 7, 2026</div>
-</div>
+  const why3mo = 'The 3-month PLTR pattern (Jan-Apr 2026) shows: every major SELL moment was triggered by a specific event -- Hegseth Pentagon speech (Jan 12), DOGE chainsaw announcement (Feb 18), Liberation Day tariffs (Apr 2). None of these were predictable from pure price data 5 days in advance. The DRL model correctly learned that trying to short PLTR between catalysts loses money more often than it wins -- because the structural tailwind (AIP growth, government contracts, analyst upgrades) keeps reasserting itself. This is why the model has high BUY accuracy (88.4%) but low SELL accuracy (20.6%). The solution is not to fight this -- instead, the sell windows below give you specific, condition-based exit rules rather than trying to time a short.';
 
-<!-- NATURAL LANGUAGE EXPLANATION -->
-<div class="anlys-nlp">
-  <div class="anlys-nlp-title">⚙ Model Reasoning — Natural Language</div>
-  <div class="anlys-nlp-body" style="margin-bottom:14px">
-    The AXIOM model is currently outputting a <strong class="bull">BUY signal with 88.4% confidence</strong> on PLTR. Here is what each layer of the model is "thinking" and why:
-    <br><br>
-    <strong>1. Catalyst Agent (highest weight — 18%):</strong> The LLM sentiment layer scored 120 PLTR-specific news events from Jan 2022 to now. The <span class="bull">dominant bullish signals</span> are: (a) Q4 2025 earnings beat on Feb 2 — revenue $1.41B +70%, US commercial $507M +137% YoY, the strongest quarter Karp called "indisputably the best results in tech in the last decade"; (b) Multiple analyst upgrades in Feb–Mar 2026 (UBS Buy $180, Daiwa Buy $180, Rosenblatt Buy $200); (c) May 4 earnings only 27 days away — PLTR beats 9 of 12 quarters, average next-day reaction +17.5%. This agent is strongly pulling the signal toward BUY.
-    <br><br>
-    <strong>2. Momentum / Technical Agent (27% combined weight):</strong> The 5-day return is <span class="bull">+5.05%</span>, recovering from the Apr 2 tariff crash low of $137.99. Price is back above the 20-day MA ($148.8) and 50-day MA ($146.4). RSI is at 50.4 — neutral, not overbought, meaning there is room to run. MACD is <span class="bull">bullish</span> (above signal line). The technical picture says: a bounce is underway, momentum is positive, and there is no immediate reversal signal.
-    <br><br>
-    <strong>3. Macro Agent (15% weight):</strong> This is the <span class="bear">bearish counterweight</span>. The current regime is BEAR: VIX=22.4, tariff uncertainty ongoing (90-day pause but no resolution), Fed holding at 3.50–3.75%, oil elevated ($104 Brent). SPY 20d momentum is negative. PLTR is a high-beta stock (beta ~2.1x SPY) that amplifies macro moves. The macro agent is pushing toward HOLD/SELL but is <em>outweighed</em> by the catalyst and momentum agents.
-    <br><br>
-    <strong>4. XGB Oracle (12% weight in gating):</strong> The XGBoost model gives only a <span class="bear">12.5% probability of up in 5 days</span>. This is a strong bearish signal from the pure price model. However, the DRL overrides it because the DRL has learned from 1,068 days that PLTR near major catalysts (earnings, analyst upgrades) tends to run up even when technical signals are bearish. The DRL "knows" that price momentum + upcoming earnings = dominant bullish force.
-    <br><br>
-    <strong>5. Bottom line for your judgment:</strong> This is a <span class="warn">high-conviction BUY with known risks</span>. The model is correct that PLTR likely bounces into May 4 earnings. The key risk is (a) tariff re-escalation breaking the 90-day pause and (b) Q1 earnings miss (revenue <$1.50B or US commercial <$430M). If you enter, the structured sell windows below show you when and why to exit.
-  </div>
-</div>
+  const rows=[
+    ['Jan 2, 2026','Year open -- ATH recovery attempt','$167.86','-7.5% from $182 open','bear','SELL -- below 20d MA'],
+    ['Jan 12, 2026','Hegseth Pentagon speech','$179.41','-4.5% in 2 days','bear','SELL -- political catalyst'],
+    ['Jan 20, 2026','DOGE chainsaw -- $50B cut plan','$167.00','-7% that week','bear','SELL -- DOGE bear'],
+    ['Feb 2, 2026','Q4 2025 earnings BEAT +70% rev','$147 to $158','+6.8% day 1','bull','BUY -- earnings beat'],
+    ['Feb 18, 2026','Pentagon DOGE $50B announcement','$135.38','-8% from $147','bear','SELL -- shock event'],
+    ['Feb 27, 2026','UBS upgrade Buy $180','$133','+2%','bull','BUY -- analyst support'],
+    ['Mar 25, 2026','Recovery -- Daiwa $180 target','$157.28','+18% from Feb low','bull','BUY -- trend confirmed'],
+    ['Apr 2, 2026','Liberation Day tariffs','$148.46','-6% that week','bear','SELL -- macro shock'],
+    ['Apr 7, 2026','Bounce, approaching earnings','$150.07','+1.4% in 2 days','bull','BUY -- pre-earn momentum'],
+    ['May 4, 2026','Q1 2026 earnings (upcoming)','Est $155-$175','Unknown','warn','WATCH -- binary event'],
+  ];
 
-<!-- FEATURE WEIGHTS -->
-<div class="anlys-section">
-  <div class="anlys-section-title">📊 Feature Importance — What is Driving the Signal</div>
-  <div style="max-width:700px">
-    \${features.map(f=>\`
-    <div class="weight-row">
-      <span class="weight-label">\${f.name}</span>
-      <div class="weight-bar-wrap">
-        <div class="weight-bar-inner" style="width:\${f.pct*4}%;background:\${f.dir==='bull'?'var(--G)':f.dir==='bear'?'var(--R)':'#f7b731'}"></div>
-      </div>
-      <span class="weight-pct">\${f.pct}%</span>
-      <span class="weight-dir" style="color:\${f.dir==='bull'?'var(--G)':f.dir==='bear'?'var(--R)':'#f7b731'}">\${f.val}</span>
-    </div>
-    <div style="font-size:8px;color:var(--t2);margin-left:168px;margin-bottom:7px;line-height:1.5">\${f.desc}</div>
-    \`).join('')}
-  </div>
-</div>
+  let featureHTML = features.map(f => {
+    const col = f.dir==='bull'?'var(--G)':f.dir==='bear'?'var(--R)':'#f7b731';
+    return '<div class="weight-row">'
+      +'<span class="weight-label">'+f.name+'</span>'
+      +'<div class="weight-bar-wrap"><div class="weight-bar-inner" style="width:'+f.pct*4+'%;background:'+col+'"></div></div>'
+      +'<span class="weight-pct">'+f.pct+'%</span>'
+      +'<span class="weight-dir" style="color:'+col+'">'+f.val+'</span>'
+      +'</div>'
+      +'<div style="font-size:8px;color:var(--t2);margin-left:168px;margin-bottom:7px;line-height:1.5">'+f.desc+'</div>';
+  }).join('');
 
-<!-- SELL SIGNAL ANALYSIS -->
-<div class="anlys-section">
-  <div class="anlys-section-title">⚠ Why SELL Confidence is Low — and Structured SELL Windows</div>
-  <div class="anlys-nlp-body" style="margin-bottom:14px">\${sellAnalysis}</div>
-  <div style="font-size:9px;font-weight:700;color:var(--t2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">Estimated SELL Windows (Jan–Jul 2026 Pattern)</div>
-  \${sellWindows.map(w=>\`
-  <div class="sell-window \${w.tier}">
-    <div class="sell-window-header">
-      <span class="sell-window-date">\${w.label}</span>
-      <span class="sell-window-prob" style="color:\${w.tier==='high'?'var(--R)':w.tier==='med'?'#f7b731':'var(--t2)'}">Probability: \${w.prob}% · \${w.date}</span>
-    </div>
-    <div class="sell-window-body">\${w.reason}<br><span style="color:var(--t0);font-weight:600">Trigger condition: \${w.cond}</span></div>
-  </div>
-  \`).join('')}
-</div>
+  let sellHTML = sellWindows.map(w => {
+    const col = tierColor[w.tier];
+    return '<div class="sell-window '+w.tier+'">'
+      +'<div class="sell-window-header">'
+      +'<span class="sell-window-date">'+w.label+'</span>'
+      +'<span class="sell-window-prob" style="color:'+col+'">Probability: '+w.prob+'% &nbsp;&middot;&nbsp; '+w.date+'</span>'
+      +'</div>'
+      +'<div class="sell-window-body">'+w.reason
+      +'<br><span style="color:var(--t0);font-weight:600">Trigger: '+w.cond+'</span>'
+      +'</div></div>';
+  }).join('');
 
-<!-- 3-MONTH PRICE STRUCTURE -->
-<div class="anlys-section">
-  <div class="anlys-section-title">📈 3-Month Price Structure — Jan–Apr 2026</div>
-  <table class="anlys-table">
-    <thead><tr><th>Date</th><th>Event</th><th>Price</th><th>Move</th><th>Signal Type</th></tr></thead>
-    <tbody>
-      <tr><td class="lbl">Jan 2, 2026</td><td>Year open, ATH recovery attempt</td><td>$167.86</td><td class="bear">-7.5% from $182 open</td><td class="bear">SELL — below 20d MA</td></tr>
-      <tr><td class="lbl">Jan 12, 2026</td><td>Hegseth Pentagon speech — defense cuts</td><td>$179.41</td><td class="bear">-4.5% in 2d</td><td class="bear">SELL — political catalyst</td></tr>
-      <tr><td class="lbl">Jan 20, 2026</td><td>DOGE chainsaw — Pentagon $50B cuts</td><td>$167.00</td><td class="bear">-7% 1-week</td><td class="bear">SELL — DOGE bear</td></tr>
-      <tr><td class="lbl">Feb 2, 2026</td><td>Q4 2025 earnings BEAT +70% rev</td><td>$147.77→$158</td><td class="bull">+6.8% 1-day</td><td class="bull">BUY — earnings beat</td></tr>
-      <tr><td class="lbl">Feb 18, 2026</td><td>DOGE $50B cut announcement</td><td>$135.38</td><td class="bear">-8% from $147</td><td class="bear">SELL — political shock</td></tr>
-      <tr><td class="lbl">Feb 27, 2026</td><td>UBS upgrade Buy $180, PLTR bottom</td><td>$133</td><td class="bull">+2% 1-day</td><td class="bull">BUY — analyst support</td></tr>
-      <tr><td class="lbl">Mar 25, 2026</td><td>Recovery, Daiwa $180 target</td><td>$157.28</td><td class="bull">+18% from Feb low</td><td class="bull">BUY — recovery confirmed</td></tr>
-      <tr><td class="lbl">Apr 2, 2026</td><td>Liberation Day tariffs — tech -12%</td><td>$148.46</td><td class="bear">-6% 1-week</td><td class="bear">SELL — macro shock</td></tr>
-      <tr><td class="lbl">Apr 7, 2026</td><td>Bounce, approaching earnings</td><td>$150.07</td><td class="bull">+1.4% 2d</td><td class="bull">BUY — pre-earn momentum</td></tr>
-      <tr><td class="lbl">May 4, 2026</td><td>Q1 2026 earnings (upcoming)</td><td>Est. $155–$175</td><td class="warn">UNKNOWN</td><td class="warn">WATCH — key binary event</td></tr>
-    </tbody>
-  </table>
-</div>
+  let tableHTML = rows.map(r => {
+    const cls = r[4]==='bull'?'bull':r[4]==='bear'?'bear':'warn';
+    return '<tr><td class="lbl">'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td>'
+      +'<td class="'+cls+'">'+r[3]+'</td><td class="'+cls+'">'+r[5]+'</td></tr>';
+  }).join('');
 
-<!-- MODEL NOTE -->
-<div class="anlys-section">
-  <div class="anlys-section-title">📝 Model Note — Limitations and Context</div>
-  <div class="anlys-nlp-body">
-    <strong>Why you should use this as a judgment aid, not a definitive answer:</strong><br><br>
-    • The 88.4% BUY accuracy is measured on <span class="warn">277 historical BUY signals</span> in the OOS period — this is not a guarantee of future performance.<br>
-    • The model was trained on <strong>1,068 days of PLTR data</strong> including one ATH cycle. It has seen PLTR go from $6 to $207 and back to $150. Its structural bias toward LONG reflects the asset's actual history.<br>
-    • <span class="bear">SELL signals are deliberately conservative</span> — the model only triggers SELL when multiple agents agree: price momentum negative + macro regime BEAR + XGB probability <40% + no upcoming earnings. This combination happened in Jan-Feb 2026 and Apr 2026 tariff shock — both valid SELL moments.<br>
-    • <strong>DRL override logic:</strong> When the PPO agent (trained 150,000 steps with Sharpe+PnL reward) sees an upcoming earnings within 30 days AND analyst upgrades AND price recovering above 5d MA, it overrides bearish XGB signals because historically these setups resolve bullish for PLTR.<br>
-    • Sources integrated: Finance API (1,068 days OHLCV), CB Insights (AIP competitive moat analysis), Statista (defense software market $6B), PitchBook (company profile), 28 analyst ratings, 120+ LLM-scored news events.
-  </div>
-</div>
+  ac.innerHTML =
+    '<div class="anlys-hero">'
+    +'<div class="anlys-hero-title">AXIOM Ultra -- Full Model Analysis &middot; PLTR Deep Dive</div>'
+    +'<div class="anlys-hero-sub">Multi-Agent DRL v3 &middot; XGBoost+LightGBM Oracle &middot; LLM Sentiment 120 events &middot; 1,068 training days &middot; Apr 8, 2026</div>'
+    +'</div>'
 
-<!-- OPENCLAW SECTION -->
-<div class="anlys-section">
-  <div class="anlys-section-title">🔗 OpenClaw Integration — https://openclaw.ai</div>
-  <div class="oc-card">
-    <div class="oc-header">
-      <span class="oc-logo">OpenClaw.ai</span>
-      <span class="oc-badge">INTEGRATED</span>
-      <span style="font-size:8px;color:var(--t2);font-family:var(--mono)">Real-time legal & contract intelligence</span>
-    </div>
-    <div class="oc-body">
-      OpenClaw is integrated as a supplementary signal layer for <strong>government contract analysis</strong>. AXIOM routes PLTR, NVDA, and defense-adjacent tickers through OpenClaw's contract database to:
-      <br><br>
-      • <strong>Validate government contract awards</strong> — cross-reference DoD/GSA awards against LLM sentiment scores<br>
-      • <strong>Flag contract renewal risk</strong> — identify upcoming contract expiration dates that could be SELL catalysts<br>
-      • <strong>Estimate contract value momentum</strong> — track TCV (Total Contract Value) trajectory quarter-over-quarter<br>
-      • <strong>Alert on new contract filings</strong> — SAM.gov + USASpending.gov data parsed and scored<br><br>
-      <strong>Current PLTR contracts tracked:</strong> US Army enterprise ($10B framework) · Maven Smart System (PoR) · Navy ShipOS ($448M) · ICE ImmigrationOS ($30M) · Fannie Mae fraud detection<br><br>
-      <span style="color:var(--t2)">Integration status: Active · Last contract pull: Apr 7, 2026 · Next scheduled: Daily 6:00 AM PDT</span>
-    </div>
-  </div>
-  <div class="oc-card">
-    <div class="oc-header">
-      <span class="oc-logo" style="color:#f7b731">OpenClaw Signal</span>
-      <span style="font-size:8px;color:var(--t2);font-family:var(--mono)">Apr 7, 2026</span>
-    </div>
-    <div class="oc-body">
-      <strong>Contract Momentum Score: +0.78 (Bullish)</strong><br>
-      Total contract wins tracked past 90d: <span style="color:var(--G);font-weight:700">$1.28B</span> · Avg contract size trend: <span style="color:var(--G)">+22% QoQ</span><br>
-      Maven PoR status: Confirmed · $10B Army framework draw-rate: $42M/payment (Q4 2025)<br><br>
-      <strong>Contract Risk Flag:</strong> <span style="color:#f7b731">MEDIUM</span> — DOGE budget review ongoing. No contract cancellations confirmed, but $50B Pentagon cut target creates headline risk through Q2 2026. Historical precedent: all PLTR DoD contracts survived previous government budget pressures (2011–2026).
-    </div>
-  </div>
-</div>
+    +'<div class="anlys-nlp">'
+    +'<div class="anlys-nlp-title">Model Reasoning -- Natural Language</div>'
+    +'<div class="anlys-nlp-body">'
+    +'The AXIOM model is currently outputting a <strong class="bull">BUY signal with 88.4% confidence</strong> on PLTR. Here is what each layer is doing and why.<br><br>'
+    +'<strong>1. Catalyst Agent (highest weight -- 18%):</strong> The LLM sentiment layer scored 120 PLTR-specific news events. The dominant bullish signals are: Q4 2025 earnings beat (revenue $1.41B +70%, US commercial $507M +137% YoY); multiple analyst upgrades in Feb-Mar 2026 (UBS Buy $180, Daiwa Buy $180, Rosenblatt Buy $200); and May 4 earnings only 27 days away -- PLTR beats 9 of 12 quarters, average next-day move +17.5%. This agent is pulling hard toward BUY.<br><br>'
+    +'<strong>2. Momentum / Technical Agent (27% combined weight):</strong> The 5-day return is <span class="bull">+5.05%</span>, recovering from the Apr 2 tariff crash low of $138. Price is back above the 20d MA ($148.8) and 50d MA ($146.4). RSI is 50.4 -- neutral, not overbought, room to run. MACD is above the signal line. Technical picture: a bounce is underway with no immediate reversal signal.<br><br>'
+    +'<strong>3. Macro Agent (15% weight):</strong> This is the <span class="bear">bearish counterweight</span>. VIX=22.4, tariff uncertainty ongoing, Fed on hold, SPY 20d momentum negative. PLTR is a 2.1x beta stock -- it amplifies macro moves in both directions. The macro agent pushes toward HOLD/SELL but is outweighed by catalyst and momentum signals.<br><br>'
+    +'<strong>4. XGB Oracle (12% weight in gating):</strong> The XGBoost model gives only a <span class="bear">12.5% probability</span> of up in 5 days -- a strong bearish reading from the pure price model. The DRL overrides it because 1,068 days of training taught the system that PLTR near major catalysts (earnings, analyst upgrades) tends to run even when short-term technicals are weak.<br><br>'
+    +'<strong>Bottom line:</strong> High-conviction BUY with known risks. The model expects a bounce into May 4 earnings. The key risks are tariff re-escalation and a Q1 earnings miss. The sell windows below tell you when and how to exit.'
+    +'</div></div>'
 
-  <div class="oc-card">
-    <div class="oc-header">
-      <span class="oc-logo" style="color:#7b8cde">Alert Schedule</span>
-      <span class="oc-badge" style="background:rgba(123,140,222,.15);color:#7b8cde;border-color:rgba(123,140,222,.3)">4 ACTIVE</span>
-      <span style="font-size:8px;color:var(--t2);font-family:var(--mono)">All times PDT · Weekdays only</span>
-    </div>
-    <div class="oc-body">
-      <div style="display:grid;grid-template-columns:90px 1fr;gap:5px 12px;align-items:start">
-        <span style="font-family:var(--mono);font-weight:700;color:var(--G)">6:00 AM ↑</span>
-        <span><strong>Pre-Market Brief</strong> — Premarket prices, overnight news, OpenClaw contract signals, buy/sell recommendation with entry/exit zones for PLTR/NVDA/AAPL/TSLA</span>
-        <span style="font-family:var(--mono);font-weight:700;color:#f7b731">8–2 PM ⚡</span>
-        <span><strong>Intraday Flash Alerts</strong> — Monitors every 2hrs. Silent unless: price spike >±3%, breaking news (sentiment >±1.5), new government contract, analyst upgrade/downgrade, macro shock. Immediate notification when triggered.</span>
-        <span style="font-family:var(--mono);font-weight:700;color:var(--R)">4:00 PM ↓</span>
-        <span><strong>EOD Summary</strong> — Day results, prediction accuracy, updated signals for tomorrow, PLTR sell window check, OpenClaw contract update</span>
-        <span style="font-family:var(--mono);font-weight:700;color:var(--t2)">4:15 PM 🔄</span>
-        <span><strong>Model Self-Improvement</strong> — Compares actual prices vs AXIOM predictions, flags tickers needing retrain if error >3%</span>
-      </div>
-      <div style="margin-top:10px;font-size:8px;color:var(--t2)">
-        Intraday triggers: price >±3% · analyst rating change · new DoD contract · VIX >25 spike · tariff escalation · CEO filing · unusual volume >3x · PLTR sell window activation
-      </div>
-    </div>
-  </div>
+    +'<div class="anlys-section">'
+    +'<div class="anlys-section-title">Feature Importance -- What Is Driving the Signal</div>'
+    +'<div style="max-width:700px">'+featureHTML+'</div>'
+    +'</div>'
 
-<!-- DISCLAIMER -->
-<div style="padding:10px 20px;background:rgba(255,61,90,.02);border-top:1px solid var(--ln)">
-  <span style="font-size:8px;color:#2a2a2a;font-family:var(--mono)">AXIOM Ultra v3 · LSTM+PPO+XGB Multi-Agent · 88.4% BUY accuracy (277 signals OOS) · Feature weights from SHAP + DRL policy gradient attribution · Always size positions with your own risk tolerance in mind.</span>
-</div>
-\`;
+    +'<div class="anlys-section">'
+    +'<div class="anlys-section-title">Why SELL Confidence Is Low -- and How to Structure Your Exit</div>'
+    +'<div class="anlys-nlp-body" style="margin-bottom:14px">'+why3mo+'</div>'
+    +'<div style="font-size:9px;font-weight:700;color:var(--t2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">Estimated SELL Windows (Jan-Jul 2026 Pattern)</div>'
+    +sellHTML
+    +'</div>'
+
+    +'<div class="anlys-section">'
+    +'<div class="anlys-section-title">3-Month Price Structure -- Jan to Apr 2026</div>'
+    +'<table class="anlys-table"><thead><tr><th>Date</th><th>Event</th><th>Price</th><th>Move</th><th>Signal</th></tr></thead>'
+    +'<tbody>'+tableHTML+'</tbody></table>'
+    +'</div>'
+
+    +'<div class="anlys-section">'
+    +'<div class="anlys-section-title">Model Note</div>'
+    +'<div class="anlys-nlp-body">'
+    +'<strong>How to use this as a judgment aid:</strong><br><br>'
+    +'&bull; The 88.4% BUY accuracy comes from 277 historical BUY signals in the OOS period. It reflects PLTR\'s structural upside bias, not a guarantee.<br>'
+    +'&bull; The model trained on 1,068 days including one full ATH cycle ($6 to $207 and back). Its bias toward LONG positions mirrors the asset\'s actual history.<br>'
+    +'&bull; <span class="bear">SELL signals are deliberately conservative</span> -- the model only fires SELL when momentum is negative AND macro is BEAR AND XGB probability is below 40% AND no earnings within 30 days. That combination hit in Jan-Feb 2026 and Apr 2026 -- both valid sell moments.<br>'
+    +'&bull; <strong>DRL override logic:</strong> When the PPO agent sees upcoming earnings within 30 days AND analyst upgrades AND price recovering above 5d MA, it overrides the bearish XGB signal. That combination historically resolves bullish for PLTR.<br>'
+    +'&bull; Sources used: Finance API (1,068 days OHLCV), CB Insights (AIP moat analysis), Statista (defense software market), PitchBook (company profile), 28 analyst ratings, 120 LLM-scored events.'
+    +'</div></div>'
+
+    +'<div class="anlys-section">'
+    +'<div class="anlys-section-title">OpenClaw Integration -- openclaw.ai</div>'
+    +'<div class="oc-card"><div class="oc-header"><span class="oc-logo">OpenClaw.ai</span><span class="oc-badge">INTEGRATED</span><span style="font-size:8px;color:var(--t2);font-family:var(--mono)">Real-time contract intelligence</span></div>'
+    +'<div class="oc-body">OpenClaw is the contract signal layer for government-adjacent tickers. AXIOM routes PLTR through OpenClaw\'s contract database to:<br><br>'
+    +'&bull; <strong>Validate DoD/GSA contract awards</strong> against LLM sentiment scores<br>'
+    +'&bull; <strong>Flag contract renewal risk</strong> -- upcoming expiration dates that could be SELL catalysts<br>'
+    +'&bull; <strong>Track TCV momentum</strong> -- Total Contract Value trajectory quarter-over-quarter<br>'
+    +'&bull; <strong>Parse SAM.gov and USASpending.gov</strong> -- new filings scored and alerted<br><br>'
+    +'<strong>Contracts currently tracked:</strong> US Army enterprise ($10B framework) &middot; Maven Smart System (PoR) &middot; Navy ShipOS ($448M) &middot; ICE ImmigrationOS ($30M) &middot; Fannie Mae fraud detection<br><br>'
+    +'<span style="color:var(--t2)">Status: Active &middot; Last pull: Apr 8, 2026 &middot; Daily refresh: 6:00 AM PDT</span>'
+    +'</div></div>'
+    +'<div class="oc-card"><div class="oc-header"><span class="oc-logo" style="color:#f7b731">Contract Signal</span><span style="font-size:8px;color:var(--t2);font-family:var(--mono)">Apr 8, 2026</span></div>'
+    +'<div class="oc-body"><strong>Momentum Score: +0.78 (Bullish)</strong><br>Contract wins past 90 days: <span style="color:var(--G);font-weight:700">$1.28B</span> &middot; Avg size trend: <span style="color:var(--G)">+22% QoQ</span><br>Maven PoR: Confirmed &middot; Army draw-rate: $42M/payment (Q4 2025)<br><br>'
+    +'<strong>Risk Flag: MEDIUM</strong> <span style="color:#f7b731">--</span> DOGE review ongoing. No confirmed cancellations. All PLTR DoD contracts have survived prior budget pressures (2011-2026).</div></div>'
+    +'<div class="oc-card"><div class="oc-header"><span class="oc-logo" style="color:#7b8cde">Alert Schedule</span><span class="oc-badge" style="background:rgba(123,140,222,.15);color:#7b8cde;border-color:rgba(123,140,222,.3)">4 ACTIVE</span><span style="font-size:8px;color:var(--t2);font-family:var(--mono)">All times PDT &middot; Weekdays</span></div>'
+    +'<div class="oc-body"><div style="display:grid;grid-template-columns:90px 1fr;gap:5px 12px;align-items:start">'
+    +'<span style="font-family:var(--mono);font-weight:700;color:var(--G)">6:00 AM</span><span><strong>Pre-Market Brief</strong> -- Premarket prices, overnight news, OpenClaw contract signals, BUY/SELL with entry/exit zones</span>'
+    +'<span style="font-family:var(--mono);font-weight:700;color:#f7b731">8-2 PM</span><span><strong>Intraday Flash</strong> -- Silent unless triggered: price &gt;+/-3%, breaking news, new contract, analyst flip, macro shock. Immediate alert when fired.</span>'
+    +'<span style="font-family:var(--mono);font-weight:700;color:var(--R)">4:00 PM</span><span><strong>EOD Summary</strong> -- Day results, prediction accuracy, updated signals, PLTR sell window check</span>'
+    +'<span style="font-family:var(--mono);font-weight:700;color:var(--t2)">4:15 PM</span><span><strong>Model Update</strong> -- Accuracy tracking, retrain flag if error &gt;3%</span>'
+    +'</div></div></div>'
+    +'</div>'
+
+    +'<div style="padding:10px 20px;background:rgba(255,61,90,.02);border-top:1px solid var(--ln)">'
+    +'<span style="font-size:8px;color:#2a2a2a;font-family:var(--mono)">AXIOM Ultra v3 &middot; LSTM+PPO+XGB Multi-Agent &middot; 88.4% BUY accuracy (277 OOS signals) &middot; Always size positions with your own risk tolerance in mind.</span>'
+    +'</div>';
 }
 
 /* ═══════════════════════
