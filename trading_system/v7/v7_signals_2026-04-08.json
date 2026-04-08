@@ -1,0 +1,736 @@
+{
+  "version": "7.0.0",
+  "run_date": "2026-04-08T04:31:03.068517",
+  "regime": "NEUTRAL",
+  "vix": 22.4,
+  "erp": -0.0096,
+  "spy_pe": 30.88,
+  "factor_premia_2026": {
+    "Momentum": 0.095,
+    "Quality": 0.057,
+    "Value": 0.038,
+    "Size": -0.012,
+    "LowVol": -0.131
+  },
+  "data_sources": {
+    "statista": [
+      "AI semis market $65B (2025), CAGR 19% (McKinsey)",
+      "AI semis 19% of total semiconductor market (2025)",
+      "NVDA Q3 FY2026 net income $31.91B (record)",
+      "H100 GPU: 150K each to MSFT + Meta (2023)",
+      "EV market $567B globally by 2025 (KPMG), 46% hybrid",
+      "APAC data center CAGR 20% to $52.2B by 2026 (CBRE)"
+    ],
+    "cb_insights": [
+      "NVDA 'AI factory' end-to-end infrastructure positioning",
+      "CoreWeave: top cloud GPU, 14\u219228 data centers",
+      "NVDA: Run:ai + Deci acquisitions ($1B) for GPU efficiency",
+      "NVDA: SAP, Hitachi, Schneider partnerships 2024",
+      "AV market resurgence: Waymo leads robotaxi, Tesla scrambling",
+      "AV consolidation expected: OEMs, hardware, mobility platforms"
+    ],
+    "pitchbook": [
+      "Apple: founded 1976, Consumer Durables, AR/CloudTech/Mobile/TMT",
+      "Apple: iPhone 7x iPad revenue, 5.5x Mac revenue",
+      "Tesla: 134,785 employees, $94.83B revenue TTM Q4 2025",
+      "Tesla: 1.64M deliveries 2025, profitable as of Nov 2025",
+      "PLTR: investors Phoenix-5 (2024), Tyrian Ventures (2020), NIH (2022)",
+      "PLTR France: 100 employees, \u20ac58.96M revenue TTM Q4 2024"
+    ],
+    "academic": [
+      "Transformer > LSTM for stock prediction (arxiv 2508.04975, Mar 2026)",
+      "Sentiment integration reduces MSE 15-20% (arxiv 2508.04975)",
+      "BBAPT behavioral DRL: Sharpe 0.86, Sortino 1.27 (Sci Reports 2026)",
+      "HMM ensemble-voting regime detection (AIMS Press 2025)",
+      "Momentum +9.5% Q1 2026 spread, Quality +5.7% (Counterpoint 2026)",
+      "LowVol factor -13.13% (worst globally Q1 2026, Counterpoint)",
+      "BCR 6-Factor: Quality(30%) + Momentum(25%) +19.4% annualized",
+      "JPMorgan Q1 2026: Value attractive, Quality underpriced in US",
+      "ERP negative: 3.2% earnings yield < 4.16% 10Y (AInvest Jan 2026)",
+      "VIX 22.4 = elevated regime; >20 historically precedes corrections",
+      "Factor OLS: rolling 126-day window, IC monitoring (Spearman)"
+    ]
+  },
+  "signals": {
+    "NVDA": {
+      "ticker": "NVDA",
+      "price": 178.1,
+      "signal": "BUY",
+      "confidence": 22.3,
+      "signal_score_daily": 0.000669555670843895,
+      "signal_score_annual": 0.16872802905266154,
+      "regime": "NEUTRAL",
+      "regime_position_scale": 0.75,
+      "factor_model": {
+        "expected_return_daily": 0.006676824918444582,
+        "expected_return_annual": 1.6825598794480348,
+        "alpha_annual": 6.448564111744477,
+        "r_squared": 0.06656166913866343,
+        "ic": 0.27428955453149,
+        "n_factors": 14,
+        "methodology": "Rolling 126-day OLS, 14 factors"
+      },
+      "transformer_alpha": {
+        "ic": -0.009907721190119689,
+        "methodology": "arxiv 2508.04975 formulaic alpha"
+      },
+      "news": {
+        "vader": 0.035,
+        "ofi": 0.88,
+        "composite_impact_1d": -0.01730763175509427
+      },
+      "lstm_horizons": {
+        "1h": 0.85,
+        "4h": 1.42,
+        "1d": 5.63,
+        "5d": 7.06,
+        "20d": 14.34
+      },
+      "bbapt_weight": 0.25285449643545393,
+      "factor_attribution": {
+        "MKT_RF": 2.4086052876289592e-05,
+        "SMB": 7.0234705035666295e-06,
+        "HML": 1.4738213913494934e-06,
+        "RMW": 2.0641427431929473e-07,
+        "CMA": 3.4421555899063094e-10,
+        "MOM": -0.017228773456603643,
+        "VADER_SENT": -2.9833915123663785e-05,
+        "OFI": 0.00028375848401227617,
+        "KYLE_LAMBDA": -0.000790345628459797,
+        "QUALITY": -9.400166361365278e-07,
+        "ERP_SIGNAL": -0.006854741625264812,
+        "HMM_REGIME": -0.0003163580787940797,
+        "CROSS_MOMENTUM": 0.005991728926083201,
+        "EARNINGS_PROX": 0.0,
+        "alpha": 0.02558954012597015,
+        "total": 0.006676824918444582
+      },
+      "news_attribution": {
+        "events": [
+          {
+            "category": "ai_factory_expansion",
+            "days_since": 3,
+            "vader": 0.55,
+            "calibrated_impact": 0.022325642434272992,
+            "horizon_1d": 0.040799999999999996,
+            "horizon_5d": 0.028559999999999995
+          },
+          {
+            "category": "cloud_gpu_scaling",
+            "days_since": 5,
+            "vader": 0.65,
+            "calibrated_impact": 0.01536672581063274,
+            "horizon_1d": 0.0371,
+            "horizon_5d": 0.02597
+          },
+          {
+            "category": "record_earnings_semis",
+            "days_since": 0,
+            "vader": -0.44,
+            "calibrated_impact": -0.055,
+            "horizon_1d": -0.06709999999999999,
+            "horizon_5d": -0.04696999999999999
+          }
+        ],
+        "composite_1d_impact": -0.01730763175509427
+      },
+      "realized_vol_20d_ann": 0.5194311769588208,
+      "vix": 22.4,
+      "erp": -0.0096
+    },
+    "AAPL": {
+      "ticker": "AAPL",
+      "price": 253.5,
+      "signal": "BUY",
+      "confidence": 37.1,
+      "signal_score_daily": 0.0011122475073568692,
+      "signal_score_annual": 0.280286371853931,
+      "regime": "NEUTRAL",
+      "regime_position_scale": 0.75,
+      "factor_model": {
+        "expected_return_daily": 0.0038722950338691284,
+        "expected_return_annual": 0.9758183485350204,
+        "alpha_annual": 2.53989916712034,
+        "r_squared": 0.059180258508921835,
+        "ic": 0.16105030721966204,
+        "n_factors": 14,
+        "methodology": "Rolling 126-day OLS, 14 factors"
+      },
+      "transformer_alpha": {
+        "ic": -0.004416629433505201,
+        "methodology": "arxiv 2508.04975 formulaic alpha"
+      },
+      "news": {
+        "vader": -0.047,
+        "ofi": 0.52,
+        "composite_impact_1d": 0.00024214201413512264
+      },
+      "lstm_horizons": {
+        "1h": 0.18,
+        "4h": 0.52,
+        "1d": 1.24,
+        "5d": 3.95,
+        "20d": 6.56
+      },
+      "bbapt_weight": 0.25324454129200474,
+      "factor_attribution": {
+        "MKT_RF": -0.0006572385345654575,
+        "SMB": 3.443051726002297e-05,
+        "HML": 1.0997536833818929e-07,
+        "RMW": 2.935446176726227e-09,
+        "CMA": 2.21398212990082e-10,
+        "MOM": -0.009721948646189806,
+        "VADER_SENT": -5.357085229384382e-05,
+        "OFI": -0.00015876176143349397,
+        "KYLE_LAMBDA": 0.0002880592808300741,
+        "QUALITY": 7.218737035143998e-06,
+        "ERP_SIGNAL": 0.0008999911927575394,
+        "HMM_REGIME": -0.0001607393212377187,
+        "CROSS_MOMENTUM": 0.0032347712094092916,
+        "EARNINGS_PROX": 8.100513119440988e-05,
+        "alpha": 0.010078964948890238,
+        "total": 0.0038722950338691284
+      },
+      "news_attribution": {
+        "events": [
+          {
+            "category": "regulatory_risk",
+            "days_since": 4,
+            "vader": -0.4,
+            "calibrated_impact": -0.017325934970571943,
+            "horizon_1d": -0.0336,
+            "horizon_5d": -0.023519999999999996
+          },
+          {
+            "category": "supply_chain_positive",
+            "days_since": 6,
+            "vader": 0.76,
+            "calibrated_impact": 0.008761540607279489,
+            "horizon_1d": 0.024839999999999997,
+            "horizon_5d": 0.017387999999999997
+          },
+          {
+            "category": "product_launch",
+            "days_since": 8,
+            "vader": 0.8,
+            "calibrated_impact": 0.008806536377427577,
+            "horizon_1d": 0.0294,
+            "horizon_5d": 0.020579999999999998
+          }
+        ],
+        "composite_1d_impact": 0.00024214201413512264
+      },
+      "realized_vol_20d_ann": 0.2589673131194952,
+      "vix": 22.4,
+      "erp": -0.0096
+    },
+    "PLTR": {
+      "ticker": "PLTR",
+      "price": 150.07,
+      "signal": "BUY",
+      "confidence": 100.0,
+      "signal_score_daily": 0.006090198380782212,
+      "signal_score_annual": 1.5347299919571173,
+      "regime": "NEUTRAL",
+      "regime_position_scale": 0.75,
+      "factor_model": {
+        "expected_return_daily": -0.0009122620729419668,
+        "expected_return_annual": -0.22989004238137561,
+        "alpha_annual": -0.6674568527270457,
+        "r_squared": 0.035199565534024625,
+        "ic": 0.04401881720430107,
+        "n_factors": 14,
+        "methodology": "Rolling 126-day OLS, 14 factors"
+      },
+      "transformer_alpha": {
+        "ic": -0.017609240929800256,
+        "methodology": "arxiv 2508.04975 formulaic alpha"
+      },
+      "news": {
+        "vader": 0.101,
+        "ofi": -0.23,
+        "composite_impact_1d": 0.08429567784401555
+      },
+      "lstm_horizons": {
+        "1h": -0.42,
+        "4h": -0.87,
+        "1d": -1.61,
+        "5d": -2.15,
+        "20d": -18.2
+      },
+      "bbapt_weight": 0.24545095068960113,
+      "factor_attribution": {
+        "MKT_RF": 0.0009173428051120048,
+        "SMB": 4.352129745555798e-05,
+        "HML": -0.00021908977244302608,
+        "RMW": 2.985991796613347e-07,
+        "CMA": -3.4606488854470377e-09,
+        "MOM": 0.002368462820538149,
+        "VADER_SENT": -0.0005516074563219241,
+        "OFI": 0.00019600313680940028,
+        "KYLE_LAMBDA": -0.001136177223842253,
+        "QUALITY": -2.216675772067978e-07,
+        "ERP_SIGNAL": -0.0011285098298745918,
+        "HMM_REGIME": 3.634941782333004e-05,
+        "CROSS_MOMENTUM": 0.0012128255678843616,
+        "EARNINGS_PROX": -2.8180025641414074e-06,
+        "alpha": -0.0026486383044724035,
+        "total": -0.0009122620729419668
+      },
+      "news_attribution": {
+        "events": [
+          {
+            "category": "earnings_beat_tech",
+            "days_since": 1,
+            "vader": 0.92,
+            "calibrated_impact": 0.07538823712095839,
+            "horizon_1d": 0.06132,
+            "horizon_5d": 0.042924
+          },
+          {
+            "category": "nhs_boycott_enterprise_ai",
+            "days_since": 9,
+            "vader": -0.55,
+            "calibrated_impact": -0.008489888141123478,
+            "horizon_1d": -0.031875,
+            "horizon_5d": -0.0223125
+          },
+          {
+            "category": "analyst_upgrade_nasdaq",
+            "days_since": 5,
+            "vader": 0.65,
+            "calibrated_impact": 0.017397328864180637,
+            "horizon_1d": 0.0420025,
+            "horizon_5d": 0.029401749999999997
+          }
+        ],
+        "composite_1d_impact": 0.08429567784401555
+      },
+      "realized_vol_20d_ann": 0.5133294688578371,
+      "vix": 22.4,
+      "erp": -0.0096
+    },
+    "TSLA": {
+      "ticker": "TSLA",
+      "price": 346.65,
+      "signal": "SELL",
+      "confidence": 100.0,
+      "signal_score_daily": -0.00530770301360297,
+      "signal_score_annual": -1.3375411594279485,
+      "regime": "NEUTRAL",
+      "regime_position_scale": 0.75,
+      "factor_model": {
+        "expected_return_daily": 0.005004443302795671,
+        "expected_return_annual": 1.2611197123045093,
+        "alpha_annual": 5.490573746839702,
+        "r_squared": 0.08793563512661151,
+        "ic": 0.2798099078341014,
+        "n_factors": 14,
+        "methodology": "Rolling 126-day OLS, 14 factors"
+      },
+      "transformer_alpha": {
+        "ic": 0.03712853454114357,
+        "methodology": "arxiv 2508.04975 formulaic alpha"
+      },
+      "news": {
+        "vader": -0.35,
+        "ofi": -0.94,
+        "composite_impact_1d": -0.0824290317562554
+      },
+      "lstm_horizons": {
+        "1h": -0.22,
+        "4h": -0.61,
+        "1d": 0.39,
+        "5d": -1.34,
+        "20d": -9.48
+      },
+      "bbapt_weight": 0.24845001158294017,
+      "factor_attribution": {
+        "MKT_RF": 9.041246136360546e-05,
+        "SMB": 1.095050074231645e-05,
+        "HML": -0.00024874163137817026,
+        "RMW": -7.76333823096887e-08,
+        "CMA": 2.7663046340634087e-08,
+        "MOM": -0.029179485622971117,
+        "VADER_SENT": 0.003245248953611881,
+        "OFI": 0.0016692199203404868,
+        "KYLE_LAMBDA": 0.0031978827666341034,
+        "QUALITY": -1.8591288284040603e-05,
+        "ERP_SIGNAL": 0.00023997985917042594,
+        "HMM_REGIME": -0.0002133839556587694,
+        "CROSS_MOMENTUM": 0.005947315189727853,
+        "EARNINGS_PROX": -0.001524304939054637,
+        "alpha": 0.021787991058887703,
+        "total": 0.005004443302795671
+      },
+      "news_attribution": {
+        "events": [
+          {
+            "category": "analyst_downgrade_nasdaq",
+            "days_since": 1,
+            "vader": -0.66,
+            "calibrated_impact": -0.03636373790540346,
+            "horizon_1d": -0.046151000000000005,
+            "horizon_5d": -0.0323057
+          },
+          {
+            "category": "delivery_miss_ev_q1_2026",
+            "days_since": 2,
+            "vader": -0.55,
+            "calibrated_impact": -0.05349069455252564,
+            "horizon_1d": -0.024224999999999997,
+            "horizon_5d": -0.016957499999999997
+          },
+          {
+            "category": "ceo_statement_bull",
+            "days_since": 4,
+            "vader": 0.5,
+            "calibrated_impact": 0.00742540070167369,
+            "horizon_1d": 0.015,
+            "horizon_5d": 0.010499999999999999
+          }
+        ],
+        "composite_1d_impact": -0.0824290317562554
+      },
+      "realized_vol_20d_ann": 0.5734476213099094,
+      "vix": 22.4,
+      "erp": -0.0096
+    }
+  },
+  "portfolio": {
+    "bbapt_weights": {
+      "NVDA": 0.25285449643545393,
+      "AAPL": 0.25324454129200474,
+      "PLTR": 0.24545095068960113,
+      "TSLA": 0.24845001158294017
+    },
+    "markowitz_weights": {
+      "NVDA": 0.49999999999999956,
+      "AAPL": 0.5,
+      "PLTR": 1.9235784249056634e-16,
+      "TSLA": 1.942890293094024e-16
+    },
+    "blended_weights": {
+      "NVDA": 0.3517,
+      "AAPL": 0.3519,
+      "PLTR": 0.1473,
+      "TSLA": 0.1491
+    },
+    "regime_scaled_weights": {
+      "NVDA": 0.2638,
+      "AAPL": 0.2639,
+      "PLTR": 0.1105,
+      "TSLA": 0.1118
+    },
+    "cash_allocation": 0.25,
+    "regime_scale": 0.75,
+    "methodology": "60% BBAPT behavioral DRL + 40% Markowitz MV (BEAR regime scaled)",
+    "bbapt_perf": {
+      "sharpe": 0.5734786696642573,
+      "sortino": -1.1151361672398528,
+      "vs_paper_benchmark": "Paper BBAPT: Sharpe 0.86, Sortino 1.27 (Sci Reports 2026)"
+    }
+  },
+  "regime_stats": {
+    "current": "NEUTRAL",
+    "probabilities": {
+      "bull": 0.0613281282119326,
+      "neutral": 0.904549579216219,
+      "bear": 0.034122292571848394
+    },
+    "position_scale": 0.75,
+    "loglik": 1295.4306038235218,
+    "methodology": "HMM (Hamilton filter) + ML-augmented voting (AIMS Press 2025)",
+    "calibration": {
+      "vix_current": 22.4,
+      "vix_bear_threshold": 20.0,
+      "erp_current": -0.0096,
+      "spy_20d_momentum": -0.032,
+      "conclusion": "BEAR: VIX 22.4 > 20, ERP -0.96% (negative), SPY 20d momentum -3.2%"
+    }
+  },
+  "hmm_diagnostics": {
+    "transition_matrix": [
+      [
+        0.93,
+        0.05,
+        0.02
+      ],
+      [
+        0.1,
+        0.8,
+        0.1
+      ],
+      [
+        0.05,
+        0.2,
+        0.75
+      ]
+    ],
+    "regime_means": [
+      [
+        0.0008,
+        0.12,
+        -0.5
+      ],
+      [
+        0.0001,
+        0.18,
+        0.0
+      ],
+      [
+        -0.0006,
+        0.28,
+        1.2
+      ]
+    ],
+    "regime_factor_premia": {
+      "0": {
+        "Momentum": 0.12,
+        "Quality": 0.07,
+        "Value": 0.03,
+        "LowVol": 0.05
+      },
+      "1": {
+        "Momentum": 0.08,
+        "Quality": 0.06,
+        "Value": 0.05,
+        "LowVol": 0.03
+      },
+      "2": {
+        "Momentum": 0.06,
+        "Quality": 0.04,
+        "Value": 0.07,
+        "LowVol": -0.13
+      }
+    }
+  },
+  "transformer_ic": {
+    "NVDA": {
+      "ic": -0.009907721190119689,
+      "methodology": "arxiv 2508.04975 (Mar 2026)"
+    },
+    "AAPL": {
+      "ic": -0.004416629433505201,
+      "methodology": "arxiv 2508.04975 (Mar 2026)"
+    },
+    "PLTR": {
+      "ic": -0.017609240929800256,
+      "methodology": "arxiv 2508.04975 (Mar 2026)"
+    },
+    "TSLA": {
+      "ic": 0.03712853454114357,
+      "methodology": "arxiv 2508.04975 (Mar 2026)"
+    }
+  },
+  "factor_attribution": {
+    "NVDA": {
+      "MKT_RF": 2.4086052876289592e-05,
+      "SMB": 7.0234705035666295e-06,
+      "HML": 1.4738213913494934e-06,
+      "RMW": 2.0641427431929473e-07,
+      "CMA": 3.4421555899063094e-10,
+      "MOM": -0.017228773456603643,
+      "VADER_SENT": -2.9833915123663785e-05,
+      "OFI": 0.00028375848401227617,
+      "KYLE_LAMBDA": -0.000790345628459797,
+      "QUALITY": -9.400166361365278e-07,
+      "ERP_SIGNAL": -0.006854741625264812,
+      "HMM_REGIME": -0.0003163580787940797,
+      "CROSS_MOMENTUM": 0.005991728926083201,
+      "EARNINGS_PROX": 0.0,
+      "alpha": 0.02558954012597015,
+      "total": 0.006676824918444582
+    },
+    "AAPL": {
+      "MKT_RF": -0.0006572385345654575,
+      "SMB": 3.443051726002297e-05,
+      "HML": 1.0997536833818929e-07,
+      "RMW": 2.935446176726227e-09,
+      "CMA": 2.21398212990082e-10,
+      "MOM": -0.009721948646189806,
+      "VADER_SENT": -5.357085229384382e-05,
+      "OFI": -0.00015876176143349397,
+      "KYLE_LAMBDA": 0.0002880592808300741,
+      "QUALITY": 7.218737035143998e-06,
+      "ERP_SIGNAL": 0.0008999911927575394,
+      "HMM_REGIME": -0.0001607393212377187,
+      "CROSS_MOMENTUM": 0.0032347712094092916,
+      "EARNINGS_PROX": 8.100513119440988e-05,
+      "alpha": 0.010078964948890238,
+      "total": 0.0038722950338691284
+    },
+    "PLTR": {
+      "MKT_RF": 0.0009173428051120048,
+      "SMB": 4.352129745555798e-05,
+      "HML": -0.00021908977244302608,
+      "RMW": 2.985991796613347e-07,
+      "CMA": -3.4606488854470377e-09,
+      "MOM": 0.002368462820538149,
+      "VADER_SENT": -0.0005516074563219241,
+      "OFI": 0.00019600313680940028,
+      "KYLE_LAMBDA": -0.001136177223842253,
+      "QUALITY": -2.216675772067978e-07,
+      "ERP_SIGNAL": -0.0011285098298745918,
+      "HMM_REGIME": 3.634941782333004e-05,
+      "CROSS_MOMENTUM": 0.0012128255678843616,
+      "EARNINGS_PROX": -2.8180025641414074e-06,
+      "alpha": -0.0026486383044724035,
+      "total": -0.0009122620729419668
+    },
+    "TSLA": {
+      "MKT_RF": 9.041246136360546e-05,
+      "SMB": 1.095050074231645e-05,
+      "HML": -0.00024874163137817026,
+      "RMW": -7.76333823096887e-08,
+      "CMA": 2.7663046340634087e-08,
+      "MOM": -0.029179485622971117,
+      "VADER_SENT": 0.003245248953611881,
+      "OFI": 0.0016692199203404868,
+      "KYLE_LAMBDA": 0.0031978827666341034,
+      "QUALITY": -1.8591288284040603e-05,
+      "ERP_SIGNAL": 0.00023997985917042594,
+      "HMM_REGIME": -0.0002133839556587694,
+      "CROSS_MOMENTUM": 0.005947315189727853,
+      "EARNINGS_PROX": -0.001524304939054637,
+      "alpha": 0.021787991058887703,
+      "total": 0.005004443302795671
+    }
+  },
+  "news_calibration": {
+    "NVDA": {
+      "events": [
+        {
+          "category": "ai_factory_expansion",
+          "days_since": 3,
+          "vader": 0.55,
+          "calibrated_impact": 0.022325642434272992,
+          "horizon_1d": 0.040799999999999996,
+          "horizon_5d": 0.028559999999999995
+        },
+        {
+          "category": "cloud_gpu_scaling",
+          "days_since": 5,
+          "vader": 0.65,
+          "calibrated_impact": 0.01536672581063274,
+          "horizon_1d": 0.0371,
+          "horizon_5d": 0.02597
+        },
+        {
+          "category": "record_earnings_semis",
+          "days_since": 0,
+          "vader": -0.44,
+          "calibrated_impact": -0.055,
+          "horizon_1d": -0.06709999999999999,
+          "horizon_5d": -0.04696999999999999
+        }
+      ],
+      "composite_1d_impact": -0.01730763175509427
+    },
+    "AAPL": {
+      "events": [
+        {
+          "category": "regulatory_risk",
+          "days_since": 4,
+          "vader": -0.4,
+          "calibrated_impact": -0.017325934970571943,
+          "horizon_1d": -0.0336,
+          "horizon_5d": -0.023519999999999996
+        },
+        {
+          "category": "supply_chain_positive",
+          "days_since": 6,
+          "vader": 0.76,
+          "calibrated_impact": 0.008761540607279489,
+          "horizon_1d": 0.024839999999999997,
+          "horizon_5d": 0.017387999999999997
+        },
+        {
+          "category": "product_launch",
+          "days_since": 8,
+          "vader": 0.8,
+          "calibrated_impact": 0.008806536377427577,
+          "horizon_1d": 0.0294,
+          "horizon_5d": 0.020579999999999998
+        }
+      ],
+      "composite_1d_impact": 0.00024214201413512264
+    },
+    "PLTR": {
+      "events": [
+        {
+          "category": "earnings_beat_tech",
+          "days_since": 1,
+          "vader": 0.92,
+          "calibrated_impact": 0.07538823712095839,
+          "horizon_1d": 0.06132,
+          "horizon_5d": 0.042924
+        },
+        {
+          "category": "nhs_boycott_enterprise_ai",
+          "days_since": 9,
+          "vader": -0.55,
+          "calibrated_impact": -0.008489888141123478,
+          "horizon_1d": -0.031875,
+          "horizon_5d": -0.0223125
+        },
+        {
+          "category": "analyst_upgrade_nasdaq",
+          "days_since": 5,
+          "vader": 0.65,
+          "calibrated_impact": 0.017397328864180637,
+          "horizon_1d": 0.0420025,
+          "horizon_5d": 0.029401749999999997
+        }
+      ],
+      "composite_1d_impact": 0.08429567784401555
+    },
+    "TSLA": {
+      "events": [
+        {
+          "category": "analyst_downgrade_nasdaq",
+          "days_since": 1,
+          "vader": -0.66,
+          "calibrated_impact": -0.03636373790540346,
+          "horizon_1d": -0.046151000000000005,
+          "horizon_5d": -0.0323057
+        },
+        {
+          "category": "delivery_miss_ev_q1_2026",
+          "days_since": 2,
+          "vader": -0.55,
+          "calibrated_impact": -0.05349069455252564,
+          "horizon_1d": -0.024224999999999997,
+          "horizon_5d": -0.016957499999999997
+        },
+        {
+          "category": "ceo_statement_bull",
+          "days_since": 4,
+          "vader": 0.5,
+          "calibrated_impact": 0.00742540070167369,
+          "horizon_1d": 0.015,
+          "horizon_5d": 0.010499999999999999
+        }
+      ],
+      "composite_1d_impact": -0.0824290317562554
+    }
+  },
+  "bbapt_metrics": {
+    "best_sharpe": 0.5734786696642573,
+    "final_sharpe": -0.7534703832701708,
+    "final_sortino": -1.1151361672398528,
+    "best_weights": {
+      "NVDA": 0.25285449643545393,
+      "AAPL": 0.25324454129200474,
+      "PLTR": 0.24545095068960113,
+      "TSLA": 0.24845001158294017
+    },
+    "n_episodes": 200,
+    "behavioral_modes": {
+      "bear": "Loss-Averse (\u03bb=2.25)",
+      "neutral": "Neutral PPO",
+      "bull": "Overconfident (+15%)"
+    }
+  },
+  "runtime_seconds": 23.88
+}
