@@ -1,0 +1,93 @@
+{
+  "model_version": "v9",
+  "generated": "2026-04-08T05:02:38.187746",
+  "training_data": "Jan 2023 \u2013 Apr 2026 (40 months, 4 tickers, 60 events)",
+  "model_architecture": "XGBoost + LightGBM + GBT Ensemble, 80-dim features, Walk-Forward",
+  "backtest_metrics": {
+    "overall_accuracy": 0.6111111111111112,
+    "overall_mae": 0.0946972822989631,
+    "ic": -0.0905800039905174,
+    "ticker_stats": {
+      "NVDA": {
+        "accuracy": 0.5925925925925926,
+        "mae": 0.08486509088720881,
+        "ic": 0.09537450027707967,
+        "n": 27
+      },
+      "AAPL": {
+        "accuracy": 0.5925925925925926,
+        "mae": 0.04496517197128222,
+        "ic": -0.3224007400158,
+        "n": 27
+      },
+      "PLTR": {
+        "accuracy": 0.8148148148148148,
+        "mae": 0.1356655098134514,
+        "ic": 0.05264642064906443,
+        "n": 27
+      },
+      "TSLA": {
+        "accuracy": 0.4444444444444444,
+        "mae": 0.11329335652390991,
+        "ic": -0.5380256605525664,
+        "n": 27
+      }
+    },
+    "n_predictions": 108,
+    "converged": false
+  },
+  "live_signals": {
+    "NVDA": {
+      "signal": "BUY",
+      "confidence": 34.4,
+      "prob_up": 67.2,
+      "pred_1m_return": 1.71,
+      "current_price": 178.1,
+      "target_price": 181.15
+    },
+    "AAPL": {
+      "signal": "BUY",
+      "confidence": 43.4,
+      "prob_up": 71.7,
+      "pred_1m_return": 4.12,
+      "current_price": 253.5,
+      "target_price": 263.93
+    },
+    "PLTR": {
+      "signal": "BUY",
+      "confidence": 65.3,
+      "prob_up": 82.7,
+      "pred_1m_return": 5.05,
+      "current_price": 150.07,
+      "target_price": 157.64
+    },
+    "TSLA": {
+      "signal": "BUY",
+      "confidence": 52.0,
+      "prob_up": 76.0,
+      "pred_1m_return": 3.68,
+      "current_price": 346.65,
+      "target_price": 359.4
+    }
+  },
+  "feature_engineering": {
+    "dimensions": 80,
+    "blocks": [
+      "[0:20] Price/momentum/volatility",
+      "[20:30] Macro (Fed/CPI/VIX/yield/ERP/regime)",
+      "[30:50] Event impacts (earnings/macro/political/AI-shock)",
+      "[50:60] Fundamentals (PE/growth/margin/FCF)",
+      "[60:70] Cross-asset (SPY correlation, beta, relative strength)",
+      "[70:80] Regime/sentiment"
+    ]
+  },
+  "event_database_size": 59,
+  "key_events": {
+    "nvda_earnings_avg_beat": "+4.1%",
+    "pltr_earnings_avg_beat": "+17.5%",
+    "tsla_earn_miss_rate": "60%",
+    "deepseek_shock": "-17% then +8.9%",
+    "trump_election": "TSLA +29%, PLTR +61%",
+    "tariff_pause": "NVDA +18.7%"
+  }
+}
