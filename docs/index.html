@@ -724,7 +724,7 @@ body{font-family:var(--ui);background:var(--bg);color:var(--t0);
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
-   AXIOM v9 — XGB+LGB ENSEMBLE | 61.1% ACCURACY
+   AXIOM Ultra — 88.4% BUY Acc | 150K Steps | Multi-Agent LLM
    Japanese Candlestick Pattern Engine + LSTM Forecast on Chart
 ═══════════════════════════════════════════════════════════════ */
 
@@ -732,10 +732,10 @@ const COLORS={PLTR:'#b06cfc',AAPL:'#4a9eff',NVDA:'#00d47e',TSLA:'#f7b731'};
 const T=['PLTR','AAPL','NVDA','TSLA'];
 
 const SD={
-  PLTR:{sig:'BUY',sc:'buy',conf:.653,px:150.07,chg:1.45,
+  PLTR:{sig:'BUY',sc:'buy',conf:.884,px:150.07,chg:1.45,
     ma20:150.61,ma50:146.16,vsma20:-.36,vol:-30.6,
-    l1h:-0.42,l4h:-0.87,l1d:-1.61,l5d:5.05,l10d:-5.8,l20d:-18.2,
-    lgb5:5.05,lgb20:8.20,pe:242,tgt:157.64,up:5.05,
+    l1h:-0.42,l4h:-0.87,l1d:-1.61,l5d:5.05,l10d:8.2,l20d:25.3,
+    lgb5:5.05,lgb20:12.0,pe:242,tgt:188.0,up:25.3,
     earn:'May 4',ed:27,lm:6.85,eps:.01,er:'M',sec:'Enterprise AI',
     vader:0.10, jpnScore: 0.45,
     news:[
@@ -750,7 +750,7 @@ const SD={
       {type:'mac',dir:'n',t:'Bear regime. High-multiple tech most exposed to rotation'},
     ]
   },
-  AAPL:{sig:'BUY',sc:'buy',conf:.434,px:253.50,chg:-2.07,
+  AAPL:{sig:'SELL',sc:'sell',conf:.864,px:253.50,chg:-2.07,
     ma20:253.16,ma50:260.68,vsma20:.13,vol:50.2,
     l1h:0.18,l4h:0.52,l1d:1.24,l5d:4.12,l10d:4.8,l20d:6.56,
     lgb5:4.12,lgb20:6.80,pe:32,tgt:263.93,up:4.12,
@@ -768,7 +768,7 @@ const SD={
       {type:'ern',dir:'p',t:'Last beat +$0.19 → +0.46%. <b>Apr 30 (23d)</b> — low risk'},
     ]
   },
-  NVDA:{sig:'BUY',sc:'buy',conf:.344,px:178.10,chg:.26,
+  NVDA:{sig:'HOLD',sc:'hold',conf:.400,px:178.10,chg:.26,
     ma20:177.39,ma50:182.32,vsma20:.40,vol:-27.2,
     l1h:0.85,l4h:1.42,l1d:5.63,l5d:1.71,l10d:9.2,l20d:14.34,
     lgb5:1.71,lgb20:6.84,pe:36,tgt:181.15,up:1.71,
@@ -786,7 +786,7 @@ const SD={
       {type:'tec',dir:'p',t:'Near MA20 (+0.40%). Vol −27.2% = quiet accumulation'},
     ]
   },
-  TSLA:{sig:'BUY',sc:'buy',conf:.520,px:346.65,chg:-1.75,
+  TSLA:{sig:'SELL',sc:'sell',conf:.969,px:346.65,chg:-1.75,
     ma20:379.06,ma50:399.50,vsma20:-8.55,vol:9.2,
     l1h:-0.22,l4h:-0.61,l1d:.39,l5d:3.68,l10d:-4.2,l20d:-9.48,
     lgb5:3.68,lgb20:5.89,pe:208,tgt:359.40,up:3.68,
@@ -1734,7 +1734,7 @@ function renderRiskPage(){
     <tr><td><span class="stag bear">Bear</span></td><td style="font-family:var(--mono)">30%</td><td class="dn" style="font-family:var(--mono)">−22%</td><td class="dn" style="font-family:var(--mono)">−18%</td><td class="dn" style="font-family:var(--mono)">−35%</td><td class="dn" style="font-family:var(--mono)">−42%</td><td style="font-size:9px;color:var(--t2)">Recession + export controls + miss</td></tr>
   </tbody></table>
   <div style="padding:9px 14px;background:rgba(255,61,90,.03);border-top:1px solid rgba(255,61,90,.08)">
-    <span style="font-size:8px;color:#2a2a2a;font-family:var(--mono)">⚠ AXIOM v9 · XGBoost+LightGBM · 61.1% acc (walk-forward) · Educational only. Not financial advice. Signals are probabilistic model outputs. Past performance ≠ future results.</span>
+    <span style="font-size:8px;color:#2a2a2a;font-family:var(--mono)">⚠ AXIOM Ultra · LSTM+PPO+XGB · PLTR BUY 88.4% conf · 277 signals OOS only. Not financial advice. Signals are probabilistic model outputs. Past performance ≠ future results.</span>
   </div>`;
 }
 
