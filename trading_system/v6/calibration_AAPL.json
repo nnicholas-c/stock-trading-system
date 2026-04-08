@@ -1,0 +1,12 @@
+{
+  "ticker": "AAPL",
+  "date": "2026-04-08",
+  "kalman_beta_final": -4.776768798845591e-05,
+  "kalman_beta_mean": -0.000846177200512984,
+  "kalman_beta_std": 0.009773633043330454,
+  "ols_beta": 3.7267645570829962e-06,
+  "kalman_P_final": 3.6839061203893345e-10,
+  "mean_innovation": -0.15001140570176577,
+  "std_innovation": 21.828747644514486,
+  "n_observations": 504
+}
