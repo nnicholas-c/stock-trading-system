@@ -1,0 +1,88 @@
+{
+  "model_version": "pltr_deep_v1",
+  "generated": "2026-04-08T05:18:44.111627",
+  "data": {
+    "trading_days": 817,
+    "date_range": "2023-01-03 to 2026-04-07",
+    "catalysts": 56,
+    "features": 105,
+    "cross_assets": [
+      "SPY",
+      "QQQ",
+      "BAH",
+      "CACI",
+      "NOC",
+      "AI",
+      "SNOW"
+    ]
+  },
+  "backtest": {
+    "1d": {
+      "overall_accuracy": 0.5212765957446809,
+      "overall_mae": 0.027491413014374688,
+      "ic": 0.10389522688470991,
+      "high_conf_accuracy": 0.5707547169811321,
+      "earnings_window_accuracy": 0.5111111111111111,
+      "non_earnings_accuracy": 0.5244755244755245,
+      "signal_sharpe": 0.0802039337240042,
+      "n_predictions": 564,
+      "n_high_conf": 212,
+      "converged": false
+    },
+    "5d": {
+      "overall_accuracy": 0.5535714285714286,
+      "overall_mae": 0.06738563865693369,
+      "ic": 0.09452151448045235,
+      "high_conf_accuracy": 0.5857142857142857,
+      "earnings_window_accuracy": 0.562962962962963,
+      "non_earnings_accuracy": 0.5505882352941176,
+      "signal_sharpe": 1.052120928179245,
+      "n_predictions": 560,
+      "n_high_conf": 350,
+      "converged": false
+    },
+    "10d": {
+      "overall_accuracy": 0.4756756756756757,
+      "overall_mae": 0.10483511399018877,
+      "ic": 0.1204857030774524,
+      "high_conf_accuracy": 0.5174129353233831,
+      "earnings_window_accuracy": 0.4740740740740741,
+      "non_earnings_accuracy": 0.47619047619047616,
+      "signal_sharpe": -0.25936760673758036,
+      "n_predictions": 555,
+      "n_high_conf": 402,
+      "converged": false
+    }
+  },
+  "best_horizon": 5,
+  "live_signal": {
+    "signal": "BUY",
+    "probability_up": 76.9,
+    "confidence": 53.9,
+    "pred_return_pct": 3.92,
+    "horizon_days": 5,
+    "current_price": 150.07,
+    "target_price": 155.95,
+    "catalyst_score": 0.0,
+    "date": "2026-04-07"
+  },
+  "key_insights": {
+    "earnings_beat_avg_1d_move": "+20-30%",
+    "election_impact": "+61% single day (Trump Nov 2024)",
+    "sp500_inclusion": "+14% forced buying",
+    "doge_risk": "-25% from ATH on defense-cut fears",
+    "beta_vs_spy": 2.1,
+    "us_commercial_q4_2025": "+137% YoY $507M",
+    "2026_guidance": "+115% US commercial revenue growth"
+  },
+  "recommended_signal": {
+    "horizon": "5d",
+    "rationale": "Highest tradable Sharpe ratio (1.05) among tested horizons",
+    "signal": "BUY",
+    "prob_up": 76.9,
+    "confidence": 53.9,
+    "pred_5d_return": "+3.92%",
+    "current_price": 150.07,
+    "target_5d": 155.95
+  }
+}

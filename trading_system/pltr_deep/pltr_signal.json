@@ -1,0 +1,11 @@
+{
+  "signal": "BUY",
+  "probability_up": 76.9,
+  "confidence": 53.9,
+  "pred_return_pct": 3.92,
+  "horizon_days": 10,
+  "current_price": 150.07,
+  "target_price": 155.96,
+  "catalyst_score": 0.0,
+  "date": "2026-04-07"
+}
