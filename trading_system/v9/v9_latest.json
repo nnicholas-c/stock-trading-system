@@ -1,0 +1,40 @@
+{
+  "version": "v9",
+  "date": "2026-04-07",
+  "signals": {
+    "NVDA": {
+      "signal": "BUY",
+      "confidence": 34.4,
+      "prob_up": 67.2,
+      "pred_1m_return": 1.71,
+      "current_price": 178.1,
+      "target_price": 181.15
+    },
+    "AAPL": {
+      "signal": "BUY",
+      "confidence": 43.4,
+      "prob_up": 71.7,
+      "pred_1m_return": 4.12,
+      "current_price": 253.5,
+      "target_price": 263.93
+    },
+    "PLTR": {
+      "signal": "BUY",
+      "confidence": 65.3,
+      "prob_up": 82.7,
+      "pred_1m_return": 5.05,
+      "current_price": 150.07,
+      "target_price": 157.64
+    },
+    "TSLA": {
+      "signal": "BUY",
+      "confidence": 52.0,
+      "prob_up": 76.0,
+      "pred_1m_return": 3.68,
+      "current_price": 346.65,
+      "target_price": 359.4
+    }
+  },
+  "backtest_accuracy": 0.6111111111111112,
+  "ic": -0.0905800039905174
+}
