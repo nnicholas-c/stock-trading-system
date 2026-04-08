@@ -1928,6 +1928,29 @@ function renderAnalysisPage(){
   </div>
 </div>
 
+  <div class="oc-card">
+    <div class="oc-header">
+      <span class="oc-logo" style="color:#7b8cde">Alert Schedule</span>
+      <span class="oc-badge" style="background:rgba(123,140,222,.15);color:#7b8cde;border-color:rgba(123,140,222,.3)">4 ACTIVE</span>
+      <span style="font-size:8px;color:var(--t2);font-family:var(--mono)">All times PDT · Weekdays only</span>
+    </div>
+    <div class="oc-body">
+      <div style="display:grid;grid-template-columns:90px 1fr;gap:5px 12px;align-items:start">
+        <span style="font-family:var(--mono);font-weight:700;color:var(--G)">6:00 AM ↑</span>
+        <span><strong>Pre-Market Brief</strong> — Premarket prices, overnight news, OpenClaw contract signals, buy/sell recommendation with entry/exit zones for PLTR/NVDA/AAPL/TSLA</span>
+        <span style="font-family:var(--mono);font-weight:700;color:#f7b731">8–2 PM ⚡</span>
+        <span><strong>Intraday Flash Alerts</strong> — Monitors every 2hrs. Silent unless: price spike >±3%, breaking news (sentiment >±1.5), new government contract, analyst upgrade/downgrade, macro shock. Immediate notification when triggered.</span>
+        <span style="font-family:var(--mono);font-weight:700;color:var(--R)">4:00 PM ↓</span>
+        <span><strong>EOD Summary</strong> — Day results, prediction accuracy, updated signals for tomorrow, PLTR sell window check, OpenClaw contract update</span>
+        <span style="font-family:var(--mono);font-weight:700;color:var(--t2)">4:15 PM 🔄</span>
+        <span><strong>Model Self-Improvement</strong> — Compares actual prices vs AXIOM predictions, flags tickers needing retrain if error >3%</span>
+      </div>
+      <div style="margin-top:10px;font-size:8px;color:var(--t2)">
+        Intraday triggers: price >±3% · analyst rating change · new DoD contract · VIX >25 spike · tariff escalation · CEO filing · unusual volume >3x · PLTR sell window activation
+      </div>
+    </div>
+  </div>
+
 <!-- DISCLAIMER -->
 <div style="padding:10px 20px;background:rgba(255,61,90,.02);border-top:1px solid var(--ln)">
   <span style="font-size:8px;color:#2a2a2a;font-family:var(--mono)">⚠ AXIOM Ultra v3 · LSTM+PPO+XGB Multi-Agent · 88.4% BUY accuracy (277 signals, OOS) · This is an educational research model. Not financial advice. All signals are probabilistic outputs. Past performance does not guarantee future results. Feature weights are approximations derived from SHAP analysis on XGBoost + DRL policy gradient attribution.</span>
