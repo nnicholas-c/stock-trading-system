@@ -1,0 +1,121 @@
+{
+  "_meta": {
+    "version": "5.0.0",
+    "created": "2026-04-07",
+    "description": "Advanced RL Quant Model v5 — PPO + Fama-French 5F + News-Calibrated Price Impact",
+    "references": [
+      "Fama, E.F. & French, K.R. (1993, 2015) — 5-factor asset pricing model",
+      "Colby, R. — Post-Earnings Announcement Drift (PEAD), 20.3% annualized",
+      "Bryant, L. — VADER sentiment augmented Fama-French model",
+      "UCSD Research — Earnings beat price jump frequency (90%+ cases)",
+      "IntechOpen — Analyst upgrades NASDAQ avg CAR: +3.17%; downgrades: -3.47%",
+      "Schulman et al. (2017, arxiv:1707.06347) — Proximal Policy Optimization"
+    ]
+  },
+  "universe": {
+    "tickers": ["NVDA", "AAPL", "PLTR", "TSLA", "MSFT", "AMZN", "META", "GOOGL", "SPY"],
+    "benchmark": "SPY",
+    "vix_ticker": "^VIX"
+  },
+  "data": {
+    "lookback_days": 504,
+    "train_test_split": 0.8,
+    "signals_output_dir": "/home/user/workspace/trading_system/signals",
+    "models_dir": "/home/user/workspace/trading_system/models",
+    "reports_dir": "/home/user/workspace/trading_system/reports",
+    "calibration_dir": "/home/user/workspace/trading_system/calibration"
+  },
+  "fama_french": {
+    "factors": ["MKT_RF", "SMB", "HML", "RMW", "CMA", "MOM", "VADER_SENTIMENT"],
+    "rolling_window_days": 63,
+    "min_obs": 42,
+    "risk_free_rate_annual": 0.045,
+    "momentum_lookback_days": 252,
+    "momentum_skip_days": 21
+  },
+  "news_calibration": {
+    "categories": {
+      "earnings_beat":           {"mean": 0.042,  "std": 0.021, "sector": "tech"},
+      "earnings_miss":           {"mean": -0.058, "std": 0.032, "sector": "tech"},
+      "analyst_upgrade":         {"mean": 0.0317, "std": 0.018, "exchange": "NASDAQ"},
+      "analyst_downgrade":       {"mean": -0.0347,"std": 0.021, "exchange": "NASDAQ"},
+      "product_launch":          {"mean": 0.021,  "std": 0.015},
+      "regulatory_risk":         {"mean": -0.028, "std": 0.024},
+      "ceo_statement_bull":      {"mean": 0.012,  "std": 0.009},
+      "supply_chain_positive":   {"mean": 0.018,  "std": 0.012},
+      "macro_positive":          {"mean": 0.008,  "std": 0.006},
+      "macro_negative":          {"mean": -0.011, "std": 0.009}
+    },
+    "sentiment_decay_lambda": 0.1,
+    "pead_drift_days": 21,
+    "pead_annualized_return": 0.203
+  },
+  "ticker_specific": {
+    "NVDA": {
+      "analyst_upgrade":   {"mean": 0.032, "std": 0.019},
+      "earnings_beat":     {"mean": 0.051, "std": 0.028},
+      "sell_the_news":     {"mean": -0.055,"std": 0.031}
+    },
+    "AAPL": {
+      "product_launch":    {"mean": 0.023, "std": 0.014},
+      "services_beat":     {"mean": 0.018, "std": 0.011},
+      "supply_chain_risk": {"mean": -0.031,"std": 0.018}
+    },
+    "PLTR": {
+      "earnings_beat":     {"mean": 0.085, "std": 0.042},
+      "contract_win":      {"mean": 0.042, "std": 0.022},
+      "valuation_concern": {"mean": -0.021,"std": 0.015}
+    },
+    "TSLA": {
+      "delivery_miss":     {"mean": -0.068,"std": 0.038},
+      "analyst_downgrade": {"mean": -0.041,"std": 0.024},
+      "robotaxi_news":     {"mean": 0.045, "std": 0.045}
+    }
+  },
+  "ppo": {
+    "clip_epsilon": 0.2,
+    "clip_low": 0.8,
+    "clip_high": 1.2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "learning_rate": 3e-4,
+    "value_loss_coef": 0.5,
+    "entropy_coef": 0.01,
+    "max_grad_norm": 0.5,
+    "n_epochs": 10,
+    "batch_size": 64,
+    "n_steps": 2048,
+    "rollout_buffer_size": 2048,
+    "hidden_dims": [256, 128, 64],
+    "action_space": [-1.0, 1.0],
+    "reward_window_days": 20,
+    "sharpe_annualization_factor": 252
+  },
+  "volatility_targeting": {
+    "target_annual_vol": 0.15,
+    "realized_vol_window_days": 20,
+    "max_leverage": 2.0,
+    "min_leverage": 0.1
+  },
+  "regime_detection": {
+    "spy_momentum_window_days": 20,
+    "bear_threshold": -0.02,
+    "bull_threshold": 0.02,
+    "vix_extreme_threshold": 30.0
+  },
+  "self_improvement": {
+    "retrain_mae_threshold": 0.03,
+    "ic_retrain_threshold": 0.02,
+    "ic_rolling_window_days": 5,
+    "calibration_update_alpha": 0.1,
+    "xgboost_n_estimators": 200,
+    "xgboost_max_depth": 5,
+    "xgboost_learning_rate": 0.05,
+    "xgboost_subsample": 0.8
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s | %(name)s | %(levelname)s | %(message)s",
+    "datefmt": "%Y-%m-%d %H:%M:%S"
+  }
+}
