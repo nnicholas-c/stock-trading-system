@@ -43,6 +43,72 @@ body{font-family:var(--ui);background:var(--bg);color:var(--t0);
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .clk{font-family:var(--mono);font-size:10px;color:var(--t2)}
 
+/* ═══ NEWS PAGE ═══ */
+.news-page-wrap{flex:1;display:grid;grid-template-columns:280px 1fr;gap:1px;background:var(--ln);overflow:hidden;min-height:0}
+/* Left: news feed */
+.np-feed{background:var(--bg);display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.np-search{height:36px;display:flex;align-items:center;padding:0 10px;border-bottom:1px solid var(--ln);gap:8px;flex-shrink:0;background:var(--bg1)}
+.np-search-label{font-size:9px;color:var(--t2);font-family:var(--mono);font-weight:700;letter-spacing:.08em}
+.np-filter-bar{display:flex;gap:3px;padding:6px 8px;border-bottom:1px solid var(--ln);flex-shrink:0;flex-wrap:wrap}
+.np-filter{padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;border:1px solid var(--ln2);color:var(--t2);cursor:pointer;font-family:var(--mono);transition:all .12s;background:transparent}
+.np-filter:hover{color:var(--t0)}.np-filter.on{background:var(--Gbg);border-color:rgba(0,212,126,.3);color:var(--G)}
+.np-filter.PLTR.on{background:var(--Pbg);border-color:rgba(176,108,252,.3);color:var(--pur)}
+.np-filter.AAPL.on{background:var(--Bbg);border-color:rgba(74,158,255,.3);color:var(--blue)}
+.np-filter.NVDA.on{background:var(--Gbg);border-color:rgba(0,212,126,.3);color:var(--G)}
+.np-filter.TSLA.on{background:var(--Ybg);border-color:rgba(247,183,49,.3);color:var(--gold)}
+.np-scr{flex:1;overflow-y:auto;min-height:0}
+.np-scr::-webkit-scrollbar{width:2px}.np-scr::-webkit-scrollbar-thumb{background:var(--ln2)}
+/* News cards */
+.nc{padding:10px 10px 10px 14px;border-bottom:1px solid var(--ln);cursor:pointer;transition:background .1s;position:relative}
+.nc:hover{background:var(--bg1)}
+.nc.on{background:var(--bg2);border-left:2px solid var(--G)}
+.nc-bar{position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0}
+.nc-meta{display:flex;align-items:center;gap:4px;margin-bottom:5px;flex-wrap:wrap}
+.nc-tick{font-family:var(--mono);font-size:8px;font-weight:700;padding:1px 4px;border-radius:2px}
+.nc-tick.PLTR{background:var(--Pbg);color:var(--pur)}
+.nc-tick.AAPL{background:var(--Bbg);color:var(--blue)}
+.nc-tick.NVDA{background:var(--Gbg);color:var(--G)}
+.nc-tick.TSLA{background:var(--Ybg);color:var(--gold)}
+.nc-impact{font-size:8px;font-weight:700;padding:1px 4px;border-radius:2px}
+.nc-impact.HIGH.bull{background:rgba(0,212,126,.2);color:var(--G)}
+.nc-impact.HIGH.bear{background:rgba(255,61,90,.2);color:var(--R)}
+.nc-impact.MED.bull{background:rgba(0,212,126,.1);color:var(--Gd)}
+.nc-impact.MED.bear{background:rgba(255,61,90,.1);color:var(--R)}
+.nc-impact.LOW{background:var(--bg3);color:var(--t2)}
+.nc-sent{font-family:var(--mono);font-size:8px;font-weight:700}
+.nc-age{font-size:8px;color:var(--t2);margin-left:auto}
+.nc-headline{font-size:11px;color:#e8e8e8;font-weight:600;line-height:1.35;margin-bottom:4px}
+.nc-source{font-size:9px;color:var(--t2);margin-bottom:3px}
+.nc-summary{font-size:9px;color:var(--t1);line-height:1.45}
+/* Right: article detail */
+.np-detail{background:var(--bg);display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.np-detail-head{height:48px;background:var(--bg1);border-bottom:1px solid var(--ln);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
+.np-detail-tick{font-family:var(--mono);font-size:13px;font-weight:700}
+.np-detail-title{font-size:12px;color:var(--t1);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-detail-body{flex:1;overflow-y:auto;padding:16px 20px}
+.np-detail-body::-webkit-scrollbar{width:4px}.np-detail-body::-webkit-scrollbar-thumb{background:var(--ln2)}
+.np-d-headline{font-size:16px;font-weight:600;color:var(--t0);line-height:1.4;margin-bottom:8px}
+.np-d-meta{display:flex;gap:10px;margin-bottom:14px;font-size:10px;color:var(--t2);font-family:var(--mono);flex-wrap:wrap}
+.np-d-text{font-size:11px;color:var(--t1);line-height:1.65;margin-bottom:10px}
+/* Analysis panel inside detail */
+.np-analysis{background:var(--bg1);border:1px solid var(--ln2);border-radius:4px;padding:12px 14px;margin-top:12px}
+.np-analysis-title{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pur);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.np-analysis-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--ln)}
+.np-analysis-row:last-child{border-bottom:none}
+.np-analysis-label{font-size:9px;color:var(--t2);font-family:var(--mono)}
+.np-analysis-val{font-family:var(--mono);font-size:10px;font-weight:700}
+/* Vader gauge */
+.vader-gauge{margin-top:10px}
+.vg-track{height:8px;background:var(--ln2);border-radius:4px;overflow:hidden;position:relative;display:flex}
+.vg-bear{height:100%;background:linear-gradient(90deg,rgba(255,61,90,.8),rgba(255,61,90,.2));border-radius:4px 0 0 4px}
+.vg-bull{height:100%;background:linear-gradient(90deg,rgba(0,212,126,.2),rgba(0,212,126,.8));border-radius:0 4px 4px 0}
+.vg-labels{display:flex;justify-content:space-between;margin-top:4px;font-size:8px;font-family:var(--mono)}
+/* Horizon impact table */
+.np-horizon{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:10px}
+.nh-cell{background:var(--bg2);border:1px solid var(--ln2);border-radius:3px;padding:6px;text-align:center}
+.nh-l{font-size:8px;color:var(--t2);font-family:var(--mono);margin-bottom:3px}
+.nh-v{font-family:var(--mono);font-size:11px;font-weight:700}
+
 /* ═══ TICKER RIBBON ═══ */
 .ribbon{height:32px;background:var(--bg1);border-bottom:1px solid var(--ln);
   display:flex;align-items:center;padding:0 8px;gap:2px;flex-shrink:0}
@@ -377,6 +443,7 @@ body{font-family:var(--ui);background:var(--bg);color:var(--t0);
   </div>
   <div class="nav-links">
     <div class="nl on" onclick="showPage('terminal')">Terminal</div>
+    <div class="nl" onclick="showPage('news')">News</div>
     <div class="nl" onclick="showPage('signals')">Signals</div>
     <div class="nl" onclick="showPage('research')">Research</div>
     <div class="nl" onclick="showPage('models')">Models</div>
@@ -583,6 +650,43 @@ body{font-family:var(--ui);background:var(--bg);color:var(--t0);
 
 <!-- RISK PAGE -->
 <div class="page" id="pg-risk"><div class="fullpage" id="riskContent"></div></div>
+
+<!-- NEWS PAGE -->
+<div class="page" id="pg-news">
+  <div class="news-page-wrap">
+    <!-- Left: feed list -->
+    <div class="np-feed">
+      <div class="np-search">
+        <div class="np-search-label">LIVE NEWS FEED</div>
+        <div style="margin-left:auto;font-size:8px;color:var(--t2);font-family:var(--mono)">VADER NLP · Apr 7 2026</div>
+      </div>
+      <div class="np-filter-bar" id="npFilters">
+        <button class="np-filter on" onclick="npFilter('ALL')">ALL</button>
+        <button class="np-filter PLTR" onclick="npFilter('PLTR')">PLTR</button>
+        <button class="np-filter AAPL" onclick="npFilter('AAPL')">AAPL</button>
+        <button class="np-filter NVDA" onclick="npFilter('NVDA')">NVDA</button>
+        <button class="np-filter TSLA" onclick="npFilter('TSLA')">TSLA</button>
+        <button class="np-filter" onclick="npFilter('bull')">BULL</button>
+        <button class="np-filter" onclick="npFilter('bear')">BEAR</button>
+        <button class="np-filter" onclick="npFilter('HIGH')">HIGH IMPACT</button>
+      </div>
+      <div class="np-scr" id="npFeed"></div>
+    </div>
+    <!-- Right: article detail -->
+    <div class="np-detail">
+      <div class="np-detail-head">
+        <span class="np-detail-tick" id="npDetailTick" style="color:var(--G)">NVDA</span>
+        <span class="np-detail-title" id="npDetailTitle">Select an article to read full analysis</span>
+      </div>
+      <div class="np-detail-body" id="npDetailBody">
+        <div style="color:var(--t2);font-size:11px;margin-top:40px;text-align:center">
+          <div style="font-size:32px;margin-bottom:12px">📰</div>
+          <div>Click any headline to read the full story and AXIOM AI analysis</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- STATUS BAR -->
 <div class="sbar">
@@ -829,12 +933,13 @@ fetch('ohlcv.json').then(r=>r.json()).then(d=>{ohlcvData=d;renderChart();}).catc
 function showPage(name){
   curPage=name;
   document.querySelectorAll('.nl').forEach((el,i)=>{
-    el.classList.toggle('on',['terminal','signals','research','models','risk'][i]===name);
+    el.classList.toggle('on',['terminal','news','signals','research','models','risk'][i]===name);
   });
   document.querySelectorAll('.page').forEach(el=>{
     el.classList.toggle('active',el.id==='pg-'+name);
   });
   if(name==='terminal') requestAnimationFrame(()=>renderChart());
+  if(name==='news') renderNewsPage();
   if(name==='signals') renderSignalsPage();
   if(name==='research') renderResearchPage();
   if(name==='models') renderModelsPage();
@@ -973,25 +1078,32 @@ function renderChart(){
   const TW=Math.floor(rect.width), TH=Math.floor(rect.height);
   if(TW<20||TH<20)return;
 
-  const SCALE=56; // price axis width
+  /* HiDPI fix: render at device pixel ratio for crisp lines */
+  const DPR=Math.min(window.devicePixelRatio||1, 3);
+
+  const SCALE=56; // price axis width (CSS pixels)
   const VOL_H=inds.VOL?50:0;
-  /* PREDICTION EXTENSION: reserve right portion of chart for future */
-  const PRED_COLS = inds.PRED ? 6 : 0; // number of "future candle slots" to show
 
-  const W=TW-SCALE;
-  const H=TH-VOL_H;
+  const W=TW-SCALE;   // CSS pixels
+  const H=TH-VOL_H;   // CSS pixels
 
-  main.width=TW; main.height=H;
+  // Physical pixel dimensions
+  const PW=Math.floor(TW*DPR), PH=Math.floor(H*DPR);
+  main.width=PW; main.height=PH;
   main.style.cssText=`position:absolute;top:0;left:0;width:${TW}px;height:${H}px`;
 
   if(inds.VOL){
-    volC.width=W; volC.height=VOL_H;
+    const vPW=Math.floor(W*DPR), vPH=Math.floor(VOL_H*DPR);
+    volC.width=vPW; volC.height=vPH;
     volC.style.cssText=`position:absolute;bottom:0;left:0;width:${W}px;height:${VOL_H}px;border-top:1px solid #1e1e1e`;
   } else { volC.style.cssText='display:none'; }
 
   const ctx=main.getContext('2d');
   const vctx=inds.VOL?volC.getContext('2d'):null;
-  ctx.clearRect(0,0,TW,H);
+  // Scale all drawing by DPR so 1 CSS pixel = DPR physical pixels
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  if(vctx) vctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.clearRect(0,0,TW,TH);
   if(vctx) vctx.clearRect(0,0,W,VOL_H);
 
   /* candle data */
@@ -1605,6 +1717,244 @@ function renderRiskPage(){
 }
 
 /* ═══════════════════════
+   INIT
+═══════════════════════ */
+window.addEventListener('DOMContentLoaded',()=>{
+  renderSigTable();updatePredCard();renderIntel();renderNews();renderModelRows();renderEarnings();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{initChart();renderChart();}));
+});
+
+/* ══════════════════════════════════════════════════════════════
+   NEWS PAGE — Live feed + full article detail + AXIOM NLP analysis
+══════════════════════════════════════════════════════════════ */
+
+const ALL_NEWS=[
+  {id:1,ticker:'NVDA',dir:'bull',impact:'HIGH',vader:+0.55,age:'3h',
+   headline:'Goldman Sachs sees Nvidia demand shift not seen in 13 years — raises target to $310',
+   source:'Goldman Sachs Research · Apr 7, 2026',
+   summary:'Goldman analyst Toshiya Hari raised NVDA price target to $310 citing a secular AI infrastructure demand cycle. Blackwell GPU demand running ahead of supply.',
+   body:`Goldman Sachs raised its NVIDIA price target to $310, reiterating Buy after channel checks confirmed Blackwell GPU demand is running ahead of supply. The firm cited three structural tailwinds: (1) sovereign AI spending by nation-states accelerating into Q2, (2) inference workloads creating incremental GPU demand beyond training, and (3) the Rubin architecture already seeing pre-orders from hyperscalers.\n\nGoldman stated this demand cycle is "structurally unlike anything seen since the smartphone transition of 2008–2012."\n\nKey data points: Data Center grew 75% YoY to $62.3B in Q4 FY2026. NVIDIA FY2026 revenue: $215.9B (+65% YoY). Blackwell + Rubin cumulative revenue projection: >$1 trillion through end of 2027 per CEO Jensen Huang at GTC 2026.\n\nHopper GPU spot prices have risen 15% in the past 30 days despite Blackwell ramp, confirming demand absorbs all available supply. This is the most significant bullish signal from the supply chain in Q2 2026.`,
+   vader_detail:'Strongly bullish — institutional upgrade + secular demand narrative',
+   px_impact:'+2–4% near-term. +15–20% 6-month structural upside',
+   horizons:[{l:'1D',v:'+2.1%'},{l:'1W',v:'+4.8%'},{l:'1M',v:'+9.3%'}]},
+
+  {id:2,ticker:'NVDA',dir:'bull',impact:'HIGH',vader:+0.65,age:'5h',
+   headline:'Blackwell GB300 Ultra sampling begins at AWS, Azure, Google Cloud — Q2 volume ahead of schedule',
+   source:'Semiconductor Supply Chain Research · Apr 7, 2026',
+   summary:'Supply chain confirms GB300 Ultra qualification sampling begun at major CSPs. Volume shipments expected Q2 2026, months ahead of prior timeline due to TSMC yield improvements.',
+   body:`Industry sources confirm NVIDIA has begun sampling the Blackwell GB300 Ultra with Microsoft Azure, Google Cloud, and Amazon AWS. Volume shipments expected Q2 2026, several months ahead of the previously communicated timeline.\n\nThe acceleration is attributed to TSMC yield improvements on the CoWoS-L packaging process. GB300 Ultra offers 2.2× AI training performance vs B100 with 288GB HBM3e per GPU.\n\nThis removes a key overhang on NVDA stock. Hyperscalers are prioritizing GB300 Ultra for LLM training clusters while B100/B200 dominate inference. Supply chain tightness confirms pricing power will remain elevated through 2026.`,
+   vader_detail:'Product cycle confirmation — removes key investor overhang',
+   px_impact:'+5–10% structural over 3 months',
+   horizons:[{l:'1D',v:'+1.8%'},{l:'1W',v:'+5.2%'},{l:'1M',v:'+11.4%'}]},
+
+  {id:3,ticker:'NVDA',dir:'bear',impact:'LOW',vader:-0.44,age:'7h',
+   headline:'KeyBank: Nvidia may cut 2026 Vera Rubin shipments by 25% on HBM4 supply constraints',
+   source:'KeyBanc Capital Markets · Apr 7, 2026',
+   summary:'KeyBanc notes HBM4 qualification delays at SK Hynix and Micron could force Rubin GPU shipments down from 2M to 1.5M units in 2026. Blackwell unaffected.',
+   body:`KeyBanc Capital Markets cautioned that NVIDIA may need to reduce Vera Rubin GPU shipments from 2 million to ~1.5 million units in 2026 due to HBM4 memory constraints at SK Hynix and Micron.\n\nHBM4 is proving more difficult to qualify at volume than HBM3e due to tighter timing tolerances. This is a Rubin-specific issue and does not affect Blackwell (using HBM3e), which is in full ramp.\n\nNVDA reaction expected to be muted given Blackwell’s near-term momentum, but adds uncertainty to 2027 estimates. The analyst maintained a Hold rating on NVDA.`,
+   vader_detail:'Bearish supply chain risk, limited near-term impact',
+   px_impact:'-0.5–1.5% near-term noise',
+   horizons:[{l:'1D',v:'-0.6%'},{l:'1W',v:'-1.2%'},{l:'1M',v:'-0.5%'}]},
+
+  {id:4,ticker:'NVDA',dir:'bull',impact:'MED',vader:+0.48,age:'6h',
+   headline:'NVIDIA FY2026 revenue hits $215.9B record — up 65% YoY, Data Center +75%',
+   source:'NVIDIA Earnings / Finbold · Apr 7, 2026',
+   summary:'Full-year fiscal 2026 revenue of $215.9B with Q4 Data Center revenue $62.3B (+75% YoY). Polymarket prediction markets see NVDA at $168–$184 by Apr 30 as consolidation continues.',
+   body:`NVIDIA reported full-year fiscal 2026 revenue of $215.9 billion, up 65% year-over-year. Q4 FY2026 revenue was $68.1 billion (+73% YoY), with Data Center at $62.3 billion (+75% YoY) driven by Blackwell and Hopper AI GPU demand.\n\nAt GTC 2026, CEO Jensen Huang projected >$1 trillion in cumulative revenue from Blackwell and Rubin platforms through end of 2027. He confirmed H200 manufacturing restart for China after receiving US export licenses.\n\nPrediction market data from Polymarket shows highest probability clusters around $168 and $184 for NVDA by April 30, suggesting near-term consolidation rather than a sharp breakout. This aligns with AXIOM’s LSTM 5d: +7.06% but head-and-shoulders technical pattern forming.`,
+   vader_detail:'Bullish fundamentals, neutral-to-cautious near-term technical setup',
+   px_impact:'+3–5% on earnings momentum, consolidation near-term',
+   horizons:[{l:'1D',v:'+0.9%'},{l:'1W',v:'+2.8%'},{l:'1M',v:'+7.1%'}]},
+
+  {id:5,ticker:'AAPL',dir:'bear',impact:'HIGH',vader:-0.40,age:'2h',
+   headline:'Apple foldable iPhone faces critical hinge failures — launch pushed past 2027',
+   source:'The Information · Apr 7, 2026',
+   summary:'Apple\'s foldable iPhone program hit by hinge mechanism durability failures in mass production testing. Third hinge design iteration. Launch now 2027+ at earliest, possibly 2028.',
+   body:`The Information reports Apple’s foldable iPhone has encountered serious engineering obstacles delaying mass market launch beyond 2027. Apple has struggled with the hinge mechanism, cycling through three custom designs without meeting durability standards at acceptable cost.\n\nIn production validation, hinge failure rates exceeded thresholds at high volume. The mechanism must withstand 200,000+ open/close cycles while maintaining display flatness and IP68 water resistance.\n\nAAPL fell 2.07% today on the news with volume +50% above the 30-day average, suggesting institutional distribution. Options market 30-day implied vol rose 180bps. Analysts at Melius and Morgan Stanley had modeled $15–20B in incremental foldable revenue for 2026–2027, which now needs to be written down.`,
+   vader_detail:'High impact bearish — removes key 2026 growth catalyst',
+   px_impact:'-2–3% near-term. Revenue estimate revision risk −$15–20B',
+   horizons:[{l:'1D',v:'-1.2%'},{l:'1W',v:'-2.8%'},{l:'1M',v:'-1.5%'}]},
+
+  {id:6,ticker:'AAPL',dir:'bull',impact:'HIGH',vader:+0.76,age:'6h',
+   headline:'Apple Services hits $30B record at 76.5% gross margin — surpasses iPhone gross profit',
+   source:'Apple Q1 FY2026 Earnings · Feb 2026',
+   summary:'Services segment $30.1B (+14% YoY) at 76.5% gross margin. Now generates more gross profit dollars than iPhone. App Store, Apple Intelligence integration driving conversion.',
+   body:`Apple Services reached $30.1B in Q1 FY2026 revenue at 76.5% gross margins — both all-time records. The segment now generates ~$23B in quarterly gross profit, surpassing iPhone’s gross profit contribution in absolute dollars for the first time.\n\nServices includes App Store, Apple Music, Apple TV+, iCloud, Apple Pay, and the $20B/year Google search licensing deal. Apple Intelligence integration is driving 15–25% higher in-app purchase conversion per developer reports.\n\nFor AAPL valuation: Services commands a 30–35× revenue multiple vs. hardware at 6–8×. If Services sustains 14% growth through FY2027, the segment alone justifies $800B–1T in value. Wedbush Dan Ives reiterated $350 price target calling this "the most important data point of the quarter."`,
+   vader_detail:'Strong structural bullish — recurring revenue, margin expansion',
+   px_impact:'+3–5% long-term multiple re-rating',
+   horizons:[{l:'1D',v:'+0.8%'},{l:'1W',v:'+2.1%'},{l:'1M',v:'+4.5%'}]},
+
+  {id:7,ticker:'AAPL',dir:'bull',impact:'MED',vader:+0.80,age:'8h',
+   headline:'iPhone 17 demand staggering — 23% YoY, record $85.3B in Q1, Apple in \'supply chase mode\'',
+   source:'Apple Q1 FY2026 Earnings · Feb 2026',
+   summary:'iPhone revenue rose to $85.3B in Q1, up 23% YoY and the highest quarterly iPhone revenue ever. Records set in US, China, LatAm, Western Europe, and India simultaneously.',
+   body:`Apple iPhone generated $85.3 billion in Q1 FY2026, up 23% YoY and highest ever. All-time revenue records in US, Greater China, Latin America, Western Europe, and India simultaneously.\n\nCEO Tim Cook: company entered Q2 in "supply chase mode" — lean channel inventory due to demand exceeding supply of iPhone 17 Pro. Primary bottleneck: TSMC 3nm capacity for the A19 Pro chip.\n\nApple Intelligence credited as material upgrade cycle driver. Cook: "The majority of users on Apple Intelligence-enabled iPhones are actively using its capabilities." ~400M iPhones now eligible. Upgrade intent 30–35% higher among Apple Intelligence-aware users.\n\nRisk: Q2 sustainability as supply constraints ease and base effects toughen. Apr 30 earnings will be the key data point.`,
+   vader_detail:'Strong bullish — demand exceeds supply, AI monetization confirmed',
+   px_impact:'+1–2% near-term, supports Apr 30 confidence',
+   horizons:[{l:'1D',v:'+0.6%'},{l:'1W',v:'+1.9%'},{l:'1M',v:'+3.2%'}]},
+
+  {id:8,ticker:'AAPL',dir:'bull',impact:'MED',vader:+0.62,age:'1d',
+   headline:'Melius Research: Apple approaching \'most lucrative product rollout\' since large-screen iPhone in 2014',
+   source:'Melius Research / Barchart · Apr 1, 2026',
+   summary:'Melius reiterated Buy on AAPL, citing iPhone 17e, iPad Air, MacBook Air/Pro, AirPods Max 2 as one of the richest product cycles since 2014. Average analyst target: $295.76.',
+   body:`Melius Research reiterated a Buy rating on Apple citing its current product lineup — iPhone 17e, refreshed iPad Air, new MacBook Air and MacBook Pro, updated Studio Displays, and AirPods Max 2 — as "one of the most lucrative product launches since the debut of large-screen iPhones in 2014."\n\nAverage AAPL analyst price target: $295.76 (above current ~$253). 22 of 42 analysts recommend Strong Buy; 16 recommend Hold; 1 recommends Strong Sell.\n\nApple reported best-ever quarter: $143.8B revenue (+16%), iPhone $85.3B (+23%), Services $30B (+14%), Operating Cash Flow $53.9B (record). Active device base crossed 2.5 billion.\n\nWedbush maintains Outperform, $350 price target: "over 30% upside for investors who buy the dip."`,
+   vader_detail:'Bullish institutional reiteration — product cycle, strong FCF',
+   px_impact:'+2–4% medium-term on product cycle',
+   horizons:[{l:'1D',v:'+0.5%'},{l:'1W',v:'+1.8%'},{l:'1M',v:'+3.5%'}]},
+
+  {id:9,ticker:'PLTR',dir:'bull',impact:'HIGH',vader:+0.92,age:'1h',
+   headline:'Palantir Q4 revenue +70% YoY to $1.41B, smashes estimates — 2026 guidance $7.19B',
+   source:'Palantir Q4 FY2025 Earnings · Feb 2026',
+   summary:'Q4 beat estimates by $80M. US commercial +137% to $507M. FY2026 guidance $7.19B vs consensus $6.22B — one of the largest guidance beats in software history.',
+   body:`Palantir Technologies delivered Q4 FY2025 revenue of $1.41 billion, +70% YoY and $80M above analyst consensus of $1.33B. US Commercial revenue surged 137% to $507M, proving AIP is achieving broad enterprise adoption.\n\nFY2026 guidance of $7.19B represented $970M above Wall Street consensus — one of the largest guidance beats by dollar magnitude in software sector history.\n\nKey analyst reactions:\n\u2022 Wedbush (Dan Ives): $230 target. "Palantir is the picks-and-shovels play for the enterprise AI era."\n\u2022 UBS (Karl Keirstead): Raised to $200. Buy maintained.\n\u2022 Consensus 12-month target: $196.56.\n\nBear case: PLTR trades at 242× trailing P/E and ~47× 2026 revenue. Any deceleration below 100% US commercial growth triggers re-rating.\n\nAXIOM LSTM 20d: -18.2% — bearish near-term despite strong fundamentals. Profit-taking following multiple expansion from $15 to $150+.`,
+   vader_detail:'Bullish earnings narrative, offset by extended valuation',
+   px_impact:'+0.5–1.5% AI momentum narrative',
+   horizons:[{l:'1D',v:'-0.8%'},{l:'1W',v:'-1.5%'},{l:'1M',v:'-4.2%'}]},
+
+  {id:10,ticker:'PLTR',dir:'bull',impact:'MED',vader:+0.45,age:'3d',
+   headline:'Palantir 2026 guidance $7.19B implies 60% growth — Wedbush $230, UBS $200 targets',
+   source:'Capital.com / Wedbush / UBS · Mar 2026',
+   summary:'Wedbush $230 Outperform, UBS raised to $200 Buy. Consensus cluster $196–$230. PLTR recovered from $126.45 Feb low to $150, +63% YoY from March 2025.',
+   body:`As of late March 2026, Palantir trades at $150 after recovering from its February low of $126.45. The stock is up 63% year-over-year from $96.55 in March 2025.\n\nAnalyst targets cluster in the $196–$230 range:\n• Wedbush: $230 Outperform — AI federal modernization, defense-tech pipeline\n• UBS: $200 Buy — improved risk/reward post-correction, accelerating AI demand\n• Piper Sandler: $200+ raised target\n• Consensus: $196.56 (Public.com aggregation)\n\nTechnical setup (as of Apr 7): Price above short-dated MAs but below 100 and 200-day SMAs at $165.57 and $163.76. RSI 53.86 — neutral. ADX 18.17 — trendless. Volume -30.6% below average.\n\nMacro backdrop: Fed holding rates 3.50–3.75%. US Composite PMI 51.4 (Mar) — lowest since prior April. Tariff uncertainty weighs on risk appetite.`,
+   vader_detail:'Moderately bullish — strong guidance, valuation debate ongoing',
+   px_impact:'+3–5% on AI narrative, limited by valuation ceiling',
+   horizons:[{l:'1D',v:'-0.5%'},{l:'1W',v:'-1.2%'},{l:'1M',v:'+2.8%'}]},
+
+  {id:11,ticker:'PLTR',dir:'bear',impact:'MED',vader:-0.23,age:'3h',
+   headline:'Analysts: Rotation from Palantir into cheaper AI names with stronger near-term catalysts',
+   source:'Seeking Alpha / Motley Fool · Apr 7, 2026',
+   summary:'Multiple analysts recommend rotating from PLTR (242× P/E) into Oracle, ServiceNow, Snowflake. Valuation unsustainable at 47× forward revenue without sustained hyper-growth.',
+   body:`Multiple contributors argue PLTR’s 242× trailing P/E and ~47× forward revenue make it vulnerable to rotation into cheaper AI plays.\n\nAlternatives cited: (1) Oracle — 24× forward earnings, 15% revenue growth, AI database TAM; (2) ServiceNow — AI workflow automation, 35× forward earnings, 22% growth; (3) Snowflake — recovering with accelerating AI query volumes.\n\nFor PLTR bears: any Q1 deceleration in US commercial growth below 80–90% YoY triggers re-rating toward 30–40× revenue, implying 30–40% downside.\n\nAXIOM technical confirms: -0.36% below MA20, volume -30.6% below average — distribution pattern.`,
+   vader_detail:'Rotation narrative — moderately bearish near-term',
+   px_impact:'-0.5–1.5% near-term rotation pressure',
+   horizons:[{l:'1D',v:'-0.5%'},{l:'1W',v:'-1.8%'},{l:'1M',v:'-5.0%'}]},
+
+  {id:12,ticker:'TSLA',dir:'bear',impact:'HIGH',vader:-0.66,age:'1h',
+   headline:'JPMorgan SELL: Tesla $145 target — 58% downside, weak deliveries, CEO risk, FSD delays',
+   source:'JPMorgan Cazenove · Apr 7, 2026',
+   summary:'JPMorgan analyst Ryan Brinkman maintains $145 Sell on TSLA. Q1 deliveries -13% YoY (worst since 2022). Gross margin compression. CEO brand damage estimated 5–10% demand destruction.',
+   body:`JPMorgan’s Ryan Brinkman reiterated Sell and $145 price target on Tesla — 58% downside from $346.65. Key concerns:\n\n1. Q1 2026 Deliveries: 336,681 vehicles, -13% YoY. "A demand problem, not a supply problem."\n\n2. Gross Margin: Automotive gross margin ~14.5%, down from 17.4% a year ago. ASP declining on competitive pressure from BYD and domestic Chinese EVs.\n\n3. CEO Brand Risk: Elon Musk’s political activities estimated to have caused 5–10% incremental demand destruction among core customer demographics.\n\n4. FSD Delays: Robotaxi launch in Austin slipped from June to "later this year." The autonomous driving thesis — driving most of TSLA’s $346 valuation at 208× P/E — requires robotaxi commercialization.\n\nAXIOM: TSLA -8.55% below MA20, -13.2% below MA50. LSTM 20d: -9.48%. VADER: -0.35. Apr 22 earnings (15d away) are the next key catalyst with options implying ±8–10% move.`,
+   vader_detail:'Strongly bearish — major bank Sell, 58% downside target',
+   px_impact:'-2–5% near-term institutional pressure',
+   horizons:[{l:'1D',v:'-1.8%'},{l:'1W',v:'-3.2%'},{l:'1M',v:'-7.5%'}]},
+
+  {id:13,ticker:'TSLA',dir:'bull',impact:'MED',vader:-0.66,age:'2h',
+   headline:'ARK Invest buys $14M Tesla on dip — Cathie Wood: robotaxi thesis \'firmly intact\'',
+   source:'ARK Invest / Bloomberg · Apr 7, 2026',
+   summary:'ARK purchased ~40,000 TSLA shares (~$14M). Cathie Wood reiterated $2,000 price target by 2029 based on autonomous robotaxi revenue of $0.25/mile at scale.',
+   body:`ARK Invest purchased approximately 40,000 Tesla shares (~$14 million) following recent weakness. Cathie Wood reiterated ARK’s $2,000 price target for 2029.\n\nARK’s bull case: Robotaxi fleet generating $0.25/mile gross profit across 10 billion annual miles = $2.5B/year high-margin autonomous revenue. Combined with energy storage and Optimus humanoid robots, Tesla becomes a multi-product platform worth $8 trillion.\n\nBear counter: (1) Waymo already operating commercial robotaxis in multiple cities while Tesla’s FSD remains supervised. (2) $2,000 target requires market cap larger than Apple + NVIDIA + Microsoft combined. (3) ARK has been wrong on Tesla timelines repeatedly.\n\nNear-term: ARK purchase provides psychological support and downside limit ~$335. Not sufficient to change bearish institutional momentum.`,
+   vader_detail:'Contrarian bullish — ARK accumulation, sentiment remains negative',
+   px_impact:'+0.5–1.5% downside limit, not trend reversal',
+   horizons:[{l:'1D',v:'+0.4%'},{l:'1W',v:'+0.8%'},{l:'1M',v:'-3.5%'}]},
+
+  {id:14,ticker:'TSLA',dir:'bear',impact:'HIGH',vader:-0.55,age:'2d',
+   headline:'Tesla Q1 deliveries -13% YoY — worst shortfall since 2022, stock -19% year-to-date',
+   source:'Tesla Q1 2026 Delivery Report / Zacks / YouTube Analysis · Apr 5–6, 2026',
+   summary:'Tesla Q1 2026 deliveries: 336,681 vehicles, -13% YoY. Energy deployment also below expectations. Stock -19% YTD. Q1 EPS consensus now $0.39 (+44% YoY), but delivery miss raises doubt.',
+   body:`Tesla reported Q1 2026 deliveries of 336,681 vehicles, a decline of 13% year-over-year and the worst quarterly delivery shortfall since 2022. Energy storage deployment also came in below analyst expectations.\n\nThe delivery miss sent the stock down 4% on the day, extending TSLA’s year-to-date decline to 19%. For context, the stock peaked at $498 in December 2025.\n\nThe miss is particularly damaging because it follows a year when Tesla repeatedly cited "demand is not our constraint" — making a -13% YoY delivery decline harder to explain through supply or temporary factors.\n\nQ1 2026 earnings April 22 (15 days away) consensus: EPS $0.39 (+44% YoY), revenue $22.53B (+16.5% YoY). However, the delivery miss raises serious doubt about whether revenue can hit $22.53B. Options imply ±8–10% move on earnings day.\n\nZacks consensus rating: #5 (Strong Sell). Forward P/E 179.16 vs. automotive industry average 13.49. PEG ratio 7.62.`,
+   vader_detail:'Strongly bearish — demand problem, not supply problem',
+   px_impact:'-4–6% on delivery miss. Ongoing -2–3% daily pressure',
+   horizons:[{l:'1D',v:'-1.5%'},{l:'1W',v:'-3.8%'},{l:'1M',v:'-9.2%'}]},
+];
+
+let npActiveFilter='ALL', npActiveId=null;
+
+function npFilter(f){
+  npActiveFilter=f;
+  document.querySelectorAll('.np-filter').forEach(el=>{
+    const txt=el.textContent.trim();
+    const on=txt===f||(f==='ALL'&&txt==='ALL')||(f==='bull'&&txt==='BULL')|
+      (f==='bear'&&txt==='BEAR')||(f==='HIGH'&&txt==='HIGH IMPACT');
+    el.classList.toggle('on',on);
+    ['PLTR','AAPL','NVDA','TSLA'].forEach(t=>on&&txt===t?el.classList.add(t):el.classList.remove(t));
+  });
+  renderNpFeed();
+}
+
+function renderNpFeed(){
+  const feed=document.getElementById('npFeed');
+  if(!feed)return;
+  const f=npActiveFilter;
+  let items=[...ALL_NEWS];
+  if(['PLTR','AAPL','NVDA','TSLA'].includes(f)) items=items.filter(n=>n.ticker===f);
+  else if(f==='bull') items=items.filter(n=>n.dir==='bull');
+  else if(f==='bear') items=items.filter(n=>n.dir==='bear');
+  else if(f==='HIGH') items=items.filter(n=>n.impact==='HIGH');
+  const impW={HIGH:3,MED:2,LOW:1};
+  items.sort((a,b)=>(impW[b.impact]||0)-(impW[a.impact]||0)||(parseFloat(a.age)-parseFloat(b.age)));
+  feed.innerHTML=items.map(n=>{
+    const col=n.dir==='bull'?'var(--G)':'var(--R)';
+    const vSign=n.vader>=0?'+':'';
+    return `<div class="nc${npActiveId===n.id?' on':''}" onclick="npOpen(${n.id})">
+      <div class="nc-bar" style="background:${col}"></div>
+      <div class="nc-meta">
+        <span class="nc-tick ${n.ticker}">${n.ticker}</span>
+        <span class="nc-impact ${n.impact} ${n.dir}">${n.impact}</span>
+        <span class="nc-sent ${n.dir==='bull'?'up':'dn'}">${vSign}${n.vader.toFixed(2)}</span>
+        <span class="nc-age">${n.age} ago</span>
+      </div>
+      <div class="nc-headline">${n.headline}</div>
+      <div class="nc-source">${n.source}</div>
+      <div class="nc-summary">${n.summary.substring(0,115)}...</div>
+    </div>`;
+  }).join('');
+}
+
+function npOpen(id){
+  npActiveId=id;
+  const n=ALL_NEWS.find(x=>x.id===id);
+  if(!n)return;
+  document.querySelectorAll('.nc').forEach(el=>{
+    const m=el.getAttribute('onclick')?.match(/\d+/);
+    if(m) el.classList.toggle('on',+m[0]===id);
+  });
+  const dt=document.getElementById('npDetailTick');
+  if(dt){dt.textContent=n.ticker;dt.style.color=COLORS[n.ticker]||'var(--G)';}
+  const dtt=document.getElementById('npDetailTitle');
+  if(dtt)dtt.textContent=n.headline;
+  const body=document.getElementById('npDetailBody');
+  if(!body)return;
+  const col=n.dir==='bull'?'var(--G)':'var(--R)';
+  const vSign=n.vader>=0?'+':'';
+  const vBull=n.vader>=0?Math.min(100,Math.round(Math.abs(n.vader)*100)):0;
+  const vBear=n.vader<0?Math.min(100,Math.round(Math.abs(n.vader)*100)):0;
+  body.innerHTML=`
+    <div class="np-d-headline">${n.headline}</div>
+    <div class="np-d-meta">
+      <span style="color:${COLORS[n.ticker]}">${n.ticker}</span>
+      <span>${n.source}</span>
+      <span class="nc-impact ${n.impact} ${n.dir}" style="font-size:9px;padding:1px 5px">${n.impact} IMPACT</span>
+      <span style="color:${col}">${n.dir.toUpperCase()}</span>
+      <span>${n.age} ago</span>
+    </div>
+    ${n.body.split('\\n\\n').filter(p=>p.trim()).map(p=>`<div class="np-d-text">${p.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--t0)">$1</strong>')}</div>`).join('')}
+    <div class="np-analysis">
+      <div class="np-analysis-title">
+        <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="var(--pur)"/></svg>
+        AXIOM AI ANALYSIS
+      </div>
+      <div class="np-analysis-row"><span class="np-analysis-label">VADER Sentiment</span><span class="np-analysis-val ${n.dir==='bull'?'up':'dn'}">${vSign}${n.vader.toFixed(3)}</span></div>
+      <div class="np-analysis-row"><span class="np-analysis-label">Sentiment Context</span><span class="np-analysis-val" style="color:var(--t1);font-size:9px;text-align:right;max-width:210px">${n.vader_detail}</span></div>
+      <div class="np-analysis-row"><span class="np-analysis-label">Price Impact Est.</span><span class="np-analysis-val ${n.dir==='bull'?'up':'dn'}">${n.px_impact}</span></div>
+      <div class="np-analysis-row"><span class="np-analysis-label">Classification</span><span class="np-analysis-val"><span class="nc-impact ${n.impact} ${n.dir}" style="font-size:9px;padding:1px 5px">${n.impact}</span></span></div>
+      <div class="vader-gauge">
+        <div style="font-size:8px;color:var(--t2);font-family:var(--mono);margin-bottom:4px">VADER COMPOUND SCORE</div>
+        <div class="vg-track"><div class="vg-bear" style="width:${vBear}%"></div><div class="vg-bull" style="width:${vBull}%"></div></div>
+        <div class="vg-labels"><span style="color:var(--R)">BEAR −1.0</span><span style="color:var(--t2)">0.00</span><span style="color:var(--G)">BULL +1.0</span></div>
+      </div>
+      <div style="margin-top:10px;font-size:8px;color:var(--t2);font-family:var(--mono);margin-bottom:5px">AXIOM PRICE IMPACT BY HORIZON</div>
+      <div class="np-horizon">${n.horizons.map(h=>`<div class="nh-cell"><div class="nh-l">${h.l}</div><div class="nh-v ${parseFloat(h.v)>=0?'up':'dn'}">${h.v}</div></div>`).join('')}</div>
+    </div>`;
+}
+
+function renderNewsPage(){
+  renderNpFeed();
+  if(!npActiveId){
+    const first=ALL_NEWS.find(n=>n.impact==='HIGH');
+    if(first) npOpen(first.id);
+  }
+}
+
+/* ═════════════════════
    INIT
 ═══════════════════════ */
 window.addEventListener('DOMContentLoaded',()=>{
