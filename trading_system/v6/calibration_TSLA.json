@@ -1,0 +1,12 @@
+{
+  "ticker": "TSLA",
+  "date": "2026-04-08",
+  "kalman_beta_final": 9.6781118419715e-05,
+  "kalman_beta_mean": -0.00022497188665078385,
+  "kalman_beta_std": 0.006382437298368156,
+  "ols_beta": -5.466740006956711e-06,
+  "kalman_P_final": 1.524134672578294e-10,
+  "mean_innovation": -3.4375806609370234,
+  "std_innovation": 96.41805443910349,
+  "n_observations": 504
+}

@@ -1,0 +1,12 @@
+{
+  "ticker": "NVDA",
+  "date": "2026-04-08",
+  "kalman_beta_final": -0.003930675317726022,
+  "kalman_beta_mean": -0.0004922373836128691,
+  "kalman_beta_std": 0.019526808315479188,
+  "ols_beta": 6.431639459511219e-06,
+  "kalman_P_final": 1.430807576629911e-10,
+  "mean_innovation": -1.2267729399397953,
+  "std_innovation": 31.716362633906275,
+  "n_observations": 504
+}

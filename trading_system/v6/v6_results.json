@@ -1,0 +1,338 @@
+{
+  "config": {
+    "tickers": [
+      "NVDA",
+      "AAPL",
+      "PLTR",
+      "TSLA"
+    ],
+    "n_days": 504,
+    "n_obs_per_day": 100,
+    "random_seed": 42,
+    "ofi_beta_init": 0.00012,
+    "ofi_window": 63,
+    "ofi_min_obs": 20,
+    "ac_shares": 10000,
+    "ac_horizon_hours": 8,
+    "ac_eta": 0.0001,
+    "ac_gamma": 5e-05,
+    "ac_sigma": 0.02,
+    "ac_risk_aversions": [
+      0.001,
+      0.01,
+      0.025
+    ],
+    "as_gamma": 0.1,
+    "as_sigma": 0.02,
+    "as_kappa": 1.5,
+    "as_q_max": 50,
+    "as_n_episodes": 100,
+    "as_T": 1.0,
+    "as_dt": 0.001,
+    "kyle_window": 63,
+    "ff_factors": [
+      "MKT",
+      "SMB",
+      "HML",
+      "RMW",
+      "CMA",
+      "MOM",
+      "VADER",
+      "OFI",
+      "KYLE_LAMBDA",
+      "BID_ASK_SPREAD",
+      "REALIZED_VOL_RATIO"
+    ],
+    "kalman_Q": 1e-05,
+    "kalman_R": 0.0001,
+    "kalman_P_init": 1.0,
+    "spillover_matrix": [
+      [
+        1.0,
+        0.42,
+        0.28,
+        -0.08
+      ],
+      [
+        0.32,
+        1.0,
+        0.18,
+        0.14
+      ],
+      [
+        0.12,
+        0.09,
+        1.0,
+        -0.18
+      ],
+      [
+        -0.08,
+        0.14,
+        -0.18,
+        1.0
+      ]
+    ],
+    "price_init": {
+      "NVDA": 875.4,
+      "AAPL": 218.24,
+      "PLTR": 24.82,
+      "TSLA": 162.35
+    },
+    "vol_daily": {
+      "NVDA": 0.028,
+      "AAPL": 0.018,
+      "PLTR": 0.034,
+      "TSLA": 0.038
+    }
+  },
+  "ofi": {
+    "NVDA": {
+      "beta": 6.431639459511219e-06,
+      "t_stat": 0.44460773668944237,
+      "r_squared": -0.01987736249317784,
+      "ofi_mean": -47.676587301587304,
+      "ofi_std": 6127.285782319783,
+      "beta_rolling_last": -6.113198289348449e-05
+    },
+    "AAPL": {
+      "beta": 3.7267645570829962e-06,
+      "t_stat": 1.057938690332997,
+      "r_squared": -0.04777506157765443,
+      "ofi_mean": 322.9424603174603,
+      "ofi_std": 5389.223904506591,
+      "beta_rolling_last": 1.6487995094251726e-06
+    },
+    "PLTR": {
+      "beta": -1.6764742782826233e-07,
+      "t_stat": -0.5517208980561636,
+      "r_squared": -0.021791956329196838,
+      "ofi_mean": -0.6130952380952381,
+      "ofi_std": 10588.798051997743,
+      "beta_rolling_last": 8.143471240337362e-08
+    },
+    "TSLA": {
+      "beta": -5.466740006956711e-06,
+      "t_stat": -2.189481343041194,
+      "r_squared": -0.0009718233776083718,
+      "ofi_mean": 649.625,
+      "ofi_std": 8682.545011057287,
+      "beta_rolling_last": -6.312310414505097e-05
+    }
+  },
+  "almgren_chriss": {
+    "summary": {
+      "0.001": {
+        "kappa": 0.06324555320336758,
+        "E_cost": 3776.5535779816255,
+        "sqrt_var": 321.1767859278811,
+        "style": "Aggressive TWAP"
+      },
+      "0.01": {
+        "kappa": 0.2,
+        "E_cost": 4005.9407020437066,
+        "sqrt_var": 283.102074174655,
+        "style": "Balanced VWAP"
+      },
+      "0.025": {
+        "kappa": 0.31622776601683794,
+        "E_cost": 4354.898920878851,
+        "sqrt_var": 244.82432361757716,
+        "style": "Risk-Averse IS"
+      }
+    }
+  },
+  "avellaneda_stoikov": {
+    "mean_pnl": 0.6311417513485919,
+    "std_pnl": 0.8439543966566441,
+    "sharpe": 0.7478386911056839,
+    "pnl_q25": 0.0,
+    "pnl_q75": 1.2891767779382697,
+    "mean_final_inventory": -0.09,
+    "fraction_episodes_positive": 0.4,
+    "optimal_spread_t0": 1.2908104227514234,
+    "optimal_spread_t_mid": 1.2907904227514233,
+    "optimal_spread_t_end": 1.2907708227514234
+  },
+  "kyle_lambda": {
+    "NVDA": {
+      "lambda": 4.449500963274907e-08,
+      "r_squared": 0.08186551690492716,
+      "t_stat": 7.4579868217964576,
+      "lambda_rolling_last": 4.6425453384698855e-08
+    },
+    "AAPL": {
+      "lambda": 7.658820243206082e-09,
+      "r_squared": 0.02564521694019628,
+      "t_stat": 5.961456142047748,
+      "lambda_rolling_last": 3.426008565918331e-09
+    },
+    "PLTR": {
+      "lambda": 1.1216138564763715e-09,
+      "r_squared": 0.02856816623381586,
+      "t_stat": 5.00974852845999,
+      "lambda_rolling_last": 1.5426182488767678e-09
+    },
+    "TSLA": {
+      "lambda": 9.773769061359091e-09,
+      "r_squared": 0.07236655315056129,
+      "t_stat": 6.532351819507763,
+      "lambda_rolling_last": 1.766418240510317e-08
+    }
+  },
+  "cross_asset_ofi": {
+    "spillover_matrix_estimated": [
+      [
+        7.302888904048272e-06,
+        1.780149479515036e-05,
+        5.067801520112095e-06,
+        1.4640765058569699e-05
+      ],
+      [
+        1.0306031496183904e-06,
+        3.7407943431853657e-06,
+        -1.3586959049693916e-08,
+        9.095972302423239e-07
+      ],
+      [
+        1.0905962916805984e-06,
+        6.381552607083917e-07,
+        -1.8281236830533557e-07,
+        -9.418910760184341e-08
+      ],
+      [
+        2.186248351791092e-06,
+        -1.9952081946160655e-06,
+        -1.4512986128050338e-07,
+        -5.428740541652426e-06
+      ]
+    ],
+    "spillover_matrix_theoretical": [
+      [
+        1.0,
+        0.42,
+        0.28,
+        -0.08
+      ],
+      [
+        0.32,
+        1.0,
+        0.18,
+        0.14
+      ],
+      [
+        0.12,
+        0.09,
+        1.0,
+        -0.18
+      ],
+      [
+        -0.08,
+        0.14,
+        -0.18,
+        1.0
+      ]
+    ],
+    "channel_descriptions": {
+      "NVDA->AAPL": "+0.42 tech sentiment channel",
+      "NVDA->PLTR": "+0.28 AI infrastructure channel",
+      "TSLA->PLTR": "-0.18 growth rotation channel",
+      "TSLA->NVDA": "-0.08 risk-off signal"
+    }
+  },
+  "factor_model": {
+    "NVDA": {
+      "alpha": 0.0001052190123752001,
+      "loadings": {
+        "MKT": 0.17288383991601933,
+        "SMB": 0.17483865288643968,
+        "HML": -0.004759945303347463,
+        "RMW": -0.009712424209824726,
+        "CMA": -0.014739649603687024,
+        "MOM": -0.006684349931046711,
+        "VADER": -0.015540287243051084,
+        "OFI": 1.0554212694121204e-05,
+        "KYLE_LAMBDA": 4.4061213152857564e-05,
+        "BID_ASK_SPREAD": -2.355170620987548e-05,
+        "REALIZED_VOL_RATIO": 0.00011560833315304128
+      },
+      "r_squared": 0.7959698137260166,
+      "ic": 0.8784652170452905
+    },
+    "AAPL": {
+      "alpha": 0.000781425149219536,
+      "loadings": {
+        "MKT": -0.004108777465573161,
+        "SMB": -0.007682896365633653,
+        "HML": -0.011962977098595635,
+        "RMW": -0.020247213125067116,
+        "CMA": 0.0017213292348076522,
+        "MOM": 0.0006047319178700484,
+        "VADER": -0.009536604288075854,
+        "OFI": 0.00011484256859374832,
+        "KYLE_LAMBDA": -0.00015509243766469914,
+        "BID_ASK_SPREAD": 0.0002286800644538146,
+        "REALIZED_VOL_RATIO": -0.0003997244360073213
+      },
+      "r_squared": 0.026004581259662762,
+      "ic": 0.15616718871159474
+    },
+    "PLTR": {
+      "alpha": 1.485447192188895e-05,
+      "loadings": {
+        "MKT": -0.018622618283295294,
+        "SMB": -0.019841790433296622,
+        "HML": 0.0024136944912485146,
+        "RMW": 0.03797672813831341,
+        "CMA": 0.05155694102100632,
+        "MOM": 0.0022103611677803036,
+        "VADER": -0.07571260315185604,
+        "OFI": -1.761847638412754e-05,
+        "KYLE_LAMBDA": 0.00032218381577783675,
+        "BID_ASK_SPREAD": -1.7803164835044244e-05,
+        "REALIZED_VOL_RATIO": 0.0004035996166058213
+      },
+      "r_squared": 0.020733968309502582,
+      "ic": 0.14786546134696324
+    },
+    "TSLA": {
+      "alpha": 0.00039566784919078745,
+      "loadings": {
+        "MKT": 0.0042236436033474024,
+        "SMB": 0.013918058350927298,
+        "HML": 0.010242052438692213,
+        "RMW": 0.00858563563228371,
+        "CMA": 0.023250386040061088,
+        "MOM": 0.009498428297244092,
+        "VADER": 0.028690461821592066,
+        "OFI": -0.00029409138450073774,
+        "KYLE_LAMBDA": 7.857360002492839e-05,
+        "BID_ASK_SPREAD": -3.5440070787908066e-05,
+        "REALIZED_VOL_RATIO": -0.0001168531369305176
+      },
+      "r_squared": 0.014541586811396279,
+      "ic": 0.08959976524836653
+    }
+  },
+  "kalman_calibration": {
+    "NVDA": {
+      "final_beta": -0.003930675317726022,
+      "mean_beta": -0.0004922373836128691,
+      "calibration_file": "/home/user/workspace/trading_system/v6/calibration_NVDA.json"
+    },
+    "AAPL": {
+      "final_beta": -4.776768798845591e-05,
+      "mean_beta": -0.000846177200512984,
+      "calibration_file": "/home/user/workspace/trading_system/v6/calibration_AAPL.json"
+    },
+    "PLTR": {
+      "final_beta": -0.00013760845175249625,
+      "mean_beta": -8.891115204569115e-06,
+      "calibration_file": "/home/user/workspace/trading_system/v6/calibration_PLTR.json"
+    },
+    "TSLA": {
+      "final_beta": 9.6781118419715e-05,
+      "mean_beta": -0.00022497188665078385,
+      "calibration_file": "/home/user/workspace/trading_system/v6/calibration_TSLA.json"
+    }
+  }
+}

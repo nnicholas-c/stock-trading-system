@@ -1,0 +1,12 @@
+{
+  "ticker": "PLTR",
+  "date": "2026-04-08",
+  "kalman_beta_final": -0.00013760845175249625,
+  "kalman_beta_mean": -8.891115204569115e-06,
+  "kalman_beta_std": 0.0017541780504847003,
+  "ols_beta": -1.6764742782826233e-07,
+  "kalman_P_final": 1.5821908598338882e-10,
+  "mean_innovation": -0.21395626580331875,
+  "std_innovation": 12.543119375191385,
+  "n_observations": 504
+}
