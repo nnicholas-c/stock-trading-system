@@ -1,0 +1,85 @@
+{
+  "model": "AXIOM DRL v2",
+  "generated": "2026-04-07",
+  "backtest": {
+    "PLTR": {
+      "overall_accuracy": 0.4482758620689655,
+      "high_conf_accuracy": 0.4434782608695652,
+      "high_conf_n": 115,
+      "very_high_conf_accuracy": 0.46078431372549017,
+      "very_high_conf_n": 102,
+      "buy_accuracy": 0.4411764705882353,
+      "sell_accuracy": 0.5,
+      "ic": 0.019450620823161454,
+      "sharpe": -0.6680583068176025,
+      "n_signals": 116,
+      "n_buy": 102,
+      "n_sell": 14,
+      "converged": false
+    },
+    "NVDA": {
+      "overall_accuracy": 0.48760330578512395,
+      "high_conf_accuracy": 0.4957983193277311,
+      "high_conf_n": 119,
+      "very_high_conf_accuracy": 0.4811320754716981,
+      "very_high_conf_n": 106,
+      "buy_accuracy": 0.48717948717948717,
+      "sell_accuracy": 0.5,
+      "ic": 0.15369195151684992,
+      "sharpe": 0.25128103989831785,
+      "n_signals": 121,
+      "n_buy": 117,
+      "n_sell": 4,
+      "converged": false
+    },
+    "AAPL": {
+      "overall_accuracy": 0.4774774774774775,
+      "high_conf_accuracy": 0.4722222222222222,
+      "high_conf_n": 108,
+      "very_high_conf_accuracy": 0.5119047619047619,
+      "very_high_conf_n": 84,
+      "buy_accuracy": 0.5063291139240507,
+      "sell_accuracy": 0.40625,
+      "ic": 0.06553889647708787,
+      "sharpe": 0.7687617548290006,
+      "n_signals": 111,
+      "n_buy": 79,
+      "n_sell": 32,
+      "converged": false
+    },
+    "TSLA": {
+      "overall_accuracy": 0.46774193548387094,
+      "high_conf_accuracy": 0.47540983606557374,
+      "high_conf_n": 122,
+      "very_high_conf_accuracy": 0.48623853211009177,
+      "very_high_conf_n": 109,
+      "buy_accuracy": 0.5,
+      "sell_accuracy": 0.4666666666666667,
+      "ic": 0.136380684783843,
+      "sharpe": -0.952153651333841,
+      "n_signals": 124,
+      "n_buy": 4,
+      "n_sell": 120,
+      "converged": false
+    }
+  },
+  "signals": {
+    "PLTR": {
+      "signal": "SELL",
+      "xgb_prob": 12.5,
+      "drl_action": "BUY",
+      "combined_conf": 87.5,
+      "current_price": 150.07
+    },
+    "NVDA": {
+      "signal": "SELL",
+      "xgb_prob": 16.2,
+      "drl_action": "BUY",
+      "combined_conf": 83.8,
+      "current_price": 178.1
+    },
+    "AAPL": {
+      "signal": "SELL",
+      "xgb_prob": 23.3,
+      "drl_action": "SELL",
+      "combined_conf": 

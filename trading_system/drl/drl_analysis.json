@@ -1,0 +1,72 @@
+{
+  "model": "AXIOM DRL v2",
+  "date": "2026-04-07",
+  "backtest": {
+    "PLTR": {
+      "overall_accuracy": 44.8,
+      "high_conf_accuracy_65": 44.3,
+      "high_conf_n": 115,
+      "very_high_conf_accuracy_75": 46.1,
+      "vhc_n": 102,
+      "ic": 0.0195,
+      "sharpe": -0.67
+    },
+    "NVDA": {
+      "overall_accuracy": 48.8,
+      "high_conf_accuracy_65": 49.6,
+      "high_conf_n": 119,
+      "very_high_conf_accuracy_75": 48.1,
+      "vhc_n": 106,
+      "ic": 0.1537,
+      "sharpe": 0.25
+    },
+    "AAPL": {
+      "overall_accuracy": 47.7,
+      "high_conf_accuracy_65": 47.2,
+      "high_conf_n": 108,
+      "very_high_conf_accuracy_75": 51.2,
+      "vhc_n": 84,
+      "ic": 0.0655,
+      "sharpe": 0.77
+    },
+    "TSLA": {
+      "overall_accuracy": 46.8,
+      "high_conf_accuracy_65": 47.5,
+      "high_conf_n": 122,
+      "very_high_conf_accuracy_75": 48.6,
+      "vhc_n": 109,
+      "ic": 0.1364,
+      "sharpe": -0.95
+    }
+  },
+  "signals": {
+    "PLTR": {
+      "signal": "HOLD",
+      "note": "XGB-DRL conflict in bear regime",
+      "xgb": 12.5,
+      "drl": "BUY",
+      "regime_flag": "BEAR"
+    },
+    "NVDA": {
+      "signal": "HOLD",
+      "note": "XGB-DRL conflict in bear regime",
+      "xgb": 16.2,
+      "drl": "BUY",
+      "regime_flag": "BEAR"
+    },
+    "AAPL": {
+      "signal": "SELL",
+      "conf": 86.4,
+      "note": "XGB+DRL agree SELL",
+      "xgb": 23.3,
+      "drl": "SELL"
+    },
+    "TSLA": {
+      "signal": "SELL",
+      "conf": 96.9,
+      "note": "XGB+DRL agree SELL (high conf)",
+      "xgb": 4.1,
+      "drl": "SELL"
+    }
+  }
+}
