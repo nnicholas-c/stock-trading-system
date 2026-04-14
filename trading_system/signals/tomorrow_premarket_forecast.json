@@ -1,0 +1,950 @@
+{
+  "generated_at": "2026-04-13T23:21:37.206650-07:00",
+  "methodology": {
+    "summary": "Trust-calibrated tomorrow forecast built from refreshed local market data, live pre-open news, and the latest local model outputs.",
+    "note": "PLTR uses the retrained deep model. AAPL, NVDA, and TSLA use the refreshed DRL live stack, then get shrunk toward neutral when model, technicals, and news disagree."
+  },
+  "tickers": {
+    "PLTR": {
+      "ticker": "PLTR",
+      "company_name": "Palantir",
+      "generated_at": "2026-04-13T23:21:37.206650-07:00",
+      "market_date": "2026-04-13",
+      "forecast_for_date": "2026-04-14",
+      "model_source": "pltr_deep_v1",
+      "signal": {
+        "signal": "HOLD",
+        "probability_up": 54.0,
+        "confidence": 35.4,
+        "pred_return_pct": 0.64,
+        "current_price": 132.37,
+        "target_price": 133.22,
+        "trust_score": 52.8,
+        "forecast_for_date": "2026-04-14",
+        "date": "2026-04-13",
+        "summary": "PLTR is set up as a HOLD into 2026-04-14, with 54.0% odds of finishing higher and a conservative +0.64% next-day move estimate."
+      },
+      "summary": "PLTR is set up as a HOLD into 2026-04-14, with 54.0% odds of finishing higher and a conservative +0.64% next-day move estimate.",
+      "drivers": [
+        {
+          "title": "Model anchor",
+          "direction": "bull",
+          "detail": "The retrained PLTR deep model is the main anchor here: it currently assigns 63.2% odds of an up day with a +0.78% 1-day move estimate."
+        },
+        {
+          "title": "Pre-open news window",
+          "direction": "bull",
+          "detail": "Pre-open PLTR news is mixed across 1 headline(s); the tape still needs technical confirmation after the open."
+        },
+        {
+          "title": "Technical setup",
+          "direction": "bull",
+          "detail": "The stock is -9.8% below its 20-day average after a -10.5% five-day move, so the near-term setup is more mean-reversion than trend-following."
+        },
+        {
+          "title": "Trust calibration (52.8% trust, 67% agreement)",
+          "direction": "neutral",
+          "detail": "There is some alignment, but not enough to trust a large directional move, so the forecast stays deliberately conservative."
+        }
+      ],
+      "news": {
+        "ticker": "PLTR",
+        "forecast_for_date": "2026-04-14",
+        "window_start_et": "2026-04-13T16:00:00-04:00",
+        "window_end_et": "2026-04-14T02:21:37.216960-04:00",
+        "next_open_et": "2026-04-14T09:30:00-04:00",
+        "analysis_mode": "heuristic",
+        "article_count": 1,
+        "material_count": 0,
+        "overall_sentiment": "NEUTRAL",
+        "intraday_bias": "FLAT",
+        "net_score": 1.0,
+        "used_recent_fallback": false,
+        "category_counts": {
+          "analyst": 1
+        },
+        "summary": "Pre-open PLTR news is mixed across 1 headline(s); the tape still needs technical confirmation after the open.",
+        "feature_values": {
+          "premkt_live_net": 1.0,
+          "premkt_live_article_count": 1.0,
+          "premkt_live_material_count": 0.0,
+          "premkt_live_competition_risk": 0.0,
+          "premkt_live_contract_signal": 0.0,
+          "premkt_live_earnings_signal": 0.0
+        },
+        "articles": [
+          {
+            "headline": "Palantir At $130: Buy, Sell or Hold - 24/7 Wall St.",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiggFBVV95cUxQdHVfclNvdXgtOUxXamFIdW9QUWhkaEhsS0Z6Zm9YeFE2RGFHN19TQ2JNSUJ5RTVpdWpFNmt5VHV3aURZeEZIQ1h1cHFIX2NUdXZJaFpsYjk5N3NpNEotT29yWFpGMHNSWmNlMGp3ZWRlQWY1M2NUd1hTZFp3RkxvZmln?oc=5\" target=\"_blank\"&gt;Palantir At $130: Buy, Sell or Hold&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;24/7 Wall St.&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQdHVfclNvdXgtOUxXamFIdW9QUWhkaEhsS0Z6Zm9YeFE2RGFHN19TQ2JNSUJ5RTVpdWpFNmt5VHV3aURZeEZIQ1h1cHFIX2NUdXZJaFpsYjk5N3NpNEotT29yWFpGMHNSWmNlMGp3ZWRlQWY1M2NUd1hTZFp3RkxvZmln?oc=5",
+            "published": "Mon, 13 Apr 2026 20:18:57 GMT",
+            "published_at_et": "2026-04-13T16:18:57-04:00",
+            "in_window": true,
+            "sentiment": "BULLISH",
+            "impact": "MEDIUM",
+            "net_score": 1,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline tone leans constructive for demand, execution, or positioning."
+          }
+        ]
+      },
+      "technical_snapshot": {
+        "rsi14": 27.6,
+        "ret_1d_pct": 3.37,
+        "ret_5d_pct": -10.52,
+        "ret_20d_pct": -12.31,
+        "pct_from_ma20": -9.85,
+        "pct_from_ma50": -8.04,
+        "volume_ratio": 1.36
+      },
+      "component_scores": {
+        "model": 0.3771,
+        "technical": -0.3759,
+        "news": 0.24,
+        "raw": 0.206,
+        "final": 0.1427,
+        "agreement": 0.6667
+      },
+      "card": {
+        "sig": "HOLD",
+        "sc": "hold",
+        "conf": 0.354,
+        "px": 132.37,
+        "chg": 3.37,
+        "l1h": 0.35,
+        "l4h": 0.77,
+        "l1d": 0.64,
+        "l5d": -1.81,
+        "l10d": -0.35,
+        "l20d": -1.36,
+        "tgt": 133.22,
+        "up": 0.6,
+        "headline_summary": "PLTR is set up as a HOLD into 2026-04-14, with 54.0% odds of finishing higher and a conservative +0.64% next-day move estimate."
+      }
+    },
+    "AAPL": {
+      "ticker": "AAPL",
+      "company_name": "Apple",
+      "generated_at": "2026-04-13T23:21:37.206650-07:00",
+      "market_date": "2026-04-13",
+      "forecast_for_date": "2026-04-14",
+      "model_source": "drl_v2_live",
+      "signal": {
+        "signal": "HOLD",
+        "probability_up": 50.7,
+        "confidence": 33.0,
+        "pred_return_pct": 0.03,
+        "current_price": 259.2,
+        "target_price": 259.27,
+        "trust_score": 58.0,
+        "forecast_for_date": "2026-04-14",
+        "date": "2026-04-13",
+        "summary": "AAPL is set up as a HOLD into 2026-04-14, with 50.7% odds of finishing higher and a conservative +0.03% next-day move estimate."
+      },
+      "summary": "AAPL is set up as a HOLD into 2026-04-14, with 50.7% odds of finishing higher and a conservative +0.03% next-day move estimate.",
+      "drivers": [
+        {
+          "title": "Model anchor",
+          "direction": "neutral",
+          "detail": "The refreshed DRL + XGBoost live stack leans 50.2% up. XGB is 51.1% up while DRL buy / sell reads 34.7% / 36.2%."
+        },
+        {
+          "title": "Pre-open news window",
+          "direction": "neutral",
+          "detail": "No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
+        },
+        {
+          "title": "Technical setup",
+          "direction": "neutral",
+          "detail": "Technicals are mixed: RSI 14 is 61.5 and price is 2.2% from the 20-day average, so the model avoids taking a large directional swing from price action alone."
+        },
+        {
+          "title": "Trust calibration (58.0% trust, 50% agreement)",
+          "direction": "neutral",
+          "detail": "There is some alignment, but not enough to trust a large directional move, so the forecast stays deliberately conservative."
+        }
+      ],
+      "news": {
+        "ticker": "AAPL",
+        "forecast_for_date": "2026-04-14",
+        "window_start_et": "2026-04-13T16:00:00-04:00",
+        "window_end_et": "2026-04-14T02:21:37.702759-04:00",
+        "next_open_et": "2026-04-14T09:30:00-04:00",
+        "analysis_mode": "heuristic",
+        "article_count": 5,
+        "material_count": 0,
+        "overall_sentiment": "NEUTRAL",
+        "intraday_bias": "FLAT",
+        "net_score": 0.0,
+        "used_recent_fallback": true,
+        "category_counts": {
+          "analyst": 5
+        },
+        "summary": "No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
+        "feature_values": {
+          "premkt_live_net": 0.0,
+          "premkt_live_article_count": 5.0,
+          "premkt_live_material_count": 0.0,
+          "premkt_live_competition_risk": 0.0,
+          "premkt_live_contract_signal": 0.0,
+          "premkt_live_earnings_signal": 0.0
+        },
+        "articles": [
+          {
+            "headline": "Warren Buffett Reveals the Real Reason Berkshire Has Been Dumping Apple Stock - Yahoo Finance",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMioAFBVV95cUxQZXNnYWdTcm9IaW1qQWJ1LW1LTEdnUGtlOXhUN3IyT1gxX2k2ak8zbDVsZERGRklHYzFrRW8xWGhtbXFzaWVxWF9QTGRFZXVhRFhTcmZBNlBUNEFMU3lNekNMbW9jVWdYOThkcWVRMWRpOTJJU0liZUg2UHVqOFFFZ1RkaHJXYTVuS1piRzdXRDBXVzFvT1FySFB3bkxCeVZu?oc=5\" target=\"_blank\"&gt;Warren Buffett Reveals the Real Reason Berkshire Has Been Dumping Apple Stock&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQZXNnYWdTcm9IaW1qQWJ1LW1LTEdnUGtlOXhUN3IyT1gxX2k2ak8zbDVsZERGRklHYzFrRW8xWGhtbXFzaWVxWF9QTGRFZXVhRFhTcmZBNlBUNEFMU3lNekNMbW9jVWdYOThkcWVRMWRpOTJJU0liZUg2UHVqOFFFZ1RkaHJXYTVuS1piRzdXRDBXVzFvT1FySFB3bkxCeVZu?oc=5",
+            "published": "Mon, 13 Apr 2026 14:20:00 GMT",
+            "published_at_et": "2026-04-13T10:20:00-04:00",
+            "in_window": false,
+            "sentiment": "NEUTRAL",
+            "impact": "MEDIUM",
+            "net_score": 0,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          },
+          {
+            "headline": "Apple Stock (AAPL) Opinions on Foldable iPhone Delays - Quiver Quantitative",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMilAFBVV95cUxNQ2toc0dMc1hZaHVQMnowU0xyLTdZYXdiY0RKQy14WnNBMFE1NEtoVHZpejlGV0FXS05uQU5XQ25kYkNvMVhXOUM3YkN3V3duUXFCamFzWV9Nb1RIVEUyMjltZFJ3RlBPQlU1OEtwRjJKdjA2OEozcVJjRkZJQl9aUnpHNEIxYkFWZUVDYUtFOXRpMDNM?oc=5\" target=\"_blank\"&gt;Apple Stock (AAPL) Opinions on Foldable iPhone Delays&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Quiver Quantitative&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNQ2toc0dMc1hZaHVQMnowU0xyLTdZYXdiY0RKQy14WnNBMFE1NEtoVHZpejlGV0FXS05uQU5XQ25kYkNvMVhXOUM3YkN3V3duUXFCamFzWV9Nb1RIVEUyMjltZFJ3RlBPQlU1OEtwRjJKdjA2OEozcVJjRkZJQl9aUnpHNEIxYkFWZUVDYUtFOXRpMDNM?oc=5",
+            "published": "Sun, 12 Apr 2026 14:06:00 GMT",
+            "published_at_et": "2026-04-12T10:06:00-04:00",
+            "in_window": false,
+            "sentiment": "NEUTRAL",
+            "impact": "MEDIUM",
+            "net_score": 0,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          },
+          {
+            "headline": "Apple Gaining Market Share In PCs, Smartphones - Investor's Business Daily",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMimwFBVV95cUxObFhrVEJ6U2ZrRkZKQlFYUHRUSVlKMDhDdXhTQUV1UnhMTG51MmpmeUc3UEFNRXNVd2UtUUVXZERzNEJTbUtJLUJCU1Nkc2hKd2pNamNvcmdlVmhXZTNybE1NRGlBM0NrbW15c2xaVnNxdkVYaldXNFlwT3dTMm04Mk1ZR1F5M0g0cXpFLW5paGREMVhHdU5ncFZ0NA?oc=5\" target=\"_blank\"&gt;Apple Gaining Market Share In PCs, Smartphones&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Investor's Business Daily&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxObFhrVEJ6U2ZrRkZKQlFYUHRUSVlKMDhDdXhTQUV1UnhMTG51MmpmeUc3UEFNRXNVd2UtUUVXZERzNEJTbUtJLUJCU1Nkc2hKd2pNamNvcmdlVmhXZTNybE1NRGlBM0NrbW15c2xaVnNxdkVYaldXNFlwT3dTMm04Mk1ZR1F5M0g0cXpFLW5paGREMVhHdU5ncFZ0NA?oc=5",
+            "published": "Fri, 10 Apr 2026 20:36:00 GMT",
+            "published_at_et": "2026-04-10T16:36:00-04:00",
+            "in_window": false,
+            "sentiment": "NEUTRAL",
+            "impact": "MEDIUM",
+            "net_score": 0,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          },
+          {
+            "headline": "Apple unveils its most affordable laptop ever. What the MacBook Neo means for investors",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxOcGNhWU5ER2VNQ3RqLWtNQThBdVZSNTJ6NGRic1F0dzMtSEVfanRQa0o2WjdpeE12XzVpdlM5bmxHRHpVZDJKZDduWjVBVzRQYVNVdm9McUtLWDZHSW1Mc0UzVWFxMUhrMl83SllSakpRYm5yU1FmcmZEWi1YYXVPaVBybmJkclNTeWEzb0ZzMkJHaGl4SkVud1c5LXJUd0lpM2V1eVJwNUQ2NGdTQ2NqeWdQZ18tbVBVVnJOTmtFYko?oc=5\" target=\"_blank\"&gt;Apple unveils its most affordable laptop ever. What the MacBook Neo means for investors&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;CNBC&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOcGNhWU5ER2VNQ3RqLWtNQThBdVZSNTJ6NGRic1F0dzMtSEVfanRQa0o2WjdpeE12XzVpdlM5bmxHRHpVZDJKZDduWjVBVzRQYVNVdm9McUtLWDZHSW1Mc0UzVWFxMUhrMl83SllSakpRYm5yU1FmcmZEWi1YYXVPaVBybmJkclNTeWEzb0ZzMkJHaGl4SkVud1c5LXJUd0lpM2V1eVJwNUQ2NGdTQ2NqeWdQZ18tbVBVVnJOTmtFYko?oc=5",
+            "published": "Fri, 10 Apr 2026 16:09:46 GMT",
+            "published_at_et": "2026-04-10T12:09:46-04:00",
+            "in_window": false,
+            "sentiment": "BEARISH",
+            "impact": "MEDIUM",
+            "net_score": -1,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline tone leans cautious on multiple, competition, or risk."
+          },
+          {
+            "headline": "Is a Foldable iPhone a Reason to Buy Apple's Stock? - The Motley Fool",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMilwFBVV95cUxNZi1XbE4xS01uTUFLemotSUZ4bGF6SDFUdHFsSFZUTWEtSTRHSXc5dzhUdzYyMDVkc3RvejBvb1dKeUljMm1CSWlvZmtaMlhrRU91bDJBSzVhM1BPX3BlX2JpeVpjNGZfSlczUXZsVW00N3N5V1JQdHpjVC01MlFnbjRqVERZMlphSnlXRXNoSkIyX3BvZGk0?oc=5\" target=\"_blank\"&gt;Is a Foldable iPhone a Reason to Buy Apple's Stock?&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;The Motley Fool&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNZi1XbE4xS01uTUFLemotSUZ4bGF6SDFUdHFsSFZUTWEtSTRHSXc5dzhUdzYyMDVkc3RvejBvb1dKeUljMm1CSWlvZmtaMlhrRU91bDJBSzVhM1BPX3BlX2JpeVpjNGZfSlczUXZsVW00N3N5V1JQdHpjVC01MlFnbjRqVERZMlphSnlXRXNoSkIyX3BvZGk0?oc=5",
+            "published": "Sun, 12 Apr 2026 14:25:00 GMT",
+            "published_at_et": "2026-04-12T10:25:00-04:00",
+            "in_window": false,
+            "sentiment": "BULLISH",
+            "impact": "MEDIUM",
+            "net_score": 1,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline tone leans constructive for demand, execution, or positioning."
+          }
+        ]
+      },
+      "technical_snapshot": {
+        "rsi14": 61.5,
+        "ret_1d_pct": -0.49,
+        "ret_5d_pct": 0.13,
+        "ret_20d_pct": 3.63,
+        "pct_from_ma20": 2.15,
+        "pct_from_ma50": -0.65,
+        "volume_ratio": 0.86
+      },
+      "component_scores": {
+        "model": 0.0064,
+        "technical": 0.1221,
+        "news": 0.0,
+        "raw": 0.0341,
+        "final": 0.0248,
+        "agreement": 0.5
+      },
+      "card": {
+        "sig": "HOLD",
+        "sc": "hold",
+        "conf": 0.33,
+        "px": 259.2,
+        "chg": -0.49,
+        "l1h": 0.0,
+        "l4h": 0.0,
+        "l1d": 0.03,
+        "l5d": 0.1,
+        "l10d": 0.83,
+        "l20d": 1.41,
+        "tgt": 259.27,
+        "up": 0.0,
+        "headline_summary": "AAPL is set up as a HOLD into 2026-04-14, with 50.7% odds of finishing higher and a conservative +0.03% next-day move estimate."
+      }
+    },
+    "NVDA": {
+      "ticker": "NVDA",
+      "company_name": "NVIDIA",
+      "generated_at": "2026-04-13T23:21:37.206650-07:00",
+      "market_date": "2026-04-13",
+      "forecast_for_date": "2026-04-14",
+      "model_source": "drl_v2_live",
+      "signal": {
+        "signal": "HOLD",
+        "probability_up": 55.3,
+        "confidence": 40.4,
+        "pred_return_pct": 0.63,
+        "current_price": 189.31,
+        "target_price": 190.51,
+        "trust_score": 58.0,
+        "forecast_for_date": "2026-04-14",
+        "date": "2026-04-13",
+        "summary": "NVDA is set up as a HOLD into 2026-04-14, with 55.3% odds of finishing higher and a conservative +0.63% next-day move estimate."
+      },
+      "summary": "NVDA is set up as a HOLD into 2026-04-14, with 55.3% odds of finishing higher and a conservative +0.63% next-day move estimate.",
+      "drivers": [
+        {
+          "title": "Model anchor",
+          "direction": "bull",
+          "detail": "The refreshed DRL + XGBoost live stack leans 58.1% up. XGB is 55.3% up while DRL buy / sell reads 38.1% / 22.8%."
+        },
+        {
+          "title": "Pre-open news window",
+          "direction": "neutral",
+          "detail": "Pre-open NVDA news is mixed across 3 headline(s); the tape still needs technical confirmation after the open."
+        },
+        {
+          "title": "Technical setup",
+          "direction": "bull",
+          "detail": "Price is holding above the short-term trend anchor with a 6.6% five-day move, which keeps the immediate tape constructive."
+        },
+        {
+          "title": "Trust calibration (58.0% trust, 100% agreement)",
+          "direction": "neutral",
+          "detail": "There is some alignment, but not enough to trust a large directional move, so the forecast stays deliberately conservative."
+        }
+      ],
+      "news": {
+        "ticker": "NVDA",
+        "forecast_for_date": "2026-04-14",
+        "window_start_et": "2026-04-13T16:00:00-04:00",
+        "window_end_et": "2026-04-14T02:21:38.221136-04:00",
+        "next_open_et": "2026-04-14T09:30:00-04:00",
+        "analysis_mode": "heuristic",
+        "article_count": 3,
+        "material_count": 1,
+        "overall_sentiment": "NEUTRAL",
+        "intraday_bias": "FLAT",
+        "net_score": 0.0,
+        "used_recent_fallback": false,
+        "category_counts": {
+          "analyst": 3
+        },
+        "summary": "Pre-open NVDA news is mixed across 3 headline(s); the tape still needs technical confirmation after the open.",
+        "feature_values": {
+          "premkt_live_net": 0.0,
+          "premkt_live_article_count": 3.0,
+          "premkt_live_material_count": 1.0,
+          "premkt_live_competition_risk": 0.0,
+          "premkt_live_contract_signal": 0.0,
+          "premkt_live_earnings_signal": 0.0
+        },
+        "articles": [
+          {
+            "headline": "PC stocks fall after Nvidia denies report in talks to buy a PC-focused company (update) (NVDA:NASDAQ) - Seeking Alpha",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiswFBVV95cUxPeXFIZWsyU0lvaEJGR2ZaNTVsQWJzVzBucS1NOERjNEtlaF84MXVfck5hZG1rSzhxSFRBQWx4UFBNQ0U2VlViYnZMaGJ6T0k4dTU0MkhBUG5MUW0yWld3R2t1OWNvTlFya0kwRnRubldHU2EtLUF2WUV6R2EtUTZ2YVFfUnBSNHcxbWVUNHVBRnNvODJkR2NpVzVIYVlzdExobVc3T3c3dXZRbkdpUnNJeE5zMA?oc=5\" target=\"_blank\"&gt;PC stocks fall after Nvidia denies report in talks to buy a PC-focused company (update) (NVDA:NASDAQ)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Seeking Alpha&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPeXFIZWsyU0lvaEJGR2ZaNTVsQWJzVzBucS1NOERjNEtlaF84MXVfck5hZG1rSzhxSFRBQWx4UFBNQ0U2VlViYnZMaGJ6T0k4dTU0MkhBUG5MUW0yWld3R2t1OWNvTlFya0kwRnRubldHU2EtLUF2WUV6R2EtUTZ2YVFfUnBSNHcxbWVUNHVBRnNvODJkR2NpVzVIYVlzdExobVc3T3c3dXZRbkdpUnNJeE5zMA?oc=5",
+            "published": "Mon, 13 Apr 2026 20:36:00 GMT",
+            "published_at_et": "2026-04-13T16:36:00-04:00",
+            "in_window": true,
+            "sentiment": "NEUTRAL",
+            "impact": "MEDIUM",
+            "net_score": 0,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          },
+          {
+            "headline": "NVIDIA (NVDA) Denies Acquisition Rumors, Impact on PC Stocks See",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiowFBVV95cUxOeDl0cHFhQzBhVTFiNFJ6ZkhPa0h4cjVrTHh3RWN4bjFLOERIeHZIMERERXpzQ0NVcFctTkVuMnZ1T19JYmdaTm5iZnBDRXEyMGNYWE5icFRhTmZ3V0RkeGZnZThMZVg0UUFUR1NjcV9kb0QxbFlLNnhuWS1VNExZN3VMWk1XUHRwUUhQM0ZqTUd1eURPbHQxUVdtUVlUQXpCUEc0?oc=5\" target=\"_blank\"&gt;NVIDIA (NVDA) Denies Acquisition Rumors, Impact on PC Stocks See&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;GuruFocus&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOeDl0cHFhQzBhVTFiNFJ6ZkhPa0h4cjVrTHh3RWN4bjFLOERIeHZIMERERXpzQ0NVcFctTkVuMnZ1T19JYmdaTm5iZnBDRXEyMGNYWE5icFRhTmZ3V0RkeGZnZThMZVg0UUFUR1NjcV9kb0QxbFlLNnhuWS1VNExZN3VMWk1XUHRwUUhQM0ZqTUd1eURPbHQxUVdtUVlUQXpCUEc0?oc=5",
+            "published": "Mon, 13 Apr 2026 22:56:20 GMT",
+            "published_at_et": "2026-04-13T18:56:20-04:00",
+            "in_window": true,
+            "sentiment": "NEUTRAL",
+            "impact": "HIGH",
+            "net_score": 0,
+            "is_material": true,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          },
+          {
+            "headline": "Nvidia Stock (NVDA) Hits \u2018Deep Value,\u2019 Says Top Investor",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTDRDOUJQVzNxc2U1a2tFcENnejdrUVFfeTVnLVFOUE9OSm9xRFdhT2lER2VJWGJNYTNQWDBZeDZJdFV0aTVEVXZhTkZKZ0dTOWtTSzl1Nk02cUZuNXIydU0yOER2UXI1ZmhOYmFOSFVra1J3c1pjQmFEVmZENVctZTJaSENlU3V0?oc=5\" target=\"_blank\"&gt;Nvidia Stock (NVDA) Hits \u2018Deep Value,\u2019 Says Top Investor&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;TipRanks&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTDRDOUJQVzNxc2U1a2tFcENnejdrUVFfeTVnLVFOUE9OSm9xRFdhT2lER2VJWGJNYTNQWDBZeDZJdFV0aTVEVXZhTkZKZ0dTOWtTSzl1Nk02cUZuNXIydU0yOER2UXI1ZmhOYmFOSFVra1J3c1pjQmFEVmZENVctZTJaSENlU3V0?oc=5",
+            "published": "Mon, 13 Apr 2026 20:45:09 GMT",
+            "published_at_et": "2026-04-13T16:45:09-04:00",
+            "in_window": true,
+            "sentiment": "NEUTRAL",
+            "impact": "MEDIUM",
+            "net_score": 0,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          }
+        ]
+      },
+      "technical_snapshot": {
+        "rsi14": 66.44,
+        "ret_1d_pct": 0.36,
+        "ret_5d_pct": 6.57,
+        "ret_20d_pct": 5.03,
+        "pct_from_ma20": 6.43,
+        "pct_from_ma50": 4.01,
+        "volume_ratio": 0.79
+      },
+      "component_scores": {
+        "model": 0.2884,
+        "technical": 0.4069,
+        "news": 0.0,
+        "raw": 0.2604,
+        "final": 0.1893,
+        "agreement": 1.0
+      },
+      "card": {
+        "sig": "HOLD",
+        "sc": "hold",
+        "conf": 0.404,
+        "px": 189.31,
+        "chg": 0.36,
+        "l1h": 0.0,
+        "l4h": 0.0,
+        "l1d": 0.63,
+        "l5d": 3.29,
+        "l10d": 3.08,
+        "l20d": 4.66,
+        "tgt": 190.51,
+        "up": 0.6,
+        "headline_summary": "NVDA is set up as a HOLD into 2026-04-14, with 55.3% odds of finishing higher and a conservative +0.63% next-day move estimate."
+      }
+    },
+    "TSLA": {
+      "ticker": "TSLA",
+      "company_name": "Tesla",
+      "generated_at": "2026-04-13T23:21:37.206650-07:00",
+      "market_date": "2026-04-13",
+      "forecast_for_date": "2026-04-14",
+      "model_source": "drl_v2_live",
+      "signal": {
+        "signal": "HOLD",
+        "probability_up": 42.7,
+        "confidence": 43.7,
+        "pred_return_pct": -0.99,
+        "current_price": 352.42,
+        "target_price": 348.94,
+        "trust_score": 58.0,
+        "forecast_for_date": "2026-04-14",
+        "date": "2026-04-13",
+        "summary": "TSLA is set up as a HOLD into 2026-04-14, with 42.7% odds of finishing higher and a conservative -0.99% next-day move estimate."
+      },
+      "summary": "TSLA is set up as a HOLD into 2026-04-14, with 42.7% odds of finishing higher and a conservative -0.99% next-day move estimate.",
+      "drivers": [
+        {
+          "title": "Model anchor",
+          "direction": "bear",
+          "detail": "The refreshed DRL + XGBoost live stack leans 39.5% up. XGB is 34.0% up while DRL buy / sell reads 31.6% / 34.3%."
+        },
+        {
+          "title": "Pre-open news window",
+          "direction": "bear",
+          "detail": "Pre-open TSLA news leans bearish with 1 headline(s); competition, valuation, or macro pressure dominate the window."
+        },
+        {
+          "title": "Technical setup",
+          "direction": "neutral",
+          "detail": "Technicals are mixed: RSI 14 is 37.0 and price is -4.5% from the 20-day average, so the model avoids taking a large directional swing from price action alone."
+        },
+        {
+          "title": "Trust calibration (58.0% trust, 100% agreement)",
+          "direction": "neutral",
+          "detail": "There is some alignment, but not enough to trust a large directional move, so the forecast stays deliberately conservative."
+        }
+      ],
+      "news": {
+        "ticker": "TSLA",
+        "forecast_for_date": "2026-04-14",
+        "window_start_et": "2026-04-13T16:00:00-04:00",
+        "window_end_et": "2026-04-14T02:21:38.637834-04:00",
+        "next_open_et": "2026-04-14T09:30:00-04:00",
+        "analysis_mode": "heuristic",
+        "article_count": 1,
+        "material_count": 0,
+        "overall_sentiment": "BEARISH",
+        "intraday_bias": "DOWN",
+        "net_score": -1.0,
+        "used_recent_fallback": false,
+        "category_counts": {
+          "analyst": 1
+        },
+        "summary": "Pre-open TSLA news leans bearish with 1 headline(s); competition, valuation, or macro pressure dominate the window.",
+        "feature_values": {
+          "premkt_live_net": -1.0,
+          "premkt_live_article_count": 1.0,
+          "premkt_live_material_count": 0.0,
+          "premkt_live_competition_risk": 0.0,
+          "premkt_live_contract_signal": 0.0,
+          "premkt_live_earnings_signal": 0.0
+        },
+        "articles": [
+          {
+            "headline": "Elon Musk's SpaceX IPO Could Pressure Tesla (TSLA)",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMijwFBVV95cUxNclhoNEVtd3R4a1hsaWVjZHFTbGtVS3JMNl90SzQ5bExBd1FfVHZVSGJZcmVBZmE2ajU1cUgtbk1VNzV0dXpOeXVaRXJ4VFJJMlliaXBOSGxDWXRQdGdVVnRGMWhXTWJpd2lXeTFYSVhubUtibzZkTlZkeV9rQkVVd3ZNbjJuWjhhNnFsTU1wQQ?oc=5\" target=\"_blank\"&gt;Elon Musk's SpaceX IPO Could Pressure Tesla (TSLA)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;GuruFocus&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNclhoNEVtd3R4a1hsaWVjZHFTbGtVS3JMNl90SzQ5bExBd1FfVHZVSGJZcmVBZmE2ajU1cUgtbk1VNzV0dXpOeXVaRXJ4VFJJMlliaXBOSGxDWXRQdGdVVnRGMWhXTWJpd2lXeTFYSVhubUtibzZkTlZkeV9rQkVVd3ZNbjJuWjhhNnFsTU1wQQ?oc=5",
+            "published": "Tue, 14 Apr 2026 05:07:57 GMT",
+            "published_at_et": "2026-04-14T01:07:57-04:00",
+            "in_window": true,
+            "sentiment": "BEARISH",
+            "impact": "MEDIUM",
+            "net_score": -1,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline tone leans cautious on multiple, competition, or risk."
+          }
+        ]
+      },
+      "technical_snapshot": {
+        "rsi14": 36.95,
+        "ret_1d_pct": 0.99,
+        "ret_5d_pct": -0.11,
+        "ret_20d_pct": -9.91,
+        "pct_from_ma20": -4.47,
+        "pct_from_ma50": -10.33,
+        "volume_ratio": 0.83
+      },
+      "component_scores": {
+        "model": -0.3737,
+        "technical": -0.4286,
+        "news": -0.24,
+        "raw": -0.3607,
+        "final": -0.2622,
+        "agreement": 1.0
+      },
+      "card": {
+        "sig": "HOLD",
+        "sc": "hold",
+        "conf": 0.437,
+        "px": 352.42,
+        "chg": 0.99,
+        "l1h": -0.35,
+        "l4h": -0.77,
+        "l1d": -0.99,
+        "l5d": -2.11,
+        "l10d": -5.25,
+        "l20d": -8.02,
+        "tgt": 348.94,
+        "up": -1.0,
+        "headline_summary": "TSLA is set up as a HOLD into 2026-04-14, with 42.7% odds of finishing higher and a conservative -0.99% next-day move estimate."
+      }
+    }
+  },
+  "news_feed": [
+    {
+      "id": 10316,
+      "ticker": "PLTR",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.3333333333333333,
+      "age": "10h",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQdHVfclNvdXgtOUxXamFIdW9QUWhkaEhsS0Z6Zm9YeFE2RGFHN19TQ2JNSUJ5RTVpdWpFNmt5VHV3aURZeEZIQ1h1cHFIX2NUdXZJaFpsYjk5N3NpNEotT29yWFpGMHNSWmNlMGp3ZWRlQWY1M2NUd1hTZFp3RkxvZmln?oc=5",
+      "headline": "Palantir At $130: Buy, Sell or Hold - 24/7 Wall St.",
+      "source": "Google News \u00b7 Mon, 13 Apr 2026 20:18:57 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "+0.8%",
+      "v5": {
+        "mb": 0.00064,
+        "nm": 0.001,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": 0.0082
+      },
+      "summary": "Headline tone leans constructive for demand, execution, or positioning.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMiggFBVV95cUxQdHVfclNvdXgtOUxXamFIdW9QUWhkaEhsS0Z6Zm9YeFE2RGFHN19TQ2JNSUJ5RTVpdWpFNmt5VHV3aURZeEZIQ1h1cHFIX2NUdXZJaFpsYjk5N3NpNEotT29yWFpGMHNSWmNlMGp3ZWRlQWY1M2NUd1hTZFp3RkxvZmln?oc=5\" target=\"_blank\"&gt;Palantir At $130: Buy, Sell or Hold&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;24/7 Wall St.&lt;/font&gt;\n\nHeadline tone leans constructive for demand, execution, or positioning.\n\nAXIOM live context: Pre-open PLTR news is mixed across 1 headline(s); the tape still needs technical confirmation after the open.",
+      "vader_detail": "Headline tone leans constructive for demand, execution, or positioning.",
+      "px_impact": "+0.8% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "+0.8%"
+        },
+        {
+          "l": "1W",
+          "v": "-1.6%"
+        },
+        {
+          "l": "1M",
+          "v": "+0.0%"
+        }
+      ]
+    },
+    {
+      "id": 9922,
+      "ticker": "AAPL",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.0,
+      "age": "16h",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQZXNnYWdTcm9IaW1qQWJ1LW1LTEdnUGtlOXhUN3IyT1gxX2k2ak8zbDVsZERGRklHYzFrRW8xWGhtbXFzaWVxWF9QTGRFZXVhRFhTcmZBNlBUNEFMU3lNekNMbW9jVWdYOThkcWVRMWRpOTJJU0liZUg2UHVqOFFFZ1RkaHJXYTVuS1piRzdXRDBXVzFvT1FySFB3bkxCeVZu?oc=5",
+      "headline": "Warren Buffett Reveals the Real Reason Berkshire Has Been Dumping Apple Stock - Yahoo Finance",
+      "source": "Google News \u00b7 Mon, 13 Apr 2026 14:20:00 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "+0.0%",
+      "v5": {
+        "mb": 3e-05,
+        "nm": 0.0,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": 0.0003
+      },
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMioAFBVV95cUxQZXNnYWdTcm9IaW1qQWJ1LW1LTEdnUGtlOXhUN3IyT1gxX2k2ak8zbDVsZERGRklHYzFrRW8xWGhtbXFzaWVxWF9QTGRFZXVhRFhTcmZBNlBUNEFMU3lNekNMbW9jVWdYOThkcWVRMWRpOTJJU0liZUg2UHVqOFFFZ1RkaHJXYTVuS1piRzdXRDBXVzFvT1FySFB3bkxCeVZu?oc=5\" target=\"_blank\"&gt;Warren Buffett Reveals the Real Reason Berkshire Has Been Dumping Apple Stock&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.\n\nAXIOM live context: No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
+      "vader_detail": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "+0.0% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "+0.0%"
+        },
+        {
+          "l": "1W",
+          "v": "+0.1%"
+        },
+        {
+          "l": "1M",
+          "v": "+0.8%"
+        }
+      ]
+    },
+    {
+      "id": 10409,
+      "ticker": "AAPL",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.0,
+      "age": "2d",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNQ2toc0dMc1hZaHVQMnowU0xyLTdZYXdiY0RKQy14WnNBMFE1NEtoVHZpejlGV0FXS05uQU5XQ25kYkNvMVhXOUM3YkN3V3duUXFCamFzWV9Nb1RIVEUyMjltZFJ3RlBPQlU1OEtwRjJKdjA2OEozcVJjRkZJQl9aUnpHNEIxYkFWZUVDYUtFOXRpMDNM?oc=5",
+      "headline": "Apple Stock (AAPL) Opinions on Foldable iPhone Delays - Quiver Quantitative",
+      "source": "Google News \u00b7 Sun, 12 Apr 2026 14:06:00 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "+0.0%",
+      "v5": {
+        "mb": 3e-05,
+        "nm": 0.0,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": 0.0003
+      },
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMilAFBVV95cUxNQ2toc0dMc1hZaHVQMnowU0xyLTdZYXdiY0RKQy14WnNBMFE1NEtoVHZpejlGV0FXS05uQU5XQ25kYkNvMVhXOUM3YkN3V3duUXFCamFzWV9Nb1RIVEUyMjltZFJ3RlBPQlU1OEtwRjJKdjA2OEozcVJjRkZJQl9aUnpHNEIxYkFWZUVDYUtFOXRpMDNM?oc=5\" target=\"_blank\"&gt;Apple Stock (AAPL) Opinions on Foldable iPhone Delays&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Quiver Quantitative&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.\n\nAXIOM live context: No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
+      "vader_detail": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "+0.0% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "+0.0%"
+        },
+        {
+          "l": "1W",
+          "v": "+0.1%"
+        },
+        {
+          "l": "1M",
+          "v": "+0.8%"
+        }
+      ]
+    },
+    {
+      "id": 10483,
+      "ticker": "AAPL",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.0,
+      "age": "3d",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxObFhrVEJ6U2ZrRkZKQlFYUHRUSVlKMDhDdXhTQUV1UnhMTG51MmpmeUc3UEFNRXNVd2UtUUVXZERzNEJTbUtJLUJCU1Nkc2hKd2pNamNvcmdlVmhXZTNybE1NRGlBM0NrbW15c2xaVnNxdkVYaldXNFlwT3dTMm04Mk1ZR1F5M0g0cXpFLW5paGREMVhHdU5ncFZ0NA?oc=5",
+      "headline": "Apple Gaining Market Share In PCs, Smartphones - Investor's Business Daily",
+      "source": "Google News \u00b7 Fri, 10 Apr 2026 20:36:00 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "+0.0%",
+      "v5": {
+        "mb": 3e-05,
+        "nm": 0.0,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": 0.0003
+      },
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMimwFBVV95cUxObFhrVEJ6U2ZrRkZKQlFYUHRUSVlKMDhDdXhTQUV1UnhMTG51MmpmeUc3UEFNRXNVd2UtUUVXZERzNEJTbUtJLUJCU1Nkc2hKd2pNamNvcmdlVmhXZTNybE1NRGlBM0NrbW15c2xaVnNxdkVYaldXNFlwT3dTMm04Mk1ZR1F5M0g0cXpFLW5paGREMVhHdU5ncFZ0NA?oc=5\" target=\"_blank\"&gt;Apple Gaining Market Share In PCs, Smartphones&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Investor's Business Daily&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.\n\nAXIOM live context: No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
+      "vader_detail": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "+0.0% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "+0.0%"
+        },
+        {
+          "l": "1W",
+          "v": "+0.1%"
+        },
+        {
+          "l": "1M",
+          "v": "+0.8%"
+        }
+      ]
+    },
+    {
+      "id": 10018,
+      "ticker": "AAPL",
+      "dir": "bear",
+      "impact": "MEDIUM",
+      "vader": -0.3333333333333333,
+      "age": "4d",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOcGNhWU5ER2VNQ3RqLWtNQThBdVZSNTJ6NGRic1F0dzMtSEVfanRQa0o2WjdpeE12XzVpdlM5bmxHRHpVZDJKZDduWjVBVzRQYVNVdm9McUtLWDZHSW1Mc0UzVWFxMUhrMl83SllSakpRYm5yU1FmcmZEWi1YYXVPaVBybmJkclNTeWEzb0ZzMkJHaGl4SkVud1c5LXJUd0lpM2V1eVJwNUQ2NGdTQ2NqeWdQZ18tbVBVVnJOTmtFYko?oc=5",
+      "headline": "Apple unveils its most affordable laptop ever. What the MacBook Neo means for investors",
+      "source": "Google News \u00b7 Fri, 10 Apr 2026 16:09:46 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "-0.1%",
+      "v5": {
+        "mb": 3e-05,
+        "nm": -0.001,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": -0.0015
+      },
+      "summary": "Headline tone leans cautious on multiple, competition, or risk.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxOcGNhWU5ER2VNQ3RqLWtNQThBdVZSNTJ6NGRic1F0dzMtSEVfanRQa0o2WjdpeE12XzVpdlM5bmxHRHpVZDJKZDduWjVBVzRQYVNVdm9McUtLWDZHSW1Mc0UzVWFxMUhrMl83SllSakpRYm5yU1FmcmZEWi1YYXVPaVBybmJkclNTeWEzb0ZzMkJHaGl4SkVud1c5LXJUd0lpM2V1eVJwNUQ2NGdTQ2NqeWdQZ18tbVBVVnJOTmtFYko?oc=5\" target=\"_blank\"&gt;Apple unveils its most affordable laptop ever. What the MacBook Neo means for investors&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;CNBC&lt;/font&gt;\n\nHeadline tone leans cautious on multiple, competition, or risk.\n\nAXIOM live context: No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
+      "vader_detail": "Headline tone leans cautious on multiple, competition, or risk.",
+      "px_impact": "-0.1% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "-0.1%"
+        },
+        {
+          "l": "1W",
+          "v": "-0.1%"
+        },
+        {
+          "l": "1M",
+          "v": "+0.5%"
+        }
+      ]
+    },
+    {
+      "id": 9672,
+      "ticker": "NVDA",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.0,
+      "age": "10h",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPeXFIZWsyU0lvaEJGR2ZaNTVsQWJzVzBucS1NOERjNEtlaF84MXVfck5hZG1rSzhxSFRBQWx4UFBNQ0U2VlViYnZMaGJ6T0k4dTU0MkhBUG5MUW0yWld3R2t1OWNvTlFya0kwRnRubldHU2EtLUF2WUV6R2EtUTZ2YVFfUnBSNHcxbWVUNHVBRnNvODJkR2NpVzVIYVlzdExobVc3T3c3dXZRbkdpUnNJeE5zMA?oc=5",
+      "headline": "PC stocks fall after Nvidia denies report in talks to buy a PC-focused company (update) (NVDA:NASDAQ) - Seeking Alpha",
+      "source": "Google News \u00b7 Mon, 13 Apr 2026 20:36:00 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "+0.6%",
+      "v5": {
+        "mb": 0.00063,
+        "nm": 0.0,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": 0.0063
+      },
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMiswFBVV95cUxPeXFIZWsyU0lvaEJGR2ZaNTVsQWJzVzBucS1NOERjNEtlaF84MXVfck5hZG1rSzhxSFRBQWx4UFBNQ0U2VlViYnZMaGJ6T0k4dTU0MkhBUG5MUW0yWld3R2t1OWNvTlFya0kwRnRubldHU2EtLUF2WUV6R2EtUTZ2YVFfUnBSNHcxbWVUNHVBRnNvODJkR2NpVzVIYVlzdExobVc3T3c3dXZRbkdpUnNJeE5zMA?oc=5\" target=\"_blank\"&gt;PC stocks fall after Nvidia denies report in talks to buy a PC-focused company (update) (NVDA:NASDAQ)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Seeking Alpha&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.\n\nAXIOM live context: Pre-open NVDA news is mixed across 3 headline(s); the tape still needs technical confirmation after the open.",
+      "vader_detail": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "+0.6% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "+0.6%"
+        },
+        {
+          "l": "1W",
+          "v": "+3.3%"
+        },
+        {
+          "l": "1M",
+          "v": "+3.1%"
+        }
+      ]
+    },
+    {
+      "id": 10253,
+      "ticker": "NVDA",
+      "dir": "bull",
+      "impact": "HIGH",
+      "vader": 0.0,
+      "age": "7h",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOeDl0cHFhQzBhVTFiNFJ6ZkhPa0h4cjVrTHh3RWN4bjFLOERIeHZIMERERXpzQ0NVcFctTkVuMnZ1T19JYmdaTm5iZnBDRXEyMGNYWE5icFRhTmZ3V0RkeGZnZThMZVg0UUFUR1NjcV9kb0QxbFlLNnhuWS1VNExZN3VMWk1XUHRwUUhQM0ZqTUd1eURPbHQxUVdtUVlUQXpCUEc0?oc=5",
+      "headline": "NVIDIA (NVDA) Denies Acquisition Rumors, Impact on PC Stocks See",
+      "source": "Google News \u00b7 Mon, 13 Apr 2026 22:56:20 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "+0.6%",
+      "v5": {
+        "mb": 0.00063,
+        "nm": 0.0,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": 0.0063
+      },
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMiowFBVV95cUxOeDl0cHFhQzBhVTFiNFJ6ZkhPa0h4cjVrTHh3RWN4bjFLOERIeHZIMERERXpzQ0NVcFctTkVuMnZ1T19JYmdaTm5iZnBDRXEyMGNYWE5icFRhTmZ3V0RkeGZnZThMZVg0UUFUR1NjcV9kb0QxbFlLNnhuWS1VNExZN3VMWk1XUHRwUUhQM0ZqTUd1eURPbHQxUVdtUVlUQXpCUEc0?oc=5\" target=\"_blank\"&gt;NVIDIA (NVDA) Denies Acquisition Rumors, Impact on PC Stocks See&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;GuruFocus&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.\n\nAXIOM live context: Pre-open NVDA news is mixed across 3 headline(s); the tape still needs technical confirmation after the open.",
+      "vader_detail": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "+0.6% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "+0.6%"
+        },
+        {
+          "l": "1W",
+          "v": "+3.3%"
+        },
+        {
+          "l": "1M",
+          "v": "+3.1%"
+        }
+      ]
+    },
+    {
+      "id": 10353,
+      "ticker": "NVDA",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.0,
+      "age": "10h",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTDRDOUJQVzNxc2U1a2tFcENnejdrUVFfeTVnLVFOUE9OSm9xRFdhT2lER2VJWGJNYTNQWDBZeDZJdFV0aTVEVXZhTkZKZ0dTOWtTSzl1Nk02cUZuNXIydU0yOER2UXI1ZmhOYmFOSFVra1J3c1pjQmFEVmZENVctZTJaSENlU3V0?oc=5",
+      "headline": "Nvidia Stock (NVDA) Hits \u2018Deep Value,\u2019 Says Top Investor",
+      "source": "Google News \u00b7 Mon, 13 Apr 2026 20:45:09 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "+0.6%",
+      "v5": {
+        "mb": 0.00063,
+        "nm": 0.0,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": 0.0063
+      },
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTDRDOUJQVzNxc2U1a2tFcENnejdrUVFfeTVnLVFOUE9OSm9xRFdhT2lER2VJWGJNYTNQWDBZeDZJdFV0aTVEVXZhTkZKZ0dTOWtTSzl1Nk02cUZuNXIydU0yOER2UXI1ZmhOYmFOSFVra1J3c1pjQmFEVmZENVctZTJaSENlU3V0?oc=5\" target=\"_blank\"&gt;Nvidia Stock (NVDA) Hits \u2018Deep Value,\u2019 Says Top Investor&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;TipRanks&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.\n\nAXIOM live context: Pre-open NVDA news is mixed across 3 headline(s); the tape still needs technical confirmation after the open.",
+      "vader_detail": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "+0.6% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "+0.6%"
+        },
+        {
+          "l": "1W",
+          "v": "+3.3%"
+        },
+        {
+          "l": "1M",
+          "v": "+3.1%"
+        }
+      ]
+    },
+    {
+      "id": 9985,
+      "ticker": "TSLA",
+      "dir": "bear",
+      "impact": "MEDIUM",
+      "vader": -0.3333333333333333,
+      "age": "1h",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNclhoNEVtd3R4a1hsaWVjZHFTbGtVS3JMNl90SzQ5bExBd1FfVHZVSGJZcmVBZmE2ajU1cUgtbk1VNzV0dXpOeXVaRXJ4VFJJMlliaXBOSGxDWXRQdGdVVnRGMWhXTWJpd2lXeTFYSVhubUtibzZkTlZkeV9rQkVVd3ZNbjJuWjhhNnFsTU1wQQ?oc=5",
+      "headline": "Elon Musk's SpaceX IPO Could Pressure Tesla (TSLA)",
+      "source": "Google News \u00b7 Tue, 14 Apr 2026 05:07:57 GMT",
+      "news_cat": "analyst",
+      "cal_impact": "-1.2%",
+      "v5": {
+        "mb": -0.00099,
+        "nm": -0.001,
+        "jpn": 0.0,
+        "ep": 0.0,
+        "rl": 0.0,
+        "tot": -0.0117
+      },
+      "summary": "Headline tone leans cautious on multiple, competition, or risk.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMijwFBVV95cUxNclhoNEVtd3R4a1hsaWVjZHFTbGtVS3JMNl90SzQ5bExBd1FfVHZVSGJZcmVBZmE2ajU1cUgtbk1VNzV0dXpOeXVaRXJ4VFJJMlliaXBOSGxDWXRQdGdVVnRGMWhXTWJpd2lXeTFYSVhubUtibzZkTlZkeV9rQkVVd3ZNbjJuWjhhNnFsTU1wQQ?oc=5\" target=\"_blank\"&gt;Elon Musk's SpaceX IPO Could Pressure Tesla (TSLA)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;GuruFocus&lt;/font&gt;\n\nHeadline tone leans cautious on multiple, competition, or risk.\n\nAXIOM live context: Pre-open TSLA news leans bearish with 1 headline(s); competition, valuation, or macro pressure dominate the window.",
+      "vader_detail": "Headline tone leans cautious on multiple, competition, or risk.",
+      "px_impact": "-1.2% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "-1.2%"
+        },
+        {
+          "l": "1W",
+          "v": "-2.4%"
+        },
+        {
+          "l": "1M",
+          "v": "-5.6%"
+        }
+      ]
+    }
+  ],
+  "forecast_for_date": "2026-04-14",
+  "market_date": "2026-04-13"
+}

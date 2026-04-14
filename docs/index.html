@@ -1767,6 +1767,92 @@ function renderAnalysisPage(){
   if(!ac||ac.dataset.rendered)return;
   ac.dataset.rendered='1';
 
+  if(PLTR_LIVE_CONTEXT){
+    const p=PLTR_LIVE_CONTEXT;
+    const sig=p.signal||{};
+    const hz=p.live_signals_by_horizon||{};
+    const news=p.news||{};
+    const reasoning=p.reasoning||{};
+    const reach=reasoning.reach_160||{};
+    const drivers=(reasoning.drivers||[]).slice(0,5);
+    const arts=(news.articles||[]).slice(0,5);
+    const horizonCards=[
+      {l:'Next Open Bias',v:(p.card||{}).l4h,sub:'premarket news blend'},
+      {l:'Tomorrow',v:(hz['1d']||sig).pred_return_pct,sub:`target $${((hz['1d']||sig).target_price||0).toFixed?((hz['1d']||sig).target_price||0).toFixed(2):(hz['1d']||sig).target_price}`},
+      {l:'5 Days',v:(hz['5d']||sig).pred_return_pct,sub:`target $${((hz['5d']||sig).target_price||0).toFixed?((hz['5d']||sig).target_price||0).toFixed(2):(hz['5d']||sig).target_price}`},
+      {l:'10 Days',v:(hz['10d']||sig).pred_return_pct,sub:`target $${((hz['10d']||sig).target_price||0).toFixed?((hz['10d']||sig).target_price||0).toFixed(2):(hz['10d']||sig).target_price}`}
+    ];
+    const driverHTML=drivers.map(d=>{
+      const cls=d.direction==='bull'?'bull':d.direction==='bear'?'bear':'neutral';
+      const width=d.direction==='neutral'?55:82;
+      return `<div class="anlys-factor">
+        <div class="anlys-factor-row">
+          <span class="anlys-factor-name">${d.title}</span>
+          <span class="anlys-factor-val ${cls}">${d.direction.toUpperCase()}</span>
+        </div>
+        <div class="anlys-bar-wrap"><div class="anlys-bar-fill ${cls}" style="width:${width}%"></div></div>
+        <div style="font-size:8px;color:var(--t2);line-height:1.55;margin-top:4px">${d.detail}</div>
+      </div>`;
+    }).join('');
+    const articleHTML=arts.length?arts.map(a=>{
+      const cls=a.sentiment==='BEARISH'?'bear':a.sentiment==='BULLISH'?'bull':'neutral';
+      const when=fmtAgeFromIso(a.published_at_et);
+      const cats=(a.categories||[]).join(', ');
+      return `<div class="sell-window ${cls==='bull'?'low':cls==='bear'?'high':'med'}">
+        <div class="sell-window-header">
+          <span class="sell-window-date">${a.headline}</span>
+          <span class="sell-window-prob" style="color:${cls==='bull'?'var(--G)':cls==='bear'?'var(--R)':'#f7b731'}">${a.sentiment} · ${impactShort(a.impact)} · ${when} ago</span>
+        </div>
+        <div class="sell-window-body">${a.rationale||'Headline included in the pre-open PLTR scoring window.'}
+        <br><span style="color:var(--t0);font-weight:600">Theme: ${cats||'market'}</span></div>
+      </div>`;
+    }).join(''):`<div class="sell-window low"><div class="sell-window-body">No fresh PLTR headlines were captured for the current pre-open window, so the forecast leans more heavily on historical catalysts and price action.</div></div>`;
+
+    ac.innerHTML=
+      `<div class="anlys-hero">
+        <div class="anlys-hero-title">PLTR Live Deep Analysis</div>
+        <div class="anlys-hero-sub">Generated ${p.generated_at||'live'} · Market date ${p.market_date||'n/a'} · Forecast for ${p.forecast_for_date||'next open'}</div>
+      </div>
+      <div class="anlys-nlp">
+        <div class="anlys-nlp-title">Model Reasoning - Live PLTR Context</div>
+        <div class="anlys-nlp-body">
+          <strong>${(sig.signal||'HOLD')} with ${(sig.probability_up||0).toFixed ? sig.probability_up.toFixed(1) : sig.probability_up}% probability up</strong><br><br>
+          ${reasoning.summary||'The PLTR deep model blended price action, historical catalysts, and the current pre-open news window.'}<br><br>
+          <strong>Why it is falling:</strong> ${reasoning.why_falling||'The latest move still looks sentiment-driven.'}<br><br>
+          <strong>Can it get back to $160?</strong> ${reach.assessment||'Possible, but not the base case near term.'} It still needs about ${reach.required_return_pct||0}% from the current level.
+        </div>
+      </div>
+      <div class="anlys-grid">
+        ${horizonCards.map(h=>`<div class="anlys-card">
+          <div class="anlys-card-title">${h.l}</div>
+          <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:${Number(h.v||0)>=0?'var(--G)':'var(--R)'}">${Number(h.v||0)>=0?'+':''}${Number(h.v||0).toFixed(2)}%</div>
+          <div style="font-size:9px;color:var(--t2);margin-top:6px">${h.sub||''}</div>
+        </div>`).join('')}
+      </div>
+      <div class="anlys-section">
+        <div class="anlys-section-title">Current Drivers</div>
+        <div style="max-width:760px">${driverHTML}</div>
+      </div>
+      <div class="anlys-section">
+        <div class="anlys-section-title">Pre-open News Window</div>
+        <div class="anlys-nlp-body" style="margin-bottom:14px">
+          <strong>Window:</strong> ${(news.window_start_et||'n/a').replace('T',' ').replace(/-04:00|-05:00/,' ET')} to ${(news.window_end_et||'n/a').replace('T',' ').replace(/-04:00|-05:00/,' ET')}<br>
+          <strong>Read:</strong> ${news.summary||'No pre-open snapshot found.'}<br>
+          <strong>Bias:</strong> ${(news.overall_sentiment||'NEUTRAL')} · ${(news.article_count||0)} article(s) · ${(news.material_count||0)} material item(s)
+        </div>
+        ${articleHTML}
+      </div>
+      <div class="anlys-section">
+        <div class="anlys-section-title">Recovery Path to $160</div>
+        <div class="anlys-nlp-body">
+          <strong>Required move:</strong> ${(reach.required_return_pct||0)>=0?'+':''}${Number(reach.required_return_pct||0).toFixed(2)}%<br><br>
+          ${reach.near_term_model_read||''}<br><br>
+          The current model read is still much closer to stabilization than to a full V-shaped recovery. A move back to $160 likely needs a better macro tape plus a cleaner company-specific catalyst than the current headline set provides.
+        </div>
+      </div>`;
+    return;
+  }
+
   const features=[
     {name:'Catalyst Score (LLM)',     pct:18,dir:'bull',val:'+0.622',desc:'120 scored PLTR news events -- Q4 2025 beat, analyst upgrades, May 4 earnings 27 days away'},
     {name:'Earnings Proximity',       pct:15,dir:'bull',val:'+0.514',desc:'PLTR beats 9/12 quarters. Avg next-day reaction +17.5%. May 4 earnings = strongest recurring catalyst'},
@@ -1974,7 +2060,7 @@ window.addEventListener('DOMContentLoaded',()=>{
    v5 model attribution: market_beta + news_momentum + jpn + earnings_prox + rl_override
    Calibration source: IntechOpen/UCSD/Colby academic research
 ═══════════════════════════════════════════════════════════════ */
-const ALL_NEWS=[
+let ALL_NEWS=[
   /* ── NVDA (live Yahoo Finance URLs, Apr 8 2026) ── */
   {id:1,ticker:'NVDA',dir:'bull',impact:'HIGH',vader:+0.55,age:'3h',
    url:'https://finance.yahoo.com/markets/stocks/articles/ai-supercycle-isnt-over-just-002000948.html',
@@ -2156,6 +2242,177 @@ const ALL_NEWS=[
    horizons:[{l:'1D',v:'-1.8%'},{l:'1W',v:'-3.5%'},{l:'1M',v:'-7.2%'}]},
 ];
 
+let PLTR_LIVE_CONTEXT = null;
+let LIVE_TOMORROW_FORECASTS = null;
+
+function impactShort(v){
+  if(v==='MEDIUM') return 'MED';
+  return (v||'LOW').replace('IUM','');
+}
+
+function fmtAgeFromIso(value){
+  if(!value) return 'now';
+  const then = new Date(value);
+  if(Number.isNaN(then.getTime())) return 'now';
+  const diffH = Math.max(0, (Date.now() - then.getTime()) / 36e5);
+  if(diffH < 1) return `${Math.max(1, Math.round(diffH*60))}m`;
+  if(diffH < 24) return `${Math.round(diffH)}h`;
+  return `${Math.round(diffH/24)}d`;
+}
+
+function intelTypeFromTitle(title){
+  const t=(title||'').toLowerCase();
+  if(t.includes('macro')) return 'mac';
+  if(t.includes('earn')) return 'ern';
+  if(t.includes('trend')||t.includes('momentum')||t.includes('oversold')) return 'tec';
+  if(t.includes('model')) return 'mdl';
+  return 'nws';
+}
+
+function intelDir(direction){
+  if(direction==='bull') return 'p';
+  if(direction==='bear') return 'n';
+  return 'neu';
+}
+
+function buildCompactTickerNews(ticker,payload){
+  const arts=((payload.news||{}).articles||[]).slice(0,3);
+  if(!arts.length) return SD[ticker].news;
+  return arts.map(a=>({
+    h:a.headline,
+    c:Math.max(-1,Math.min(1,Number(a.net_score||0)/3)),
+    imp:impactShort(a.impact),
+    d:a.sentiment==='BEARISH'?'r':'b',
+    exp:a.rationale||((payload.news||{}).summary)||'Premarket signal folded into the forecast.',
+    age:fmtAgeFromIso(a.published_at_et)
+  }));
+}
+
+function buildCompactPltrNews(payload){
+  return buildCompactTickerNews('PLTR', payload);
+}
+
+function buildTickerNewsFeedItems(ticker,payload){
+  const arts=((payload.news||{}).articles||[]).slice(0,4);
+  const sig1d=((payload.live_signals_by_horizon||{})['1d'])||payload.signal||{};
+  const sig5d=((payload.live_signals_by_horizon||{})['5d'])||payload.signal||{};
+  const sig10d=((payload.live_signals_by_horizon||{})['10d'])||payload.signal||{};
+  return arts.map((a,idx)=>{
+    const net=Number(a.net_score||0);
+    const oneD = (Number(sig1d.pred_return_pct||0)+(net*0.25));
+    const oneW = (Number(sig5d.pred_return_pct||0)+(net*0.35));
+    const oneM = (Number(sig10d.pred_return_pct||0)+(net*0.45));
+    const dir=a.sentiment==='BEARISH'?'bear':'bull';
+    const impact=impactShort(a.impact);
+    const cat=((a.categories&&a.categories[0])||'premarket').replace('_',' ');
+    const moveTxt = `${oneD>=0?'+':''}${oneD.toFixed(1)}% next-day bias`;
+    return {
+      id:900+idx,
+      ticker,
+      dir,
+      impact,
+      vader:Math.max(-1,Math.min(1,net/3)),
+      age:fmtAgeFromIso(a.published_at_et),
+      url:a.url||'',
+      headline:a.headline,
+      source:`${a.source||'Google News'}${a.published?` · ${a.published}`:''}`,
+      news_cat:cat,
+      cal_impact:`${oneD>=0?'+':''}${oneD.toFixed(1)}%`,
+      v5:{
+        mb:Number(sig1d.pred_return_pct||0)/1000,
+        nm:net/1000,
+        jpn:0,
+        ep:Number((payload.news||{}).feature_values?.premkt_live_earnings_signal||0)/1000,
+        rl:0,
+        tot:(oneD/100)
+      },
+      summary:a.rationale||((payload.news||{}).summary)||'Premarket headline added to the live model context.',
+      body:`${a.description||a.headline}\n\n${a.rationale||'This headline was included in the pre-open scoring window.'}\n\nAXIOM live context: ${(payload.news||{}).summary||'Mixed pre-open setup.'}`,
+      vader_detail:a.rationale||'Premarket sentiment signal.',
+      px_impact:moveTxt,
+      horizons:[
+        {l:'1D',v:`${oneD>=0?'+':''}${oneD.toFixed(1)}%`},
+        {l:'1W',v:`${oneW>=0?'+':''}${oneW.toFixed(1)}%`},
+        {l:'1M',v:`${oneM>=0?'+':''}${oneM.toFixed(1)}%`}
+      ]
+    };
+  });
+}
+
+function buildPltrNewsFeedItems(payload){
+  return buildTickerNewsFeedItems('PLTR', payload);
+}
+
+function applyTickerLiveContext(ticker,payload){
+  if(!payload||payload.ticker!==ticker||!SD[ticker]) return;
+  const card = payload.card || {};
+  const sig = (card.sig || ((payload.signal||{}).signal) || SD[ticker].sig || 'HOLD').toUpperCase();
+  const sc  = (card.sc || sig.toLowerCase());
+
+  SD[ticker].sig = sig;
+  SD[ticker].sc = ['buy','sell','hold'].includes(sc) ? sc : SD[ticker].sc;
+  if(card.conf!=null) SD[ticker].conf = Number(card.conf);
+  if(card.px!=null) SD[ticker].px = Number(card.px);
+  if(card.chg!=null) SD[ticker].chg = Number(card.chg);
+  if(card.l1h!=null) SD[ticker].l1h = Number(card.l1h);
+  if(card.l4h!=null) SD[ticker].l4h = Number(card.l4h);
+  if(card.l1d!=null) SD[ticker].l1d = Number(card.l1d);
+  if(card.l5d!=null) SD[ticker].l5d = Number(card.l5d);
+  if(card.l10d!=null) SD[ticker].l10d = Number(card.l10d);
+  if(card.l20d!=null) SD[ticker].l20d = Number(card.l20d);
+  if(card.tgt!=null) SD[ticker].tgt = Number(card.tgt);
+  if(card.up!=null) SD[ticker].up = Number(card.up);
+  SD[ticker].vader = Math.max(-1, Math.min(1, Number((payload.news||{}).net_score||0) / 2.5));
+  SD[ticker].news = buildCompactTickerNews(ticker,payload);
+
+  const drivers=((payload.reasoning||{}).drivers||(payload.drivers)||[]).slice(0,4);
+  if(drivers.length){
+    SD[ticker].intel = drivers.map(d=>({
+      type:intelTypeFromTitle(d.title),
+      dir:intelDir(d.direction),
+      t:`<b>${d.title}</b> - ${d.detail}`
+    }));
+  }
+
+  const liveNews = buildTickerNewsFeedItems(ticker,payload);
+  if(liveNews.length){
+    ALL_NEWS = ALL_NEWS.filter(n=>n.ticker!==ticker).concat(liveNews);
+  }
+}
+
+function applyPltrLiveContext(payload){
+  if(!payload||payload.ticker!=='PLTR') return;
+  PLTR_LIVE_CONTEXT = payload;
+  applyTickerLiveContext('PLTR', payload);
+}
+
+function applyLiveTomorrowForecasts(payload){
+  if(!payload||!payload.tickers) return;
+  LIVE_TOMORROW_FORECASTS = payload;
+  Object.entries(payload.tickers).forEach(([ticker,info])=>{
+    if(!info||!ticker) return;
+    applyTickerLiveContext(ticker, info);
+  });
+}
+
+async function loadLiveTomorrowForecasts(){
+  try{
+    const res = await fetch('live_tomorrow_forecasts.json',{cache:'no-store'});
+    if(!res.ok) return;
+    const payload = await res.json();
+    applyLiveTomorrowForecasts(payload);
+  }catch(e){}
+}
+
+async function loadPltrLiveContext(){
+  try{
+    const res = await fetch('pltr_live_context.json',{cache:'no-store'});
+    if(!res.ok) return;
+    const payload = await res.json();
+    applyPltrLiveContext(payload);
+  }catch(e){}
+}
+
 let npActiveFilter='ALL', npActiveId=null;
 
 function npFilter(f){
@@ -2253,7 +2510,7 @@ function npOpen(id){
       <span>${n.age} ago</span>
       <a href="${n.url}" target="_blank" rel="noopener" style="margin-left:auto;color:var(--blue);font-size:9px;font-family:var(--mono);display:flex;align-items:center;gap:4px;text-decoration:none">
         <svg width="9" height="9" viewBox="0 0 8 8" fill="none"><path d="M1 7L7 1M7 1H3M7 1V5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        Open on Yahoo Finance ↗
+        Open source ↗
       </a>
     </div>
     ${n.body.split('\\n\\n').filter(p=>p.trim()).map(p=>`<div class="np-d-text">${p.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--t0)">$1</strong>')}</div>`).join('')}
@@ -2299,7 +2556,9 @@ function renderNewsPage(){
 /* ═════════════════════
    INIT
 ═══════════════════════ */
-window.addEventListener('DOMContentLoaded',()=>{
+window.addEventListener('DOMContentLoaded', async()=>{
+  await loadLiveTomorrowForecasts();
+  await loadPltrLiveContext();
   renderSigTable();updatePredCard();renderIntel();renderNews();renderModelRows();renderEarnings();
   requestAnimationFrame(()=>requestAnimationFrame(()=>{initChart();renderChart();}));
 });

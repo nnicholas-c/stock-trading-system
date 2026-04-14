@@ -1,11 +1,16 @@
 {
   "signal": "BUY",
-  "probability_up": 76.9,
-  "confidence": 53.9,
-  "pred_return_pct": 3.92,
-  "horizon_days": 10,
-  "current_price": 150.07,
-  "target_price": 155.96,
+  "probability_up": 63.2,
+  "confidence": 26.5,
+  "pred_return_pct": 0.78,
+  "horizon_days": 1,
+  "current_price": 132.3699951171875,
+  "target_price": 133.41,
   "catalyst_score": 0.0,
-  "date": "2026-04-07"
+  "date": "2026-04-13",
+  "trust_score": 49.9,
+  "recent_accuracy_10": 50.0,
+  "recent_accuracy_20": 50.0,
+  "forecast_for_date": "2026-04-14",
+  "source_horizon_days": 1
 }

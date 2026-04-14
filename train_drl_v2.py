@@ -10,22 +10,39 @@ Strategy:
 Key optimization: shared DRL policy across all windows (transfer learning)
 """
 
+import argparse
+import json
+import logging
+import math
+import os
+import warnings
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Tuple, Optional
+import sys
+
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
+
 import numpy as np
 import pandas as pd
-import json, os, math, logging, warnings
-from datetime import datetime
-from typing import Dict, List, Tuple, Optional
 from scipy.stats import pearsonr
 
 import gymnasium as gym
 from gymnasium import spaces
 import xgboost as xgb
 import lightgbm as lgb
+import torch
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import RobustScaler
 from sklearn.metrics import accuracy_score
 from stable_baselines3 import PPO, A2C
 from stable_baselines3.common.env_util import make_vec_env
+
+torch.set_num_threads(1)
+torch.set_num_interop_threads(1)
 
 warnings.filterwarnings("ignore")
 logging.basicConfig(level=logging.INFO,
@@ -33,11 +50,15 @@ logging.basicConfig(level=logging.INFO,
     datefmt="%H:%M:%S")
 log = logging.getLogger("drl.v2")
 
-DATA_DIR = "/home/user/workspace/trading_system/drl"
-OUT_DIR  = "/home/user/workspace/trading_system/drl/results"
-os.makedirs(OUT_DIR, exist_ok=True)
+ROOT = Path(__file__).resolve().parent
+DAILY_DIR = ROOT / "data" / "daily"
+MACRO_DIR = ROOT / "data" / "macro"
+OUT_DIR = ROOT / "trading_system" / "drl"
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 TICKERS = ["PLTR", "NVDA", "AAPL", "TSLA"]
+MACRO_TICKERS = ["SPY", "TLT", "GLD"]
+LGBM_COMPATIBLE = True
 
 # ─────────────────────────────────────────────────────────────────
 # CATALYST DATABASE
@@ -95,10 +116,17 @@ MACRO_DATES = {  # date → regime label
 
 def load_all() -> Dict[str, pd.DataFrame]:
     out = {}
-    for t in TICKERS + ["SPY","TLT","GLD"]:
-        p = f"{DATA_DIR}/{t}.csv"
-        if os.path.exists(p):
-            df = pd.read_csv(p, index_col=0, parse_dates=True)
+    for t in TICKERS:
+        p = DAILY_DIR / f"{t}_daily.csv"
+        if p.exists():
+            df = pd.read_csv(p, parse_dates=["date"])
+            df = df.set_index("date").sort_index()
+            out[t] = df
+    for t in MACRO_TICKERS:
+        p = MACRO_DIR / f"{t}_daily.csv"
+        if p.exists():
+            df = pd.read_csv(p, parse_dates=["date"])
+            df = df.set_index("date").sort_index()
             out[t] = df
     return out
 
@@ -295,34 +323,62 @@ class TradingEnv(gym.Env):
 # ─────────────────────────────────────────────────────────────────
 
 class Oracle:
-    def __init__(self, h=5):
+    def __init__(self, h=5, n_estimators: int = 300, n_jobs: int = 1):
         self.h = h
-        self.xgb = xgb.XGBClassifier(n_estimators=300, max_depth=4,
+        self.xgb = xgb.XGBClassifier(n_estimators=n_estimators, max_depth=4,
             learning_rate=0.04, subsample=0.8, colsample_bytree=0.7,
             gamma=0.1, reg_alpha=0.05, use_label_encoder=False,
-            eval_metric="logloss", random_state=42, verbosity=0)
-        self.lgb = lgb.LGBMClassifier(n_estimators=300, max_depth=4,
+            eval_metric="logloss", random_state=42, verbosity=0,
+            tree_method="hist", n_jobs=n_jobs)
+        self.lgb = lgb.LGBMClassifier(n_estimators=n_estimators, max_depth=4,
             learning_rate=0.04, subsample=0.8, colsample_bytree=0.7,
-            reg_alpha=0.05, random_state=42, verbose=-1)
+            reg_alpha=0.05, random_state=42, verbose=-1, n_jobs=n_jobs)
         self.ridge = LogisticRegression(C=0.1, max_iter=500, random_state=42)
         self.sc  = RobustScaler()
         self.fit_ = False
+        self.xgb_fit_ = False
+        self.lgb_fit_ = False
+        self.ridge_fit_ = False
 
     def fit(self, X, y):
+        global LGBM_COMPATIBLE
         if len(X)<40 or y.sum()<8 or (1-y).sum()<8: return self
         Xsc = self.sc.fit_transform(X)
         self.xgb.fit(X, y)
-        self.lgb.fit(X, y)
+        self.xgb_fit_ = True
+        if LGBM_COMPATIBLE:
+            try:
+                self.lgb.fit(X, y)
+                self.lgb_fit_ = True
+            except TypeError as exc:
+                LGBM_COMPATIBLE = False
+                log.warning("LightGBM incompatible with this sklearn build, skipping it: %s", exc)
+            except Exception as exc:
+                log.warning("LightGBM fit failed, skipping it: %s", exc)
         self.ridge.fit(Xsc, y)
-        self.fit_ = True
+        self.ridge_fit_ = True
+        self.fit_ = self.xgb_fit_ or self.lgb_fit_ or self.ridge_fit_
         return self
 
     def prob(self, X) -> np.ndarray:
         if not self.fit_: return np.full(len(X), 0.5)
         Xsc = self.sc.transform(X)
-        return (0.45*self.xgb.predict_proba(X)[:,1]
-              + 0.45*self.lgb.predict_proba(X)[:,1]
-              + 0.10*self.ridge.predict_proba(Xsc)[:,1])
+        probs = []
+        weights = []
+        if self.xgb_fit_:
+            probs.append(self.xgb.predict_proba(X)[:,1])
+            weights.append(0.45)
+        if self.lgb_fit_:
+            probs.append(self.lgb.predict_proba(X)[:,1])
+            weights.append(0.45)
+        if self.ridge_fit_:
+            probs.append(self.ridge.predict_proba(Xsc)[:,1])
+            weights.append(0.10)
+        if not probs:
+            return np.full(len(X), 0.5)
+        total_weight = sum(weights)
+        ensemble = sum(weight * prob for weight, prob in zip(weights, probs))
+        return ensemble / total_weight
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -342,7 +398,7 @@ def train_global_ppo(X_train: np.ndarray, returns: np.ndarray,
                 learning_rate=3e-4, n_steps=512, batch_size=64,
                 n_epochs=8, gamma=0.99, gae_lambda=0.95,
                 clip_range=0.2, ent_coef=0.02, vf_coef=0.5,
-                policy_kwargs={"net_arch": [256, 128, 64]})
+                policy_kwargs={"net_arch": [256, 128, 64], "ortho_init": False})
     model.learn(total_timesteps=timesteps)
     return model, sc
 
@@ -359,7 +415,7 @@ def train_global_a2c(X_train: np.ndarray, returns: np.ndarray,
     model = A2C("MlpPolicy", venv, verbose=0,
                 learning_rate=7e-4, n_steps=32,
                 gamma=0.99, ent_coef=0.02, vf_coef=0.5,
-                policy_kwargs={"net_arch": [256, 128, 64]})
+                policy_kwargs={"net_arch": [256, 128, 64], "ortho_init": False})
     model.learn(total_timesteps=timesteps)
     return model, sc
 
@@ -414,7 +470,14 @@ def gated_signal(xgb_p: float, drl_probs: np.ndarray,
 # MAIN BACKTEST + FINE-TUNE LOOP
 # ─────────────────────────────────────────────────────────────────
 
-def run_ticker(ticker: str, data: dict, drl_ts: int = 35000) -> Dict:
+def run_ticker(
+    ticker: str,
+    data: dict,
+    drl_ts: int = 35000,
+    backtest: bool = True,
+    oracle_trees: int = 300,
+    oracle_jobs: int = 1,
+) -> Dict:
     log.info("\n" + "="*70)
     log.info("TICKER: %s | DRL timesteps: %d", ticker, drl_ts)
     log.info("="*70)
@@ -439,6 +502,29 @@ def run_ticker(ticker: str, data: dict, drl_ts: int = 35000) -> Dict:
     a2c_model, a2c_sc = train_global_a2c(X_trv, r_trv, timesteps=drl_ts // 2)
     log.info("[%s] DRL training complete", ticker)
 
+    if not backtest:
+        return {
+            "ticker": ticker,
+            "overall_accuracy": 0.0,
+            "high_conf_accuracy": 0.0,
+            "high_conf_n": 0,
+            "buy_accuracy": 0.0,
+            "sell_accuracy": 0.0,
+            "ic": 0.0,
+            "sharpe": 0.0,
+            "n_signals": 0,
+            "n_buy": 0,
+            "n_sell": 0,
+            "converged": False,
+            "evaluation_skipped": True,
+            "ppo_model": ppo_model,
+            "ppo_sc": ppo_sc,
+            "a2c_model": a2c_model,
+            "a2c_sc": a2c_sc,
+            "feats": feats,
+            "close": close,
+        }
+
     # Walk-forward oracle + gated signals on 20% OOS
     results = []
     train_size = 252
@@ -455,7 +541,7 @@ def run_ticker(ticker: str, data: dict, drl_ts: int = 35000) -> Dict:
         yt_v = ~np.isnan(y_wt)
         if yt_v.sum() < 40: continue
 
-        oracle = Oracle(h=5)
+        oracle = Oracle(h=5, n_estimators=oracle_trees, n_jobs=oracle_jobs)
         oracle.fit(X_wt[yt_v], y_wt[yt_v])
 
         # Predict on the next slide in OOS
@@ -484,7 +570,7 @@ def run_ticker(ticker: str, data: dict, drl_ts: int = 35000) -> Dict:
 
     if not results:
         return {"ticker": ticker, "overall_accuracy": 0, "high_conf_accuracy": 0,
-                "n": 0, "converged": False}
+                "n": 0, "converged": False, "evaluation_skipped": False}
 
     df = pd.DataFrame(results)
     oa  = float(df["correct"].mean())
@@ -514,23 +600,48 @@ def run_ticker(ticker: str, data: dict, drl_ts: int = 35000) -> Dict:
         "ic": ic, "sharpe": sharpe,
         "n_signals": len(df), "n_buy": len(buy), "n_sell": len(sell),
         "converged": hca >= 0.80 and hcn >= 15,
+        "evaluation_skipped": False,
         "ppo_model": ppo_model, "ppo_sc": ppo_sc,
         "a2c_model": a2c_model, "a2c_sc": a2c_sc,
         "feats": feats, "close": close,
     }
 
 
-def fine_tune_loop(ticker: str, data: dict, max_iters: int = 4) -> Dict:
+def fine_tune_loop(
+    ticker: str,
+    data: dict,
+    schedules: List[int],
+    max_iters: int = 4,
+    backtest: bool = True,
+    oracle_trees: int = 300,
+    oracle_jobs: int = 1,
+) -> Dict:
     """
     Iteratively increase DRL training budget until ≥80% or max_iters reached.
     """
     best = {}
     best_hca = 0.0
-    schedules = [35000, 50000, 65000, 80000]
+
+    if not backtest:
+        return run_ticker(
+            ticker,
+            data,
+            drl_ts=schedules[0],
+            backtest=False,
+            oracle_trees=oracle_trees,
+            oracle_jobs=oracle_jobs,
+        )
 
     for i, ts in enumerate(schedules[:max_iters]):
         log.info("\n[%s] Fine-tune %d/%d | ts=%d", ticker, i+1, max_iters, ts)
-        result = run_ticker(ticker, data, drl_ts=ts)
+        result = run_ticker(
+            ticker,
+            data,
+            drl_ts=ts,
+            backtest=backtest,
+            oracle_trees=oracle_trees,
+            oracle_jobs=oracle_jobs,
+        )
         hca = result.get("high_conf_accuracy", 0)
         if hca > best_hca:
             best_hca = hca
@@ -542,7 +653,7 @@ def fine_tune_loop(ticker: str, data: dict, max_iters: int = 4) -> Dict:
     return best
 
 
-def generate_signal(result: Dict) -> Dict:
+def generate_signal(result: Dict, oracle_trees: int = 300, oracle_jobs: int = 1) -> Dict:
     """Live signal from latest model state."""
     ticker = result.get("ticker", "?")
     feats  = result.get("feats")
@@ -559,7 +670,7 @@ def generate_signal(result: Dict) -> Dict:
     dp    = drl_proba(ppo_m, ppo_sc, a2c_m, a2c_sc, x_raw)
 
     # For live, use a slightly lower threshold
-    oracle_all = Oracle(h=5)
+    oracle_all = Oracle(h=5, n_estimators=oracle_trees, n_jobs=oracle_jobs)
     fwd_d = (close.pct_change(5).shift(-5) > 0).astype(int)
     X_all = feats.values
     y_all = fwd_d.values
@@ -580,9 +691,72 @@ def generate_signal(result: Dict) -> Dict:
     }
 
 
+def sanitize_json(value):
+    if isinstance(value, dict):
+        return {k: sanitize_json(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [sanitize_json(v) for v in value]
+    if isinstance(value, tuple):
+        return [sanitize_json(v) for v in value]
+    if isinstance(value, (np.floating, float)):
+        if np.isnan(value) or np.isinf(value):
+            return None
+        return float(value)
+    if isinstance(value, (np.integer, int)):
+        return int(value)
+    if isinstance(value, (pd.Timestamp, datetime)):
+        return value.isoformat()
+    return value
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Refresh AXIOM DRL v2 predictions")
+    parser.add_argument(
+        "--tickers",
+        nargs="+",
+        default=TICKERS,
+        help="Tickers to update",
+    )
+    parser.add_argument(
+        "--schedule",
+        default="35000,50000,65000",
+        help="Comma-separated PPO timesteps schedule, e.g. 12000 or 12000,20000",
+    )
+    parser.add_argument(
+        "--max-iters",
+        type=int,
+        default=3,
+        help="Maximum fine-tune iterations to run",
+    )
+    parser.add_argument(
+        "--fast-live",
+        action="store_true",
+        help="Update live DRL signals without running the slow walk-forward backtest",
+    )
+    parser.add_argument(
+        "--oracle-trees",
+        type=int,
+        default=300,
+        help="Estimator count for XGBoost/LightGBM oracle fits",
+    )
+    parser.add_argument(
+        "--oracle-jobs",
+        type=int,
+        default=1,
+        help="Thread count for XGBoost/LightGBM oracle fits",
+    )
+    return parser.parse_args()
+
+
 def main():
+    args = parse_args()
+    run_tickers = [ticker.upper() for ticker in args.tickers]
+    schedules = [int(part) for part in args.schedule.split(",") if part.strip()]
+
     log.info("AXIOM DRL v2 — Optimized PPO + A2C + XGBoost")
     log.info("Global DRL policy → walk-forward gating → 80%% confidence target")
+    if args.fast_live:
+        log.info("Fast live mode enabled: skipping walk-forward backtest")
 
     data = load_all()
     log.info("Loaded: %s", list(data.keys()))
@@ -591,29 +765,45 @@ def main():
     live_signals = {}
     ticker_results = {}
 
-    for ticker in TICKERS:
+    for ticker in run_tickers:
         if ticker not in data:
             log.warning("Missing %s", ticker)
             continue
-        result = fine_tune_loop(ticker, data, max_iters=3)
+        result = fine_tune_loop(
+            ticker,
+            data,
+            schedules=schedules,
+            max_iters=args.max_iters,
+            backtest=not args.fast_live,
+            oracle_trees=args.oracle_trees,
+            oracle_jobs=args.oracle_jobs,
+        )
         # Extract serializable metrics (remove model objects)
         m = {k: v for k, v in result.items()
              if k not in ("ppo_model","ppo_sc","a2c_model","a2c_sc","feats","close")}
         all_metrics[ticker] = m
         ticker_results[ticker] = result
 
-        sig = generate_signal(result)
+        sig = generate_signal(
+            result,
+            oracle_trees=args.oracle_trees,
+            oracle_jobs=args.oracle_jobs,
+        )
         live_signals[ticker] = sig
 
     # ── Report ──
     print("\n")
     print("═"*80)
+    latest_signal_date = max(
+        (sig.get("date", "") for sig in live_signals.values()),
+        default="",
+    )
     print("  AXIOM DRL v2 — FINAL REPORT")
-    print("  PPO + A2C (Stable Baselines3) + XGBoost Oracle | Jan 2023–Apr 2026")
+    print("  PPO + A2C (Stable Baselines3) + XGBoost Oracle")
     print("═"*80)
     print(f"  {'Ticker':<7} {'Overall':>9} {'HighConf':>10} {'HC-N':>6} {'IC':>7} {'Sharpe':>8} {'Conv':>7}")
     print("─"*80)
-    for t in TICKERS:
+    for t in run_tickers:
         m = all_metrics.get(t, {})
         cv = "✓" if m.get("converged") else "✗"
         print(f"  {t:<7} {m.get('overall_accuracy',0)*100:>8.1f}% "
@@ -624,11 +814,11 @@ def main():
               f"{cv:>7}")
     print("─"*80)
 
-    print("\n  LIVE SIGNALS — Apr 7, 2026")
+    print(f"\n  LIVE SIGNALS — {latest_signal_date or 'N/A'}")
     print("─"*80)
     print(f"  {'Ticker':<6} {'Signal':<7} {'XGB%':>7} {'DRL-B%':>8} {'Conf%':>8} {'Price':>10}")
     print("─"*80)
-    for t in TICKERS:
+    for t in run_tickers:
         s = live_signals.get(t, {})
         icon = "▲" if s.get("signal")=="BUY" else ("▼" if s.get("signal")=="SELL" else "◆")
         print(f"  {t:<6} {icon} {s.get('signal','HOLD'):<5} "
@@ -638,6 +828,8 @@ def main():
               f"${s.get('current_price',0):>9.2f}")
     print("═"*80)
     print("  ⚠  Not financial advice. Educational use only.")
+    if args.fast_live:
+        print("  Note: backtest metrics were skipped for this live-refresh run.")
     print("═"*80)
 
     # Save
@@ -646,17 +838,27 @@ def main():
         "generated": datetime.now().isoformat(),
         "architecture": "PPO [256,128,64] + A2C [256,128,64] + XGBoost Oracle",
         "drl_framework": "Stable Baselines3 2.8.0 / PyTorch 2.11",
-        "data_days": 817,
+        "data_days": max((len(data[t]) for t in run_tickers if t in data), default=0),
         "features": 92,
         "gating": "XGB + DRL must agree | conf ≥ 62% for signal",
+        "evaluation_mode": "live_only" if args.fast_live else "walk_forward_backtest",
+        "tickers": run_tickers,
+        "latest_signal_date": latest_signal_date,
         "backtest": all_metrics,
         "signals": live_signals,
     }
-    with open(f"{OUT_DIR}/drl_v2_results.json","w") as f:
-        json.dump(output, f, indent=2)
-    log.info("Saved to %s/drl_v2_results.json", OUT_DIR)
+    out_path = OUT_DIR / "drl_v2_results.json"
+    with open(out_path, "w") as f:
+        json.dump(sanitize_json(output), f, indent=2, allow_nan=False)
+    log.info("Saved to %s", out_path)
     return output
 
 
 if __name__ == "__main__":
     main()
+    # Work around a PyTorch/SB3 teardown segfault seen on some macOS arm64 builds
+    # after training completes and outputs have already been written.
+    if sys.platform == "darwin":
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(0)
