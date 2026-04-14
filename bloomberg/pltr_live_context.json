@@ -1,20 +1,67 @@
 {
-  "model_version": "pltr_deep_v1",
-  "generated": "2026-04-13T23:13:08.736726",
-  "data": {
-    "trading_days": 821,
-    "date_range": "2023-01-03 to 2026-04-13",
-    "catalysts": 56,
-    "features": 125,
-    "cross_assets": [
-      "SPY",
-      "QQQ",
-      "BAH",
-      "CACI",
-      "NOC",
-      "AI",
-      "SNOW"
-    ]
+  "ticker": "PLTR",
+  "generated_at": "2026-04-13T23:13:08.736726",
+  "market_date": "2026-04-13",
+  "forecast_for_date": "2026-04-14",
+  "signal": {
+    "signal": "BUY",
+    "probability_up": 63.2,
+    "confidence": 26.5,
+    "pred_return_pct": 0.78,
+    "horizon_days": 1,
+    "current_price": 132.3699951171875,
+    "target_price": 133.41,
+    "catalyst_score": 0.0,
+    "date": "2026-04-13",
+    "trust_score": 49.9,
+    "recent_accuracy_10": 50.0,
+    "recent_accuracy_20": 50.0,
+    "forecast_for_date": "2026-04-14",
+    "source_horizon_days": 1
+  },
+  "live_signals_by_horizon": {
+    "1d": {
+      "signal": "BUY",
+      "probability_up": 63.2,
+      "confidence": 26.5,
+      "pred_return_pct": 0.78,
+      "horizon_days": 1,
+      "current_price": 132.3699951171875,
+      "target_price": 133.41,
+      "catalyst_score": 0.0,
+      "date": "2026-04-13",
+      "trust_score": 49.9,
+      "recent_accuracy_10": 50.0,
+      "recent_accuracy_20": 50.0
+    },
+    "5d": {
+      "signal": "HOLD",
+      "probability_up": 58.7,
+      "confidence": 17.5,
+      "pred_return_pct": -0.48,
+      "horizon_days": 5,
+      "current_price": 132.3699951171875,
+      "target_price": 131.74,
+      "catalyst_score": 0.0,
+      "date": "2026-04-13",
+      "trust_score": 57.3,
+      "recent_accuracy_10": 60.0,
+      "recent_accuracy_20": 60.0
+    },
+    "10d": {
+      "signal": "HOLD",
+      "probability_up": 47.5,
+      "confidence": 4.9,
+      "pred_return_pct": -0.79,
+      "horizon_days": 10,
+      "current_price": 132.3699951171875,
+      "target_price": 131.32,
+      "catalyst_score": 0.0,
+      "date": "2026-04-13",
+      "trust_score": 39.9,
+      "recent_accuracy_10": 10.0,
+      "recent_accuracy_20": 20.0
+    }
   },
   "backtest": {
     "1d": {
@@ -72,82 +119,24 @@
       "converged": false
     }
   },
-  "best_horizon": 5,
-  "live_signal": {
-    "signal": "HOLD",
-    "probability_up": 58.7,
-    "confidence": 17.5,
-    "pred_return_pct": -0.48,
-    "horizon_days": 5,
-    "current_price": 132.3699951171875,
-    "target_price": 131.74,
-    "catalyst_score": 0.0,
-    "date": "2026-04-13",
-    "trust_score": 57.3,
-    "recent_accuracy_10": 60.0,
-    "recent_accuracy_20": 60.0
+  "card": {
+    "sig": "BUY",
+    "sc": "buy",
+    "conf": 0.265,
+    "px": 132.37,
+    "chg": 3.37,
+    "l1h": 0.22,
+    "l4h": 0.55,
+    "l1d": 0.78,
+    "l5d": -0.48,
+    "l10d": -0.79,
+    "l20d": -0.79,
+    "tgt": 133.41,
+    "up": 0.8,
+    "headline_summary": "The updated PLTR deep model still leans rebound rather than breakdown into the next session, but the move it expects is small: +0.78% for the next day and -0.48% over 5 days."
   },
-  "live_signals_by_horizon": {
-    "1d": {
-      "signal": "BUY",
-      "probability_up": 63.2,
-      "confidence": 26.5,
-      "pred_return_pct": 0.78,
-      "horizon_days": 1,
-      "current_price": 132.3699951171875,
-      "target_price": 133.41,
-      "catalyst_score": 0.0,
-      "date": "2026-04-13",
-      "trust_score": 49.9,
-      "recent_accuracy_10": 50.0,
-      "recent_accuracy_20": 50.0
-    },
-    "5d": {
-      "signal": "HOLD",
-      "probability_up": 58.7,
-      "confidence": 17.5,
-      "pred_return_pct": -0.48,
-      "horizon_days": 5,
-      "current_price": 132.3699951171875,
-      "target_price": 131.74,
-      "catalyst_score": 0.0,
-      "date": "2026-04-13",
-      "trust_score": 57.3,
-      "recent_accuracy_10": 60.0,
-      "recent_accuracy_20": 60.0
-    },
-    "10d": {
-      "signal": "HOLD",
-      "probability_up": 47.5,
-      "confidence": 4.9,
-      "pred_return_pct": -0.79,
-      "horizon_days": 10,
-      "current_price": 132.3699951171875,
-      "target_price": 131.32,
-      "catalyst_score": 0.0,
-      "date": "2026-04-13",
-      "trust_score": 39.9,
-      "recent_accuracy_10": 10.0,
-      "recent_accuracy_20": 20.0
-    }
-  },
-  "tomorrow_prediction": {
-    "signal": "BUY",
-    "probability_up": 63.2,
-    "confidence": 26.5,
-    "pred_return_pct": 0.78,
-    "horizon_days": 1,
-    "current_price": 132.3699951171875,
-    "target_price": 133.41,
-    "catalyst_score": 0.0,
-    "date": "2026-04-13",
-    "trust_score": 49.9,
-    "recent_accuracy_10": 50.0,
-    "recent_accuracy_20": 50.0,
-    "forecast_for_date": "2026-04-14",
-    "source_horizon_days": 1
-  },
-  "news_context": {
+  "recovery_target_price": 160.0,
+  "news": {
     "ticker": "PLTR",
     "forecast_for_date": "2026-04-14",
     "window_start_et": "2026-04-13T16:00:00-04:00",
@@ -217,14 +206,5 @@
         "detail": "PLTR trades like a high-beta growth name, so tariff, rate, and volatility pressure can still overwhelm good company-level news in the near term."
       }
     ]
-  },
-  "key_insights": {
-    "earnings_beat_avg_1d_move": "+20-30%",
-    "election_impact": "+61% single day (Trump Nov 2024)",
-    "sp500_inclusion": "+14% forced buying",
-    "doge_risk": "-25% from ATH on defense-cut fears",
-    "beta_vs_spy": 2.1,
-    "us_commercial_q4_2025": "+137% YoY $507M",
-    "2026_guidance": "+115% US commercial revenue growth"
   }
 }

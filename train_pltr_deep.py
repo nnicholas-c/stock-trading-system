@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 import json, os, math, logging, warnings
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 from scipy.stats import pearsonr
 
@@ -23,11 +24,24 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, mean_absolute_error
 from sklearn.inspection import permutation_importance
 
+from pltr_premarket_context import (
+    apply_live_context_to_news_frame,
+    build_docs_payload,
+    build_historical_news_features,
+    build_reasoning_payload,
+    fetch_live_premarket_context,
+    write_json,
+)
+
 warnings.filterwarnings("ignore")
 logging.basicConfig(level=logging.INFO,
     format="%(asctime)s | %(levelname)8s | pltr.deep | %(message)s",
     datefmt="%H:%M:%S")
 log = logging.getLogger("pltr.deep")
+
+ROOT = Path(__file__).resolve().parent
+PLTR_DEEP_DIR = ROOT / "trading_system" / "pltr_deep"
+LGBM_COMPATIBLE = True
 
 # ─────────────────────────────────────────────────────────────────
 # 1. VERIFIED PLTR DAILY PRICE DATABASE
@@ -228,13 +242,13 @@ def load_price_csv(filepath: str, ticker: str) -> pd.Series:
 
 def build_price_matrix() -> pd.DataFrame:
     """Build aligned daily price matrix for PLTR and all peers."""
-    base_dir = "/home/user/workspace/trading_system/pltr_deep"
+    base_dir = PLTR_DEEP_DIR
     
-    pltr_ohlcv = pd.read_csv(f"{base_dir}/pltr_ohlcv.csv",
+    pltr_ohlcv = pd.read_csv(base_dir / "pltr_ohlcv.csv",
                               index_col=0, parse_dates=True)
     pltr = pltr_ohlcv["close"].rename("PLTR")
-    spy  = load_price_csv(f"{base_dir}/spy_close.csv", "SPY")
-    qqq  = load_price_csv(f"{base_dir}/qqq_close.csv", "QQQ")
+    spy  = load_price_csv(str(base_dir / "spy_close.csv"), "SPY")
+    qqq  = load_price_csv(str(base_dir / "qqq_close.csv"), "QQQ")
 
     # Build peer series from anchor data (since CSVs expire)
     peers_data = {
@@ -282,7 +296,7 @@ def build_price_matrix() -> pd.DataFrame:
 
 # ─────────────────────────────────────────────────────────────────
 # 5. FEATURE ENGINEERING (DAILY RESOLUTION)
-#    120 features per trading day
+#    120+ features per trading day, including pre-open news context
 # ─────────────────────────────────────────────────────────────────
 
 def compute_rsi(prices: pd.Series, period: int = 14) -> pd.Series:
@@ -366,8 +380,8 @@ def build_catalyst_features(date: pd.Timestamp, lookback_days: int = 30) -> np.n
     return np.clip(feats, -5, 5)
 
 
-def build_daily_features(prices: pd.DataFrame) -> pd.DataFrame:
-    """Build 120-dim feature matrix for all trading days."""
+def build_daily_features(prices: pd.DataFrame, live_context: Optional[Dict] = None) -> pd.DataFrame:
+    """Build the PLTR feature matrix, including historical and live pre-open news."""
     pltr = prices["PLTR"]
     spy  = prices["SPY"]
     qqq  = prices["QQQ"]
@@ -573,7 +587,10 @@ def build_daily_features(prices: pd.DataFrame) -> pd.DataFrame:
     cat_cols = [f"cat_{j}" for j in range(25)]
     cat_df = pd.DataFrame(cat_feats, index=prices.index, columns=cat_cols)
 
-    full_df = pd.concat([feat_df, cat_df], axis=1)
+    news_df = build_historical_news_features(prices.index)
+    news_df = apply_live_context_to_news_frame(news_df, live_context)
+
+    full_df = pd.concat([feat_df, cat_df, news_df], axis=1)
     log.info("Feature matrix: %d rows × %d features", len(full_df), len(full_df.columns))
     return full_df
 
@@ -592,13 +609,13 @@ class PLTREnsemble:
             subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
             gamma=0.1, reg_alpha=0.05, reg_lambda=1.0,
             use_label_encoder=False, eval_metric="logloss",
-            random_state=42, verbosity=0
+            random_state=42, verbosity=0, tree_method="hist", n_jobs=1
         )
         self.lgb_clf = lgb.LGBMClassifier(
             n_estimators=300, max_depth=4, learning_rate=0.03,
             subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
             reg_alpha=0.05, reg_lambda=1.0,
-            random_state=42, verbose=-1
+            random_state=42, verbose=-1, n_jobs=1
         )
         self.gbt_clf = GradientBoostingClassifier(
             n_estimators=200, max_depth=3, learning_rate=0.03,
@@ -609,29 +626,61 @@ class PLTREnsemble:
         self.xgb_ret = xgb.XGBRegressor(
             n_estimators=300, max_depth=4, learning_rate=0.03,
             subsample=0.8, colsample_bytree=0.7,
-            random_state=42, verbosity=0
+            random_state=42, verbosity=0, tree_method="hist", n_jobs=1
         )
         self.lgb_ret = lgb.LGBMRegressor(
             n_estimators=300, max_depth=4, learning_rate=0.03,
             subsample=0.8, colsample_bytree=0.7,
-            random_state=42, verbose=-1
+            random_state=42, verbose=-1, n_jobs=1
         )
         self.scaler = StandardScaler()
         self.is_fitted = False
         self.feature_importances_ = None
+        self.xgb_clf_fit_ = False
+        self.lgb_clf_fit_ = False
+        self.gbt_clf_fit_ = False
+        self.ridge_clf_fit_ = False
+        self.xgb_ret_fit_ = False
+        self.lgb_ret_fit_ = False
 
     def fit(self, X: np.ndarray, y_dir: np.ndarray, y_ret: np.ndarray):
+        global LGBM_COMPATIBLE
         if len(X) < 30 or y_dir.sum() < 5 or (1 - y_dir).sum() < 5:
             log.warning("Insufficient training data: %d samples", len(X))
             return self
         X_sc = self.scaler.fit_transform(X)
         self.xgb_clf.fit(X, y_dir)
-        self.lgb_clf.fit(X, y_dir)
+        self.xgb_clf_fit_ = True
+        if LGBM_COMPATIBLE:
+            try:
+                self.lgb_clf.fit(X, y_dir)
+                self.lgb_clf_fit_ = True
+            except TypeError as exc:
+                LGBM_COMPATIBLE = False
+                log.warning("LightGBM incompatible with this sklearn build, skipping it: %s", exc)
+            except Exception as exc:
+                log.warning("LightGBM classifier fit failed, skipping it: %s", exc)
         self.gbt_clf.fit(X_sc, y_dir)
+        self.gbt_clf_fit_ = True
         self.ridge_clf.fit(X_sc, y_dir)
+        self.ridge_clf_fit_ = True
         self.xgb_ret.fit(X, y_ret)
-        self.lgb_ret.fit(X, y_ret)
-        self.is_fitted = True
+        self.xgb_ret_fit_ = True
+        if LGBM_COMPATIBLE:
+            try:
+                self.lgb_ret.fit(X, y_ret)
+                self.lgb_ret_fit_ = True
+            except TypeError as exc:
+                LGBM_COMPATIBLE = False
+                log.warning("LightGBM incompatible with this sklearn build, skipping regressor: %s", exc)
+            except Exception as exc:
+                log.warning("LightGBM regressor fit failed, skipping it: %s", exc)
+        self.is_fitted = any([
+            self.xgb_clf_fit_,
+            self.lgb_clf_fit_,
+            self.gbt_clf_fit_,
+            self.ridge_clf_fit_,
+        ])
         # Capture feature importance from XGBoost
         self.feature_importances_ = self.xgb_clf.feature_importances_
         return self
@@ -640,18 +689,42 @@ class PLTREnsemble:
         if not self.is_fitted:
             return np.full((len(X), 2), 0.5)
         X_sc = self.scaler.transform(X)
-        p1 = self.xgb_clf.predict_proba(X)
-        p2 = self.lgb_clf.predict_proba(X)
-        p3 = self.gbt_clf.predict_proba(X_sc)
-        p4 = self.ridge_clf.predict_proba(X_sc)
-        # Weighted: XGB 35%, LGB 35%, GBT 20%, Ridge 10%
-        return 0.35 * p1 + 0.35 * p2 + 0.20 * p3 + 0.10 * p4
+        probs = []
+        weights = []
+        if self.xgb_clf_fit_:
+            probs.append(self.xgb_clf.predict_proba(X))
+            weights.append(0.35)
+        if self.lgb_clf_fit_:
+            probs.append(self.lgb_clf.predict_proba(X))
+            weights.append(0.35)
+        if self.gbt_clf_fit_:
+            probs.append(self.gbt_clf.predict_proba(X_sc))
+            weights.append(0.20)
+        if self.ridge_clf_fit_:
+            probs.append(self.ridge_clf.predict_proba(X_sc))
+            weights.append(0.10)
+        if not probs:
+            return np.full((len(X), 2), 0.5)
+        total_weight = sum(weights)
+        ensemble = sum(weight * prob for weight, prob in zip(weights, probs))
+        return ensemble / total_weight
 
     def predict_return(self, X: np.ndarray) -> np.ndarray:
         if not self.is_fitted:
             return np.zeros(len(X))
-        X_sc = self.scaler.transform(X)
-        return 0.5 * self.xgb_ret.predict(X) + 0.5 * self.lgb_ret.predict(X)
+        preds = []
+        weights = []
+        if self.xgb_ret_fit_:
+            preds.append(self.xgb_ret.predict(X))
+            weights.append(0.5)
+        if self.lgb_ret_fit_:
+            preds.append(self.lgb_ret.predict(X))
+            weights.append(0.5)
+        if not preds:
+            return np.zeros(len(X))
+        total_weight = sum(weights)
+        ensemble = sum(weight * pred for weight, pred in zip(weights, preds))
+        return ensemble / total_weight
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -743,6 +816,7 @@ class PLTRWalkForward:
         if not self.results:
             return {}
         df = pd.DataFrame(self.results)
+        df = df.sort_values("date").reset_index(drop=True)
         overall_acc = float(df["correct"].mean())
         overall_mae = float(df["actual_ret"].abs().mean())
         try:
@@ -779,6 +853,32 @@ class PLTRWalkForward:
         df["signal_ret"] = df["actual_ret"] * np.where(df["pred_dir"] == 1, 1, -1)
         signal_sr = float(df["signal_ret"].mean() / (df["signal_ret"].std() + 1e-10)) * math.sqrt(252 / 5)
 
+        recent_5 = float(df.tail(5)["correct"].mean()) if len(df) >= 5 else overall_acc
+        recent_10 = float(df.tail(10)["correct"].mean()) if len(df) >= 10 else overall_acc
+        recent_20 = float(df.tail(20)["correct"].mean()) if len(df) >= 20 else overall_acc
+        recent_high_conf = df.tail(20)
+        recent_high_conf = recent_high_conf[recent_high_conf["confidence"] >= 0.4]
+        recent_high_conf_acc = (
+            float(recent_high_conf["correct"].mean()) if len(recent_high_conf) > 0 else recent_20
+        )
+
+        ic_component = float(np.clip(ic / 0.20, -1.0, 1.0))
+        trust_score = (
+            0.20 * overall_acc +
+            0.20 * high_conf_acc +
+            0.25 * recent_20 +
+            0.15 * recent_10 +
+            0.10 * recent_5 +
+            0.10 * max(0.0, ic_component)
+        )
+        selection_score = (
+            0.30 * overall_acc +
+            0.15 * high_conf_acc +
+            0.30 * recent_20 +
+            0.15 * recent_10 +
+            0.10 * max(0.0, ic_component)
+        )
+
         return {
             "overall_accuracy": overall_acc,
             "overall_mae": overall_mae,
@@ -789,6 +889,12 @@ class PLTRWalkForward:
             "signal_sharpe": signal_sr,
             "n_predictions": len(df),
             "n_high_conf": len(high_conf),
+            "recent_accuracy_5": recent_5,
+            "recent_accuracy_10": recent_10,
+            "recent_accuracy_20": recent_20,
+            "recent_high_conf_accuracy_20": recent_high_conf_acc,
+            "trust_score": float(np.clip(trust_score, 0.0, 1.0)),
+            "selection_score": float(np.clip(selection_score, 0.0, 1.0)),
             "converged": overall_acc >= 0.58 and ic >= 0.05,
         }
 
@@ -815,10 +921,11 @@ def run_iterative_training(features: pd.DataFrame, pltr_close: pd.Series,
                  metrics.get("n_predictions", 0))
         all_results[h] = {"metrics": metrics, "backtester": wf}
 
-    # Best horizon = highest accuracy × IC (when positive)
-    best_h = max(horizons, key=lambda h:
-        all_results[h]["metrics"].get("overall_accuracy", 0) *
-        max(0.01, all_results[h]["metrics"].get("ic", 0)))
+    # Best horizon = strongest recent + overall performance, not just raw long-window IC.
+    best_h = max(
+        horizons,
+        key=lambda h: all_results[h]["metrics"].get("selection_score", 0),
+    )
     log.info("\n Best horizon: %dd", best_h)
     return all_results, best_h
 
@@ -828,7 +935,7 @@ def run_iterative_training(features: pd.DataFrame, pltr_close: pd.Series,
 # ─────────────────────────────────────────────────────────────────
 
 def generate_pltr_signal(best_model: PLTREnsemble, features: pd.DataFrame,
-                         pltr_close: pd.Series, best_h: int) -> Dict:
+                         pltr_close: pd.Series, best_h: int, metrics: Optional[Dict] = None) -> Dict:
     """Generate today's PLTR signal using the best trained model."""
     last_feat = features.iloc[-1].values.reshape(1, -1)
     last_price = float(pltr_close.iloc[-1])
@@ -836,11 +943,20 @@ def generate_pltr_signal(best_model: PLTREnsemble, features: pd.DataFrame,
     proba = best_model.predict_proba(last_feat)[0]
     prob_up = float(proba[1])
     pred_ret = float(best_model.predict_return(last_feat)[0])
+
+    metrics = metrics or {}
+    trust_score = float(metrics.get("trust_score", 0.5))
+    reliability_scale = float(np.clip(0.35 + 0.65 * trust_score, 0.25, 0.95))
+    prob_up = 0.5 + (prob_up - 0.5) * reliability_scale
+    pred_ret = pred_ret * reliability_scale
     conf = abs(prob_up - 0.5) * 2
 
-    if prob_up >= 0.62:
+    buy_threshold = 0.60 if trust_score >= 0.55 else 0.63
+    sell_threshold = 0.40 if trust_score >= 0.55 else 0.37
+
+    if prob_up >= buy_threshold:
         signal = "BUY"
-    elif prob_up <= 0.38:
+    elif prob_up <= sell_threshold:
         signal = "SELL"
     else:
         signal = "HOLD"
@@ -862,7 +978,17 @@ def generate_pltr_signal(best_model: PLTREnsemble, features: pd.DataFrame,
         "target_price": round(target, 2),
         "catalyst_score": round(cat_score, 3),
         "date": today.strftime("%Y-%m-%d"),
+        "trust_score": round(trust_score * 100, 1),
+        "recent_accuracy_10": round(float(metrics.get("recent_accuracy_10", 0)) * 100, 1),
+        "recent_accuracy_20": round(float(metrics.get("recent_accuracy_20", 0)) * 100, 1),
     }
+
+
+def next_business_day(date_value: pd.Timestamp) -> pd.Timestamp:
+    nxt = pd.Timestamp(date_value) + timedelta(days=1)
+    while nxt.weekday() >= 5:
+        nxt += timedelta(days=1)
+    return nxt
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -892,23 +1018,66 @@ def main():
             except Exception:
                 pass
 
-    print("\n[Step 3] Building 120-dim daily feature matrix...")
-    features = build_daily_features(prices)
+    print("\n[Step 3] Fetching live pre-open news context...")
+    live_context = fetch_live_premarket_context()
+    log.info(
+        "Pre-open news snapshot: %d article(s) | %s | %s",
+        live_context.get("article_count", 0),
+        live_context.get("overall_sentiment", "NEUTRAL"),
+        live_context.get("forecast_for_date", "n/a"),
+    )
 
-    print("\n[Step 4] Running walk-forward backtesting (1d, 5d, 10d horizons)...")
+    print("\n[Step 4] Building the news-aware daily feature matrix...")
+    features = build_daily_features(prices, live_context=live_context)
+
+    print("\n[Step 5] Running walk-forward backtesting (1d, 5d, 10d horizons)...")
     all_results, best_h = run_iterative_training(features, pltr_close, horizons=[1, 5, 10])
 
     best_wf = all_results[best_h]["backtester"]
     best_metrics = all_results[best_h]["metrics"]
+    latest_data_date = features.index[-1]
+    tomorrow_date = next_business_day(latest_data_date)
 
-    print("\n[Step 5] Generating live signal...")
+    print("\n[Step 6] Generating live signal...")
     if best_wf.best_model is not None:
-        signal = generate_pltr_signal(best_wf.best_model, features, pltr_close, best_h)
+        signal = generate_pltr_signal(
+            best_wf.best_model,
+            features,
+            pltr_close,
+            best_h,
+            metrics=best_metrics,
+        )
     else:
         signal = {"signal": "HOLD", "probability_up": 50.0, "confidence": 0.0,
                   "pred_return_pct": 0.0, "horizon_days": best_h,
                   "current_price": float(pltr_close.iloc[-1]), "target_price": float(pltr_close.iloc[-1]),
-                  "catalyst_score": 0.0, "date": features.index[-1].strftime("%Y-%m-%d")}
+                  "catalyst_score": 0.0, "date": features.index[-1].strftime("%Y-%m-%d"),
+                  "trust_score": round(float(best_metrics.get("trust_score", 0.0)) * 100, 1),
+                  "recent_accuracy_10": round(float(best_metrics.get("recent_accuracy_10", 0.0)) * 100, 1),
+                  "recent_accuracy_20": round(float(best_metrics.get("recent_accuracy_20", 0.0)) * 100, 1)}
+
+    live_signals_by_horizon = {}
+    for horizon in [1, 5, 10]:
+        wf = all_results[horizon]["backtester"]
+        metrics = all_results[horizon]["metrics"]
+        if wf.best_model is not None:
+            live_signals_by_horizon[f"{horizon}d"] = generate_pltr_signal(
+                wf.best_model, features, pltr_close, horizon, metrics=metrics
+            )
+
+    tomorrow_prediction = dict(
+        live_signals_by_horizon.get("1d", signal),
+        forecast_for_date=tomorrow_date.strftime("%Y-%m-%d"),
+        source_horizon_days=1,
+    )
+
+    reasoning = build_reasoning_payload(
+        signal=tomorrow_prediction,
+        live_signals_by_horizon=live_signals_by_horizon,
+        live_context=live_context,
+        features=features,
+        pltr_close=pltr_close,
+    )
 
     # ── Print Final Report ──
     print("\n")
@@ -938,11 +1107,19 @@ def main():
     print("─" * 80)
 
     sig_icon = "▲" if signal["signal"] == "BUY" else ("▼" if signal["signal"] == "SELL" else "◆")
-    print(f"\n  LIVE SIGNAL — PLTR — Apr 7, 2026")
+    print(f"\n  LIVE SIGNAL — PLTR — {latest_data_date.strftime('%b %d, %Y')}")
     print(f"  {sig_icon} {signal['signal']}  |  Prob Up: {signal['probability_up']}%  |  Conf: {signal['confidence']}%")
     print(f"  Pred {best_h}d return: {signal['pred_return_pct']:+.2f}%")
     print(f"  Current: ${signal['current_price']:.2f}  →  Target: ${signal['target_price']:.2f}")
     print(f"  Catalyst score: {signal['catalyst_score']:+.3f}")
+    print(f"\n  TOMORROW FORECAST — {tomorrow_prediction['forecast_for_date']}")
+    print(f"  {tomorrow_prediction['signal']} | Prob Up: {tomorrow_prediction['probability_up']}% | "
+          f"Pred 1d return: {tomorrow_prediction['pred_return_pct']:+.2f}% | "
+          f"Target: ${tomorrow_prediction['target_price']:.2f}")
+    print(f"\n  PRE-OPEN NEWS SUMMARY: {live_context.get('summary', 'No live snapshot')}")
+    print(f"  WHY FALLING: {reasoning['why_falling']}")
+    print(f"  CAN IT REACH $160? {reasoning['reach_160']['assessment']} "
+          f"({reasoning['reach_160']['required_return_pct']:+.2f}% needed)")
 
     print("\n  PLTR-SPECIFIC INSIGHTS FROM 40-MONTH TRAINING:")
     print("  • Earnings beats cause +20-30% 1-day moves (9/12 quarters beat-day positive)")
@@ -961,14 +1138,14 @@ def main():
     print("═" * 80)
 
     # ── Save outputs ──
-    os.makedirs("/home/user/workspace/trading_system/pltr_deep", exist_ok=True)
+    PLTR_DEEP_DIR.mkdir(parents=True, exist_ok=True)
 
     output = {
         "model_version": "pltr_deep_v1",
         "generated": datetime.now().isoformat(),
         "data": {
             "trading_days": len(pltr_close),
-            "date_range": "2023-01-03 to 2026-04-07",
+            "date_range": f"{pltr_close.index[0].strftime('%Y-%m-%d')} to {latest_data_date.strftime('%Y-%m-%d')}",
             "catalysts": len(PLTR_CATALYSTS),
             "features": features.shape[1],
             "cross_assets": ["SPY", "QQQ", "BAH", "CACI", "NOC", "AI", "SNOW"],
@@ -978,6 +1155,10 @@ def main():
         },
         "best_horizon": best_h,
         "live_signal": signal,
+        "live_signals_by_horizon": live_signals_by_horizon,
+        "tomorrow_prediction": tomorrow_prediction,
+        "news_context": live_context,
+        "reasoning": reasoning,
         "key_insights": {
             "earnings_beat_avg_1d_move": "+20-30%",
             "election_impact": "+61% single day (Trump Nov 2024)",
@@ -989,13 +1170,18 @@ def main():
         }
     }
 
-    with open("/home/user/workspace/trading_system/pltr_deep/pltr_deep_results.json", "w") as f:
+    with open(PLTR_DEEP_DIR / "pltr_deep_results.json", "w") as f:
         json.dump(output, f, indent=2)
 
-    with open("/home/user/workspace/trading_system/pltr_deep/pltr_signal.json", "w") as f:
-        json.dump(signal, f, indent=2)
+    with open(PLTR_DEEP_DIR / "pltr_signal.json", "w") as f:
+        json.dump(tomorrow_prediction, f, indent=2)
 
-    log.info("Results saved to /home/user/workspace/trading_system/pltr_deep/")
+    write_json(PLTR_DEEP_DIR / "pltr_news_snapshot.json", live_context)
+    docs_payload = build_docs_payload(output, live_context, reasoning, prices)
+    write_json(ROOT / "docs" / "pltr_live_context.json", docs_payload)
+    write_json(ROOT / "bloomberg" / "pltr_live_context.json", docs_payload)
+
+    log.info("Results saved to %s", PLTR_DEEP_DIR)
     return output
 
 

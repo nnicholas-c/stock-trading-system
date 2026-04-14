@@ -1,0 +1,44 @@
+{
+  "ticker": "PLTR",
+  "forecast_for_date": "2026-04-14",
+  "window_start_et": "2026-04-13T16:00:00-04:00",
+  "window_end_et": "2026-04-14T02:11:37.989252-04:00",
+  "next_open_et": "2026-04-14T09:30:00-04:00",
+  "analysis_mode": "heuristic",
+  "article_count": 1,
+  "material_count": 0,
+  "overall_sentiment": "NEUTRAL",
+  "intraday_bias": "FLAT",
+  "net_score": 1.0,
+  "category_counts": {
+    "analyst": 1
+  },
+  "summary": "Pre-open PLTR news is mixed across 1 headline(s); the tape still needs technical confirmation after the open.",
+  "feature_values": {
+    "premkt_live_net": 1.0,
+    "premkt_live_article_count": 1.0,
+    "premkt_live_material_count": 0.0,
+    "premkt_live_competition_risk": 0.0,
+    "premkt_live_contract_signal": 0.0,
+    "premkt_live_earnings_signal": 0.0
+  },
+  "articles": [
+    {
+      "headline": "Palantir At $130: Buy, Sell or Hold - 24/7 Wall St.",
+      "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiggFBVV95cUxQdHVfclNvdXgtOUxXamFIdW9QUWhkaEhsS0Z6Zm9YeFE2RGFHN19TQ2JNSUJ5RTVpdWpFNmt5VHV3aURZeEZIQ1h1cHFIX2NUdXZJaFpsYjk5N3NpNEotT29yWFpGMHNSWmNlMGp3ZWRlQWY1M2NUd1hTZFp3RkxvZmln?oc=5\" target=\"_blank\"&gt;Palantir At $130: Buy, Sell or Hold&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;24/7 Wall St.&lt;/font&gt;",
+      "source": "Google News",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQdHVfclNvdXgtOUxXamFIdW9QUWhkaEhsS0Z6Zm9YeFE2RGFHN19TQ2JNSUJ5RTVpdWpFNmt5VHV3aURZeEZIQ1h1cHFIX2NUdXZJaFpsYjk5N3NpNEotT29yWFpGMHNSWmNlMGp3ZWRlQWY1M2NUd1hTZFp3RkxvZmln?oc=5",
+      "published": "Mon, 13 Apr 2026 20:18:57 GMT",
+      "published_at_et": "2026-04-13T16:18:57-04:00",
+      "in_window": true,
+      "sentiment": "BULLISH",
+      "impact": "MEDIUM",
+      "net_score": 1,
+      "is_material": false,
+      "categories": [
+        "analyst"
+      ],
+      "rationale": "Headline tone leans constructive for demand, execution, or positioning."
+    }
+  ]
+}
