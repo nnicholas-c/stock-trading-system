@@ -1,0 +1,16 @@
+{
+  "surface": "github_pages",
+  "policy": "latest_available",
+  "backend_policy": "champion_only",
+  "artifact_status": "champion",
+  "label": "CHAMPION",
+  "default_ticker": "PLTR",
+  "timeframes": [
+    "1w",
+    "1m",
+    "3m",
+    "6m",
+    "1y",
+    "all"
+  ]
+}
