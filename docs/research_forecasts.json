@@ -1,9 +1,9 @@
 {
   "artifact_version": "research_v2",
   "artifact_status": "champion",
-  "run_id": "premarket-20260415-124842",
+  "run_id": "premarket-20260415-134602",
   "run_type": "premarket_refresh",
-  "generated_at": "2026-04-15T12:48:45.655112-07:00",
+  "generated_at": "2026-04-15T13:46:10.602202-07:00",
   "market_date": "2026-04-15",
   "forecast_for_date": "2026-04-16",
   "methodology": {
@@ -56,29 +56,44 @@
       "primary_horizon": "1d",
       "signal": {
         "signal": "HOLD",
-        "probability_up": 50.6,
-        "confidence": 53.01,
+        "probability_up": 50.4,
+        "confidence": 43.92,
         "pred_return_pct": 0.66,
         "current_price": 142.21,
         "target_price": 143.15,
-        "trust_score": 58.9,
+        "trust_score": 48.8,
         "trend_score": -0.3563,
         "trend_state": "BEARISH",
         "trend_supported": false,
+        "edge_status": "low_edge",
+        "edge_label": "TACTICAL / LOW EDGE",
         "forecast_for_date": "2026-04-16",
         "date": "2026-04-15",
-        "summary": "PLTR is HOLD for 2026-04-16 with 50.6% odds up, +0.66% expected return, 58.9% trust, and a bearish daily trend."
+        "summary": "PLTR is HOLD for 2026-04-16 with 50.4% odds up, +0.66% expected return, 48.8% trust, a bearish daily trend, and a tactical / low edge 1d setup."
       },
-      "summary": "PLTR is HOLD for 2026-04-16 with 50.6% odds up, +0.66% expected return, 58.9% trust, and a bearish daily trend.",
+      "summary": "PLTR is HOLD for 2026-04-16 with 50.4% odds up, +0.66% expected return, 48.8% trust, a bearish daily trend, and a tactical / low edge 1d setup.",
+      "one_day_edge": {
+        "status": "low_edge",
+        "label": "TACTICAL / LOW EDGE",
+        "tone": "bad",
+        "summary": "Recent 1d walk-forward accuracy is 40.0% / 55.0% over the last 20 / 60 matured calls, so the next-day read is being treated as a low-edge tactical signal.",
+        "recent20_accuracy": 0.4,
+        "recent60_accuracy": 0.55,
+        "recent20_brier": 0.2441,
+        "recent20_log_loss": 0.6811,
+        "supported_probability": true,
+        "used_recent_fallback": true,
+        "is_low_edge": true
+      },
       "horizons": {
         "1d": {
           "horizon_days": 1,
           "model_family": "linear",
           "model_version": "research_v1-pltr-1d-linear",
-          "probability_up": 50.6,
+          "probability_up": 50.4,
           "expected_return_pct": 0.66,
           "target_price": 143.15,
-          "trust_score": 58.9,
+          "trust_score": 48.8,
           "supported_probability": true,
           "trend_supported": false,
           "evaluation_mode": "premarket_refresh",
@@ -432,7 +447,20 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "HOLD"
+          "signal": "HOLD",
+          "edge_assessment": {
+            "status": "low_edge",
+            "label": "TACTICAL / LOW EDGE",
+            "tone": "bad",
+            "summary": "Recent 1d walk-forward accuracy is 40.0% / 55.0% over the last 20 / 60 matured calls, so the next-day read is being treated as a low-edge tactical signal.",
+            "recent20_accuracy": 0.4,
+            "recent60_accuracy": 0.55,
+            "recent20_brier": 0.2441,
+            "recent20_log_loss": 0.6811,
+            "supported_probability": true,
+            "used_recent_fallback": true,
+            "is_low_edge": true
+          }
         },
         "5d": {
           "horizon_days": 5,
@@ -786,7 +814,8 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "HOLD"
+          "signal": "HOLD",
+          "edge_assessment": null
         },
         "10d": {
           "horizon_days": 10,
@@ -1167,7 +1196,8 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "BUY"
+          "signal": "BUY",
+          "edge_assessment": null
         }
       },
       "champion_model": {
@@ -1231,7 +1261,7 @@
       },
       "data_freshness": {
         "market_date": "2026-04-15",
-        "generated_at": "2026-04-15T12:48:43.254047-07:00",
+        "generated_at": "2026-04-15T13:46:05.240607-07:00",
         "rows": 1326,
         "used_live_premarket_news": true,
         "used_recent_fallback": true
@@ -1245,17 +1275,17 @@
         "analysis_mode": "heuristic",
         "article_count": 5,
         "material_count": 1,
-        "overall_sentiment": "NEUTRAL",
-        "intraday_bias": "FLAT",
-        "net_score": -0.2,
+        "overall_sentiment": "BEARISH",
+        "intraday_bias": "DOWN",
+        "net_score": -0.4,
         "used_recent_fallback": true,
         "category_counts": {
-          "competition": 1,
-          "analyst": 5
+          "analyst": 5,
+          "competition": 1
         },
         "summary": "No fresh PLTR headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
         "feature_values": {
-          "premkt_live_net": -0.2,
+          "premkt_live_net": -0.4,
           "premkt_live_article_count": 5.0,
           "premkt_live_material_count": 1.0,
           "premkt_live_competition_risk": 1.0,
@@ -1264,22 +1294,21 @@
         },
         "articles": [
           {
-            "headline": "Veteran analyst drops bold take on Palantir Anthropic situation",
-            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5\" target=\"_blank\"&gt;Veteran analyst drops bold take on Palantir Anthropic situation&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;thestreet.com&lt;/font&gt;",
+            "headline": "Palantir: 3 Reasons That Could Pressure The Stock Down To $100 (NASDAQ:PLTR) - Seeking Alpha",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMikwFBVV95cUxOX1FsOU5BcDVQR08xdW50NXU0aTgzUld6M2U5NEp0ZHV4WHFlQzVnd2VrRXVkNl9ISVNxUDVnS1NWZ1djVGVCX1RCTGhhY0xWbndEUEJYNTQ5dlJlV2ZXSENLTHBVRVpLUUttUG1VUnV3Sk1vVUFQYXE2b0NvT0dBT1BwSUwyaVlFbE93RE5Ya1k0NEk?oc=5\" target=\"_blank\"&gt;Palantir: 3 Reasons That Could Pressure The Stock Down To $100 (NASDAQ:PLTR)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Seeking Alpha&lt;/font&gt;",
             "source": "Google News",
-            "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5",
-            "published": "Mon, 13 Apr 2026 15:00:54 GMT",
-            "published_at_et": "2026-04-13T11:00:54-04:00",
+            "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOX1FsOU5BcDVQR08xdW50NXU0aTgzUld6M2U5NEp0ZHV4WHFlQzVnd2VrRXVkNl9ISVNxUDVnS1NWZ1djVGVCX1RCTGhhY0xWbndEUEJYNTQ5dlJlV2ZXSENLTHBVRVpLUUttUG1VUnV3Sk1vVUFQYXE2b0NvT0dBT1BwSUwyaVlFbE93RE5Ya1k0NEk?oc=5",
+            "published": "Tue, 14 Apr 2026 13:00:00 GMT",
+            "published_at_et": "2026-04-14T09:00:00-04:00",
             "in_window": false,
             "sentiment": "BEARISH",
-            "impact": "HIGH",
+            "impact": "MEDIUM",
             "net_score": -1,
-            "is_material": true,
+            "is_material": false,
             "categories": [
-              "competition",
               "analyst"
             ],
-            "rationale": "Competition and valuation language keep the near-term read cautious."
+            "rationale": "Headline tone leans cautious on multiple, competition, or risk."
           },
           {
             "headline": "Palantir Price Prediction: How High Can PLTR Realistically Go? - Yahoo Finance",
@@ -1316,29 +1345,30 @@
             "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
           },
           {
+            "headline": "Veteran analyst drops bold take on Palantir Anthropic situation",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5\" target=\"_blank\"&gt;Veteran analyst drops bold take on Palantir Anthropic situation&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;thestreet.com&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5",
+            "published": "Mon, 13 Apr 2026 15:00:54 GMT",
+            "published_at_et": "2026-04-13T11:00:54-04:00",
+            "in_window": false,
+            "sentiment": "BEARISH",
+            "impact": "HIGH",
+            "net_score": -1,
+            "is_material": true,
+            "categories": [
+              "competition",
+              "analyst"
+            ],
+            "rationale": "Competition and valuation language keep the near-term read cautious."
+          },
+          {
             "headline": "How To Position For A 40% Discount On Palantir Stock?",
             "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMisgFBVV95cUxPV00zSDRpaFBmb0g4NldFak9jUThOR0Z3UmhvT0hUazBCVXpYVG1DRjJHbUlTVzRVR09ha2dKWmhlU0ZRLWk4RDJlMjRYQmVIb3gwWW1saERUejY4dUlZX0h0MS1vQjM3ZV9TOS14OU1aUENGNFNyRHY4ZWVrQl95LWluVUtDUkdXZFI1UU0tSEhsOFg1UTZUb2ptelRwLXNwWEhyZzBfd3lnTzdvc3NNbTdR?oc=5\" target=\"_blank\"&gt;How To Position For A 40% Discount On Palantir Stock?&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Trefis&lt;/font&gt;",
             "source": "Google News",
             "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPV00zSDRpaFBmb0g4NldFak9jUThOR0Z3UmhvT0hUazBCVXpYVG1DRjJHbUlTVzRVR09ha2dKWmhlU0ZRLWk4RDJlMjRYQmVIb3gwWW1saERUejY4dUlZX0h0MS1vQjM3ZV9TOS14OU1aUENGNFNyRHY4ZWVrQl95LWluVUtDUkdXZFI1UU0tSEhsOFg1UTZUb2ptelRwLXNwWEhyZzBfd3lnTzdvc3NNbTdR?oc=5",
             "published": "Mon, 13 Apr 2026 15:04:38 GMT",
             "published_at_et": "2026-04-13T11:04:38-04:00",
-            "in_window": false,
-            "sentiment": "NEUTRAL",
-            "impact": "MEDIUM",
-            "net_score": 0,
-            "is_material": false,
-            "categories": [
-              "analyst"
-            ],
-            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
-          },
-          {
-            "headline": "Why Is Palantir Stock Rising On Monday?",
-            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMioAFBVV95cUxOeDRtLVNVUm9kb2VYbm1TNkN5OGtnRWZYbFJ6ZnN6OGZzaXZja09PSklLVXA4VF9IN1RjbXkxeWpTV21Nb3V4NS1ITnFmUVpOOGRwTzIwRUJlMUtoMFFTeFo3VklxS2U0c1ZLR2hGQ3JUcklsb1RDNm5fWkV3RVhrYXp4VExIbVNFcmVuMGlTelpweVZyN0JpNkY4YTZGYUti?oc=5\" target=\"_blank\"&gt;Why Is Palantir Stock Rising On Monday?&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Benzinga&lt;/font&gt;",
-            "source": "Google News",
-            "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOeDRtLVNVUm9kb2VYbm1TNkN5OGtnRWZYbFJ6ZnN6OGZzaXZja09PSklLVXA4VF9IN1RjbXkxeWpTV21Nb3V4NS1ITnFmUVpOOGRwTzIwRUJlMUtoMFFTeFo3VklxS2U0c1ZLR2hGQ3JUcklsb1RDNm5fWkV3RVhrYXp4VExIbVNFcmVuMGlTelpweVZyN0JpNkY4YTZGYUti?oc=5",
-            "published": "Mon, 13 Apr 2026 14:07:33 GMT",
-            "published_at_et": "2026-04-13T10:07:33-04:00",
             "in_window": false,
             "sentiment": "NEUTRAL",
             "impact": "MEDIUM",
@@ -1380,12 +1410,12 @@
         {
           "title": "Champion model",
           "direction": "neutral",
-          "detail": "PLTR linear champion for 1d outputs 50.6% up with +0.66% expected return."
+          "detail": "PLTR linear champion for 1d outputs 50.4% up with +0.66% expected return."
         },
         {
           "title": "Calibration and trust",
-          "direction": "bull",
-          "detail": "Trust is 58.9% with recent walk-forward accuracy 40.0% / 55.0%."
+          "direction": "neutral",
+          "detail": "Trust is 48.8% with recent walk-forward accuracy 40.0% / 55.0%. The 1d edge is currently weak, so the live call is intentionally shrunk back toward neutral."
         },
         {
           "title": "Daily trend structure",
@@ -1394,7 +1424,7 @@
         },
         {
           "title": "Pre-open news window",
-          "direction": "neutral",
+          "direction": "bear",
           "detail": "No fresh PLTR headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
         },
         {
@@ -1404,17 +1434,17 @@
         }
       ],
       "reasoning": {
-        "summary": "PLTR carries a bearish day-to-day structure with score -0.36; the live forecast is leaning against that backdrop.",
+        "summary": "PLTR carries a bearish day-to-day structure with score -0.36; the live forecast is leaning against that backdrop. 1d edge status: TACTICAL / LOW EDGE.",
         "drivers": [
           {
             "title": "Champion model",
             "direction": "neutral",
-            "detail": "PLTR linear champion for 1d outputs 50.6% up with +0.66% expected return."
+            "detail": "PLTR linear champion for 1d outputs 50.4% up with +0.66% expected return."
           },
           {
             "title": "Calibration and trust",
-            "direction": "bull",
-            "detail": "Trust is 58.9% with recent walk-forward accuracy 40.0% / 55.0%."
+            "direction": "neutral",
+            "detail": "Trust is 48.8% with recent walk-forward accuracy 40.0% / 55.0%. The 1d edge is currently weak, so the live call is intentionally shrunk back toward neutral."
           },
           {
             "title": "Daily trend structure",
@@ -1423,7 +1453,7 @@
           },
           {
             "title": "Pre-open news window",
-            "direction": "neutral",
+            "direction": "bear",
             "detail": "No fresh PLTR headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
           },
           {
@@ -1435,19 +1465,20 @@
         "top_model_drivers": []
       },
       "component_scores": {
-        "probability_centered": 0.006,
-        "trust": 0.589,
+        "probability_centered": 0.004,
+        "trust": 0.488,
         "trend": -0.3563,
-        "news_weight": 0.45
+        "news_weight": 0.45,
+        "one_day_edge": -0.4
       },
       "card": {
         "sig": "HOLD",
         "sc": "hold",
-        "conf": 0.53,
+        "conf": 0.439,
         "px": 142.21,
         "chg": 4.79,
-        "l1h": -0.09,
-        "l4h": -0.2,
+        "l1h": -0.18,
+        "l4h": -0.4,
         "l1d": 0.66,
         "l5d": 0.39,
         "l10d": 4.26,
@@ -1457,7 +1488,9 @@
         "trend_state": "BEARISH",
         "trend_score": -0.3563,
         "trend_supported": false,
-        "headline_summary": "PLTR is HOLD for 2026-04-16 with 50.6% odds up, +0.66% expected return, 58.9% trust, and a bearish daily trend."
+        "edge_label": "TACTICAL / LOW EDGE",
+        "edge_status": "low_edge",
+        "headline_summary": "PLTR is HOLD for 2026-04-16 with 50.4% odds up, +0.66% expected return, 48.8% trust, a bearish daily trend, and a tactical / low edge 1d setup."
       }
     },
     "AAPL": {
@@ -1468,29 +1501,44 @@
       "primary_horizon": "1d",
       "signal": {
         "signal": "BUY",
-        "probability_up": 64.0,
-        "confidence": 64.0,
+        "probability_up": 62.9,
+        "confidence": 62.9,
         "pred_return_pct": 0.24,
         "current_price": 265.75,
         "target_price": 266.4,
-        "trust_score": 77.4,
+        "trust_score": 73.1,
         "trend_score": 0.2356,
         "trend_state": "MIXED",
         "trend_supported": false,
+        "edge_status": "fallback",
+        "edge_label": "TACTICAL / FALLBACK NEWS",
         "forecast_for_date": "2026-04-16",
         "date": "2026-04-15",
-        "summary": "AAPL is BUY for 2026-04-16 with 64.0% odds up, +0.24% expected return, 77.4% trust, and a mixed daily trend."
+        "summary": "AAPL is BUY for 2026-04-16 with 62.9% odds up, +0.24% expected return, 73.1% trust, a mixed daily trend, and a tactical / fallback news 1d setup."
       },
-      "summary": "AAPL is BUY for 2026-04-16 with 64.0% odds up, +0.24% expected return, 77.4% trust, and a mixed daily trend.",
+      "summary": "AAPL is BUY for 2026-04-16 with 62.9% odds up, +0.24% expected return, 73.1% trust, a mixed daily trend, and a tactical / fallback news 1d setup.",
+      "one_day_edge": {
+        "status": "fallback",
+        "label": "TACTICAL / FALLBACK NEWS",
+        "tone": "warn",
+        "summary": "The 1d model is usable, but the current live context is fallback-driven rather than a true pre-open headline window, so the next-day read remains tactical.",
+        "recent20_accuracy": 0.65,
+        "recent60_accuracy": 0.6667,
+        "recent20_brier": 0.2364,
+        "recent20_log_loss": 0.6649,
+        "supported_probability": false,
+        "used_recent_fallback": true,
+        "is_low_edge": false
+      },
       "horizons": {
         "1d": {
           "horizon_days": 1,
           "model_family": "tree",
           "model_version": "research_v1-aapl-1d-tree",
-          "probability_up": 64.0,
+          "probability_up": 62.9,
           "expected_return_pct": 0.24,
           "target_price": 266.4,
-          "trust_score": 77.4,
+          "trust_score": 73.1,
           "supported_probability": false,
           "trend_supported": false,
           "evaluation_mode": "premarket_refresh",
@@ -1871,7 +1919,20 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "BUY"
+          "signal": "BUY",
+          "edge_assessment": {
+            "status": "fallback",
+            "label": "TACTICAL / FALLBACK NEWS",
+            "tone": "warn",
+            "summary": "The 1d model is usable, but the current live context is fallback-driven rather than a true pre-open headline window, so the next-day read remains tactical.",
+            "recent20_accuracy": 0.65,
+            "recent60_accuracy": 0.6667,
+            "recent20_brier": 0.2364,
+            "recent20_log_loss": 0.6649,
+            "supported_probability": false,
+            "used_recent_fallback": true,
+            "is_low_edge": false
+          }
         },
         "5d": {
           "horizon_days": 5,
@@ -2225,7 +2286,8 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "BUY"
+          "signal": "BUY",
+          "edge_assessment": null
         },
         "10d": {
           "horizon_days": 10,
@@ -2606,7 +2668,8 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "BUY"
+          "signal": "BUY",
+          "edge_assessment": null
         }
       },
       "champion_model": {
@@ -2697,7 +2760,7 @@
       },
       "data_freshness": {
         "market_date": "2026-04-15",
-        "generated_at": "2026-04-15T12:48:44.060546-07:00",
+        "generated_at": "2026-04-15T13:46:07.290715-07:00",
         "rows": 1326,
         "used_live_premarket_news": true,
         "used_recent_fallback": true
@@ -2711,16 +2774,16 @@
         "analysis_mode": "heuristic",
         "article_count": 5,
         "material_count": 0,
-        "overall_sentiment": "BULLISH",
-        "intraday_bias": "UP",
-        "net_score": 0.4,
+        "overall_sentiment": "NEUTRAL",
+        "intraday_bias": "FLAT",
+        "net_score": 0.2,
         "used_recent_fallback": true,
         "category_counts": {
           "analyst": 5
         },
         "summary": "No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
         "feature_values": {
-          "premkt_live_net": 0.4,
+          "premkt_live_net": 0.2,
           "premkt_live_article_count": 5.0,
           "premkt_live_material_count": 0.0,
           "premkt_live_competition_risk": 0.0,
@@ -2735,6 +2798,23 @@
             "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE00U3JoRzhkckt5aVFxb1NVNnBndWhrcDM5N0NqUzZGUk8xQk04OF9jVWRULXh2RmlJaGpTS1FJWEREaUlNUnhfSHk2cm53NllX?oc=5",
             "published": "Mon, 13 Apr 2026 18:42:38 GMT",
             "published_at_et": "2026-04-13T14:42:38-04:00",
+            "in_window": false,
+            "sentiment": "NEUTRAL",
+            "impact": "MEDIUM",
+            "net_score": 0,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          },
+          {
+            "headline": "Apple (AAPL) Stock Trades Up, Here Is Why",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMipAFBVV95cUxQMDZfZ21qMzBIVTZuN2tVbkx5bi1BVHdIbzdIX1dfNExBTFVqVjlUcFBHaHg3UzFacEZONVJPQ0J6VkluazRuVENnZzZVR0U5RllGbjdkSFJGQ3hkVV9zZUl4MVhuN1VTeWExWWpoV01QUmFnVUpjcjdQUHF1c1pxVUphQmRZbVVTcm5NSFg2eEw2Y3lUQndRN0ZMRmRncENwelNnXw?oc=5\" target=\"_blank\"&gt;Apple (AAPL) Stock Trades Up, Here Is Why&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;StockStory&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQMDZfZ21qMzBIVTZuN2tVbkx5bi1BVHdIbzdIX1dfNExBTFVqVjlUcFBHaHg3UzFacEZONVJPQ0J6VkluazRuVENnZzZVR0U5RllGbjdkSFJGQ3hkVV9zZUl4MVhuN1VTeWExWWpoV01QUmFnVUpjcjdQUHF1c1pxVUphQmRZbVVTcm5NSFg2eEw2Y3lUQndRN0ZMRmRncENwelNnXw?oc=5",
+            "published": "Wed, 15 Apr 2026 20:09:35 GMT",
+            "published_at_et": "2026-04-15T16:09:35-04:00",
             "in_window": false,
             "sentiment": "NEUTRAL",
             "impact": "MEDIUM",
@@ -2795,23 +2875,6 @@
               "analyst"
             ],
             "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
-          },
-          {
-            "headline": "Apple (AAPL) Stock at $260: Buy, Sell or Hold?",
-            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE5fN2dkMk9jWWpwaTVzZlgyZGdsYTAtUWNVaUVZZTBqQ2FHYVQzc1d0MVZyZWtEU3FFZWNvcHZ0VTRtS1ZjZDl3d1pLb0xWakIzQllWdGRFNXBmTHVkRDRSdjBOLUVZZ09YaFMzTTFyOWFDcWhuc0dB?oc=5\" target=\"_blank\"&gt;Apple (AAPL) Stock at $260: Buy, Sell or Hold?&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;AOL.com&lt;/font&gt;",
-            "source": "Google News",
-            "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5fN2dkMk9jWWpwaTVzZlgyZGdsYTAtUWNVaUVZZTBqQ2FHYVQzc1d0MVZyZWtEU3FFZWNvcHZ0VTRtS1ZjZDl3d1pLb0xWakIzQllWdGRFNXBmTHVkRDRSdjBOLUVZZ09YaFMzTTFyOWFDcWhuc0dB?oc=5",
-            "published": "Wed, 15 Apr 2026 11:35:42 GMT",
-            "published_at_et": "2026-04-15T07:35:42-04:00",
-            "in_window": false,
-            "sentiment": "BULLISH",
-            "impact": "MEDIUM",
-            "net_score": 1,
-            "is_material": false,
-            "categories": [
-              "analyst"
-            ],
-            "rationale": "Headline tone leans constructive for demand, execution, or positioning."
           }
         ]
       },
@@ -2844,12 +2907,12 @@
         {
           "title": "Champion model",
           "direction": "bull",
-          "detail": "AAPL tree champion for 1d outputs 64.0% up with +0.24% expected return."
+          "detail": "AAPL tree champion for 1d outputs 62.9% up with +0.24% expected return."
         },
         {
           "title": "Calibration and trust",
           "direction": "bull",
-          "detail": "Trust is 77.4% with recent walk-forward accuracy 65.0% / 66.7%."
+          "detail": "Trust is 73.1% with recent walk-forward accuracy 65.0% / 66.7%."
         },
         {
           "title": "Daily trend structure",
@@ -2858,7 +2921,7 @@
         },
         {
           "title": "Pre-open news window",
-          "direction": "bull",
+          "direction": "neutral",
           "detail": "No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
         },
         {
@@ -2868,17 +2931,17 @@
         }
       ],
       "reasoning": {
-        "summary": "AAPL carries a mixed day-to-day structure with score +0.24; the live forecast is leaning against that backdrop.",
+        "summary": "AAPL carries a mixed day-to-day structure with score +0.24; the live forecast is leaning against that backdrop. 1d edge status: TACTICAL / FALLBACK NEWS.",
         "drivers": [
           {
             "title": "Champion model",
             "direction": "bull",
-            "detail": "AAPL tree champion for 1d outputs 64.0% up with +0.24% expected return."
+            "detail": "AAPL tree champion for 1d outputs 62.9% up with +0.24% expected return."
           },
           {
             "title": "Calibration and trust",
             "direction": "bull",
-            "detail": "Trust is 77.4% with recent walk-forward accuracy 65.0% / 66.7%."
+            "detail": "Trust is 73.1% with recent walk-forward accuracy 65.0% / 66.7%."
           },
           {
             "title": "Daily trend structure",
@@ -2887,7 +2950,7 @@
           },
           {
             "title": "Pre-open news window",
-            "direction": "bull",
+            "direction": "neutral",
             "detail": "No fresh AAPL headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
           },
           {
@@ -2899,19 +2962,20 @@
         "top_model_drivers": []
       },
       "component_scores": {
-        "probability_centered": 0.14,
-        "trust": 0.774,
+        "probability_centered": 0.129,
+        "trust": 0.731,
         "trend": 0.2356,
-        "news_weight": 0.36
+        "news_weight": 0.36,
+        "one_day_edge": -0.15
       },
       "card": {
         "sig": "BUY",
         "sc": "buy",
-        "conf": 0.64,
+        "conf": 0.629,
         "px": 265.75,
         "chg": 2.67,
-        "l1h": 0.18,
-        "l4h": 0.4,
+        "l1h": 0.09,
+        "l4h": 0.2,
         "l1d": 0.24,
         "l5d": 1.04,
         "l10d": 2.4,
@@ -2921,7 +2985,9 @@
         "trend_state": "MIXED",
         "trend_score": 0.2356,
         "trend_supported": false,
-        "headline_summary": "AAPL is BUY for 2026-04-16 with 64.0% odds up, +0.24% expected return, 77.4% trust, and a mixed daily trend."
+        "edge_label": "TACTICAL / FALLBACK NEWS",
+        "edge_status": "fallback",
+        "headline_summary": "AAPL is BUY for 2026-04-16 with 62.9% odds up, +0.24% expected return, 73.1% trust, a mixed daily trend, and a tactical / fallback news 1d setup."
       }
     },
     "NVDA": {
@@ -2932,29 +2998,44 @@
       "primary_horizon": "1d",
       "signal": {
         "signal": "BUY",
-        "probability_up": 83.4,
-        "confidence": 83.4,
+        "probability_up": 80.8,
+        "confidence": 80.8,
         "pred_return_pct": 3.47,
         "current_price": 198.16,
         "target_price": 205.05,
-        "trust_score": 85.0,
+        "trust_score": 81.6,
         "trend_score": 0.5046,
         "trend_state": "BULLISH",
         "trend_supported": true,
+        "edge_status": "fallback",
+        "edge_label": "TACTICAL / FALLBACK NEWS",
         "forecast_for_date": "2026-04-16",
         "date": "2026-04-15",
-        "summary": "NVDA is BUY for 2026-04-16 with 83.4% odds up, +3.47% expected return, 85.0% trust, and a bullish daily trend."
+        "summary": "NVDA is BUY for 2026-04-16 with 80.8% odds up, +3.47% expected return, 81.6% trust, a bullish daily trend, and a tactical / fallback news 1d setup."
       },
-      "summary": "NVDA is BUY for 2026-04-16 with 83.4% odds up, +3.47% expected return, 85.0% trust, and a bullish daily trend.",
+      "summary": "NVDA is BUY for 2026-04-16 with 80.8% odds up, +3.47% expected return, 81.6% trust, a bullish daily trend, and a tactical / fallback news 1d setup.",
+      "one_day_edge": {
+        "status": "fallback",
+        "label": "TACTICAL / FALLBACK NEWS",
+        "tone": "warn",
+        "summary": "The 1d model is usable, but the current live context is fallback-driven rather than a true pre-open headline window, so the next-day read remains tactical.",
+        "recent20_accuracy": 0.6,
+        "recent60_accuracy": 0.6,
+        "recent20_brier": 0.2299,
+        "recent20_log_loss": 0.6395,
+        "supported_probability": true,
+        "used_recent_fallback": true,
+        "is_low_edge": false
+      },
       "horizons": {
         "1d": {
           "horizon_days": 1,
           "model_family": "tree",
           "model_version": "research_v1-nvda-1d-tree",
-          "probability_up": 83.4,
+          "probability_up": 80.8,
           "expected_return_pct": 3.47,
           "target_price": 205.05,
-          "trust_score": 85.0,
+          "trust_score": 81.6,
           "supported_probability": true,
           "trend_supported": true,
           "evaluation_mode": "premarket_refresh",
@@ -3308,7 +3389,20 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "BUY"
+          "signal": "BUY",
+          "edge_assessment": {
+            "status": "fallback",
+            "label": "TACTICAL / FALLBACK NEWS",
+            "tone": "warn",
+            "summary": "The 1d model is usable, but the current live context is fallback-driven rather than a true pre-open headline window, so the next-day read remains tactical.",
+            "recent20_accuracy": 0.6,
+            "recent60_accuracy": 0.6,
+            "recent20_brier": 0.2299,
+            "recent20_log_loss": 0.6395,
+            "supported_probability": true,
+            "used_recent_fallback": true,
+            "is_low_edge": false
+          }
         },
         "5d": {
           "horizon_days": 5,
@@ -3680,7 +3774,8 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "BUY"
+          "signal": "BUY",
+          "edge_assessment": null
         },
         "10d": {
           "horizon_days": 10,
@@ -4034,7 +4129,8 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "BUY"
+          "signal": "BUY",
+          "edge_assessment": null
         }
       },
       "champion_model": {
@@ -4098,7 +4194,7 @@
       },
       "data_freshness": {
         "market_date": "2026-04-15",
-        "generated_at": "2026-04-15T12:48:44.732414-07:00",
+        "generated_at": "2026-04-15T13:46:09.271893-07:00",
         "rows": 1326,
         "used_live_premarket_news": true,
         "used_recent_fallback": true
@@ -4181,12 +4277,12 @@
             "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
           },
           {
-            "headline": "Jim Cramer Shares Biggest Confusion For NVIDIA (NVDA) Stock - Yahoo Finance",
-            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxPUHl4c1FHb2J5RFlHRjJPQmlUTGRNekpoT2trM2hPTTlOVUpjeVh5b09STVZlZFdVd0ZpazAwT3BOZlRLOFkwQVR2ektBZ1RnZ09xbXFlcW9ZSkJjVGVBSnoyRUQwaE9ITVotVWhyTTM5dDViWVhEQy1MNzNxUkZYOVp5Q2RpQTdFTHVSZ3M2MGhtbGJQa01LNy0wb2dkOHV5eFE?oc=5\" target=\"_blank\"&gt;Jim Cramer Shares Biggest Confusion For NVIDIA (NVDA) Stock&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;",
+            "headline": "Why \u2018Rule of 10\u2019 stocks like Nvidia and Meta are now poised for a comeback, according to Goldman Sachs",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMi2gFBVV95cUxQWUNwUHpaMEd1WTYzVW9zMDBhSmlnT3lJM0EyNUp5RkYxZmNvTkFVa1pTX1loMlR1dkRIVzNCNGcwOF9LdDdXVGtNeHRaZnV2QW05cm9iTnlZZHZiY3VRczNrd3o0bVJCMUpPdGtKMTZjdE1temlTaEc4MXJHUEpPN2F0bWRabW11dWVrN3ctVllZa3ZHaURlamFuMmQ2aUplcHM1Qi02akNZVGlHaENzX0RndFVDalZCWG5qVE43ZkNxWnZCLXk1UjRwY0owT1FmeFp2ZWJYQjF4UQ?oc=5\" target=\"_blank\"&gt;Why \u2018Rule of 10\u2019 stocks like Nvidia and Meta are now poised for a comeback, according to Goldman Sachs&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;MarketWatch&lt;/font&gt;",
             "source": "Google News",
-            "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPUHl4c1FHb2J5RFlHRjJPQmlUTGRNekpoT2trM2hPTTlOVUpjeVh5b09STVZlZFdVd0ZpazAwT3BOZlRLOFkwQVR2ektBZ1RnZ09xbXFlcW9ZSkJjVGVBSnoyRUQwaE9ITVotVWhyTTM5dDViWVhEQy1MNzNxUkZYOVp5Q2RpQTdFTHVSZ3M2MGhtbGJQa01LNy0wb2dkOHV5eFE?oc=5",
-            "published": "Tue, 14 Apr 2026 17:54:32 GMT",
-            "published_at_et": "2026-04-14T13:54:32-04:00",
+            "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQWUNwUHpaMEd1WTYzVW9zMDBhSmlnT3lJM0EyNUp5RkYxZmNvTkFVa1pTX1loMlR1dkRIVzNCNGcwOF9LdDdXVGtNeHRaZnV2QW05cm9iTnlZZHZiY3VRczNrd3o0bVJCMUpPdGtKMTZjdE1temlTaEc4MXJHUEpPN2F0bWRabW11dWVrN3ctVllZa3ZHaURlamFuMmQ2aUplcHM1Qi02akNZVGlHaENzX0RndFVDalZCWG5qVE43ZkNxWnZCLXk1UjRwY0owT1FmeFp2ZWJYQjF4UQ?oc=5",
+            "published": "Mon, 13 Apr 2026 11:02:00 GMT",
+            "published_at_et": "2026-04-13T07:02:00-04:00",
             "in_window": false,
             "sentiment": "NEUTRAL",
             "impact": "MEDIUM",
@@ -4198,12 +4294,12 @@
             "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
           },
           {
-            "headline": "From days to hours: NVIDIA open models speed quantum calibration - Stock Titan",
-            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxPaHdJd1R6WUtVRUxhRTh1Zy1EMFlXTF9YSk9NS3VaTzlhR2ZfZlZrTmNTOGcxcTVudDlabTA3akxoalhkRzVLWmVYbExOU0FSbnM5OGRiU2RnUHlwaE5UUERyOFhwYVRlUXl5QjBtN01mckEwclJ2NE5nYm9qdlpqMjdsYmZCTlk3ek4tUHU0N1VIRTlJendURktNNHVic1c0TzdBbmM2T3RCOGlJaEhTalJQc3dxZmI5Y3pEM2s3cm0?oc=5\" target=\"_blank\"&gt;From days to hours: NVIDIA open models speed quantum calibration&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Stock Titan&lt;/font&gt;",
+            "headline": "Jim Cramer Shares Biggest Confusion For NVIDIA (NVDA) Stock - Yahoo Finance",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxPUHl4c1FHb2J5RFlHRjJPQmlUTGRNekpoT2trM2hPTTlOVUpjeVh5b09STVZlZFdVd0ZpazAwT3BOZlRLOFkwQVR2ektBZ1RnZ09xbXFlcW9ZSkJjVGVBSnoyRUQwaE9ITVotVWhyTTM5dDViWVhEQy1MNzNxUkZYOVp5Q2RpQTdFTHVSZ3M2MGhtbGJQa01LNy0wb2dkOHV5eFE?oc=5\" target=\"_blank\"&gt;Jim Cramer Shares Biggest Confusion For NVIDIA (NVDA) Stock&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;",
             "source": "Google News",
-            "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPaHdJd1R6WUtVRUxhRTh1Zy1EMFlXTF9YSk9NS3VaTzlhR2ZfZlZrTmNTOGcxcTVudDlabTA3akxoalhkRzVLWmVYbExOU0FSbnM5OGRiU2RnUHlwaE5UUERyOFhwYVRlUXl5QjBtN01mckEwclJ2NE5nYm9qdlpqMjdsYmZCTlk3ek4tUHU0N1VIRTlJendURktNNHVic1c0TzdBbmM2T3RCOGlJaEhTalJQc3dxZmI5Y3pEM2s3cm0?oc=5",
-            "published": "Tue, 14 Apr 2026 14:00:00 GMT",
-            "published_at_et": "2026-04-14T10:00:00-04:00",
+            "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPUHl4c1FHb2J5RFlHRjJPQmlUTGRNekpoT2trM2hPTTlOVUpjeVh5b09STVZlZFdVd0ZpazAwT3BOZlRLOFkwQVR2ektBZ1RnZ09xbXFlcW9ZSkJjVGVBSnoyRUQwaE9ITVotVWhyTTM5dDViWVhEQy1MNzNxUkZYOVp5Q2RpQTdFTHVSZ3M2MGhtbGJQa01LNy0wb2dkOHV5eFE?oc=5",
+            "published": "Tue, 14 Apr 2026 17:54:32 GMT",
+            "published_at_et": "2026-04-14T13:54:32-04:00",
             "in_window": false,
             "sentiment": "NEUTRAL",
             "impact": "MEDIUM",
@@ -4245,12 +4341,12 @@
         {
           "title": "Champion model",
           "direction": "bull",
-          "detail": "NVDA tree champion for 1d outputs 83.4% up with +3.47% expected return."
+          "detail": "NVDA tree champion for 1d outputs 80.8% up with +3.47% expected return."
         },
         {
           "title": "Calibration and trust",
           "direction": "bull",
-          "detail": "Trust is 85.0% with recent walk-forward accuracy 60.0% / 60.0%."
+          "detail": "Trust is 81.6% with recent walk-forward accuracy 60.0% / 60.0%."
         },
         {
           "title": "Daily trend structure",
@@ -4269,17 +4365,17 @@
         }
       ],
       "reasoning": {
-        "summary": "NVDA carries a bullish day-to-day structure with score +0.50; the live forecast is aligned with that backdrop.",
+        "summary": "NVDA carries a bullish day-to-day structure with score +0.50; the live forecast is aligned with that backdrop. 1d edge status: TACTICAL / FALLBACK NEWS.",
         "drivers": [
           {
             "title": "Champion model",
             "direction": "bull",
-            "detail": "NVDA tree champion for 1d outputs 83.4% up with +3.47% expected return."
+            "detail": "NVDA tree champion for 1d outputs 80.8% up with +3.47% expected return."
           },
           {
             "title": "Calibration and trust",
             "direction": "bull",
-            "detail": "Trust is 85.0% with recent walk-forward accuracy 60.0% / 60.0%."
+            "detail": "Trust is 81.6% with recent walk-forward accuracy 60.0% / 60.0%."
           },
           {
             "title": "Daily trend structure",
@@ -4300,15 +4396,16 @@
         "top_model_drivers": []
       },
       "component_scores": {
-        "probability_centered": 0.334,
-        "trust": 0.85,
+        "probability_centered": 0.308,
+        "trust": 0.816,
         "trend": 0.5046,
-        "news_weight": 0.45
+        "news_weight": 0.45,
+        "one_day_edge": -0.15
       },
       "card": {
         "sig": "BUY",
         "sc": "buy",
-        "conf": 0.834,
+        "conf": 0.808,
         "px": 198.16,
         "chg": 0.84,
         "l1h": 0.0,
@@ -4322,7 +4419,9 @@
         "trend_state": "BULLISH",
         "trend_score": 0.5046,
         "trend_supported": true,
-        "headline_summary": "NVDA is BUY for 2026-04-16 with 83.4% odds up, +3.47% expected return, 85.0% trust, and a bullish daily trend."
+        "edge_label": "TACTICAL / FALLBACK NEWS",
+        "edge_status": "fallback",
+        "headline_summary": "NVDA is BUY for 2026-04-16 with 80.8% odds up, +3.47% expected return, 81.6% trust, a bullish daily trend, and a tactical / fallback news 1d setup."
       }
     },
     "TSLA": {
@@ -4333,30 +4432,45 @@
       "primary_horizon": "1d",
       "signal": {
         "signal": "HOLD",
-        "probability_up": 46.7,
-        "confidence": 67.14,
+        "probability_up": 46.9,
+        "confidence": 58.95,
         "pred_return_pct": -0.45,
         "current_price": 394.34,
         "target_price": 392.58,
-        "trust_score": 74.6,
+        "trust_score": 65.5,
         "trend_score": -0.1842,
         "trend_state": "MIXED",
         "trend_supported": true,
+        "edge_status": "fallback",
+        "edge_label": "TACTICAL / FALLBACK NEWS",
         "forecast_for_date": "2026-04-16",
         "date": "2026-04-15",
-        "summary": "TSLA is HOLD for 2026-04-16 with 46.7% odds up, -0.45% expected return, 74.6% trust, and a mixed daily trend."
+        "summary": "TSLA is HOLD for 2026-04-16 with 46.9% odds up, -0.45% expected return, 65.5% trust, a mixed daily trend, and a tactical / fallback news 1d setup."
       },
-      "summary": "TSLA is HOLD for 2026-04-16 with 46.7% odds up, -0.45% expected return, 74.6% trust, and a mixed daily trend.",
+      "summary": "TSLA is HOLD for 2026-04-16 with 46.9% odds up, -0.45% expected return, 65.5% trust, a mixed daily trend, and a tactical / fallback news 1d setup.",
+      "one_day_edge": {
+        "status": "fallback",
+        "label": "TACTICAL / FALLBACK NEWS",
+        "tone": "warn",
+        "summary": "The 1d model is usable, but the current live context is fallback-driven rather than a true pre-open headline window, so the next-day read remains tactical.",
+        "recent20_accuracy": 0.75,
+        "recent60_accuracy": 0.6833,
+        "recent20_brier": 0.2312,
+        "recent20_log_loss": 0.6474,
+        "supported_probability": false,
+        "used_recent_fallback": true,
+        "is_low_edge": false
+      },
       "horizons": {
         "1d": {
           "horizon_days": 1,
           "model_family": "linear",
           "model_version": "research_v1-tsla-1d-linear",
-          "probability_up": 46.7,
+          "probability_up": 46.9,
           "expected_return_pct": -0.45,
           "target_price": 392.58,
-          "trust_score": 74.6,
-          "supported_probability": true,
+          "trust_score": 65.5,
+          "supported_probability": false,
           "trend_supported": true,
           "evaluation_mode": "premarket_refresh",
           "calibration": {
@@ -4718,7 +4832,20 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "HOLD"
+          "signal": "HOLD",
+          "edge_assessment": {
+            "status": "fallback",
+            "label": "TACTICAL / FALLBACK NEWS",
+            "tone": "warn",
+            "summary": "The 1d model is usable, but the current live context is fallback-driven rather than a true pre-open headline window, so the next-day read remains tactical.",
+            "recent20_accuracy": 0.75,
+            "recent60_accuracy": 0.6833,
+            "recent20_brier": 0.2312,
+            "recent20_log_loss": 0.6474,
+            "supported_probability": false,
+            "used_recent_fallback": true,
+            "is_low_edge": false
+          }
         },
         "5d": {
           "horizon_days": 5,
@@ -5081,7 +5208,8 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "SELL"
+          "signal": "SELL",
+          "edge_assessment": null
         },
         "10d": {
           "horizon_days": 10,
@@ -5444,7 +5572,8 @@
             "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
           },
           "top_drivers": [],
-          "signal": "SELL"
+          "signal": "SELL",
+          "edge_assessment": null
         }
       },
       "champion_model": {
@@ -5517,7 +5646,7 @@
       },
       "data_freshness": {
         "market_date": "2026-04-15",
-        "generated_at": "2026-04-15T12:48:45.654754-07:00",
+        "generated_at": "2026-04-15T13:46:10.601973-07:00",
         "rows": 1326,
         "used_live_premarket_news": true,
         "used_recent_fallback": true
@@ -5531,9 +5660,9 @@
         "analysis_mode": "heuristic",
         "article_count": 5,
         "material_count": 1,
-        "overall_sentiment": "NEUTRAL",
-        "intraday_bias": "FLAT",
-        "net_score": 0.0,
+        "overall_sentiment": "BULLISH",
+        "intraday_bias": "UP",
+        "net_score": 0.4,
         "used_recent_fallback": true,
         "category_counts": {
           "analyst": 5,
@@ -5541,31 +5670,14 @@
         },
         "summary": "No fresh TSLA headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
         "feature_values": {
-          "premkt_live_net": 0.0,
+          "premkt_live_net": 0.4,
           "premkt_live_article_count": 5.0,
           "premkt_live_material_count": 1.0,
           "premkt_live_competition_risk": 0.0,
           "premkt_live_contract_signal": 0.0,
-          "premkt_live_earnings_signal": -1.0
+          "premkt_live_earnings_signal": 1.0
         },
         "articles": [
-          {
-            "headline": "Why Tesla (TSLA) Stock Is Up Today - Yahoo Finance",
-            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMilgFBVV95cUxNZkhGamlKcFBWY2JtOVBjY0dGWnl0aGdva3g0X1BKb1NuSWpsSzdKU2c3S0F3ZmUtbFNJQ2VuV0U2NEhBMkd0MlgwbFIwTlZEWUMtaF9NZXN1ZDhtd1FTS1BBNFEtX19DYnF2UlpjT1hOa3RTdmdqaVZndWxjUUlkZUQ2d3Z0RzZvaU93UFJURXFWWlZiYmc?oc=5\" target=\"_blank\"&gt;Why Tesla (TSLA) Stock Is Up Today&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;",
-            "source": "Google News",
-            "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNZkhGamlKcFBWY2JtOVBjY0dGWnl0aGdva3g0X1BKb1NuSWpsSzdKU2c3S0F3ZmUtbFNJQ2VuV0U2NEhBMkd0MlgwbFIwTlZEWUMtaF9NZXN1ZDhtd1FTS1BBNFEtX19DYnF2UlpjT1hOa3RTdmdqaVZndWxjUUlkZUQ2d3Z0RzZvaU93UFJURXFWWlZiYmc?oc=5",
-            "published": "Tue, 14 Apr 2026 21:26:03 GMT",
-            "published_at_et": "2026-04-14T17:26:03-04:00",
-            "in_window": false,
-            "sentiment": "NEUTRAL",
-            "impact": "MEDIUM",
-            "net_score": 0,
-            "is_material": false,
-            "categories": [
-              "analyst"
-            ],
-            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
-          },
           {
             "headline": "Tesla Rockets 8% as AI5 Milestone and Rare Analyst Upgrade Remind Bears What This Stock Can Do - 24/7 Wall St.",
             "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMi0wFBVV95cUxOT1prUWVvaERpUTZGRVpFWGlsMk5VYXhlRlU2cWJOODlaUE5zYXNoeGtuQlBucVM1cjRtckRycDBfWlhjUXVDVFFkTGF1SndqZzFuRWM0TTk3Y0ZxVmRpS0M5UThkcEVaN1Azc3hfYlFCQWtWekhaOG56b2ZvazJwUlN5N2xfaHprNHpaZnVHSEVVSXVCNnlYT2tTZGcwV25UZkpPcTJVNTN1ZmVrUXd5VEVTVk9VVmU3OVhwbE9IZFlmUExDMmFHbjFSbm43bDljM1Fn?oc=5\" target=\"_blank\"&gt;Tesla Rockets 8% as AI5 Milestone and Rare Analyst Upgrade Remind Bears What This Stock Can Do&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;24/7 Wall St.&lt;/font&gt;",
@@ -5582,24 +5694,6 @@
               "analyst"
             ],
             "rationale": "Headline tone leans constructive for demand, execution, or positioning."
-          },
-          {
-            "headline": "\u201c\u2026I Could Clearly See a Train Coming\u201d Tesla Stock (NASDAQ:TSLA) Surges Despite Another Near-Miss for FSD (Supervised)",
-            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxQTXV3V0NnU0IzNE1Gc0kxN21aSGdDY3hnQVRZLTVpNnNnRTMwREJPNlZPQzVwWWw4Q3ozcEJSTWhQMWpVNW5ESlkzVUhKR2Q5ZzNHNWpGMmxjM2QxYjdtLThMOFdiRk0tNktvSUgzekp6TjdkdUlVVVJWNU9LQmc5TEZRNHlacU1TcHBWVmx3RThBWlJaXzEtaGRmUURUTUtHQW5nN2NTNTAybjZNQXUyeFozWHQ3clo0UlJqSkJ1RTV0aXpHUjFCMjJiMGtBeTdKa2RPR0R3?oc=5\" target=\"_blank\"&gt;\u201c\u2026I Could Clearly See a Train Coming\u201d Tesla Stock (NASDAQ:TSLA) Surges Despite Another Near-Miss for FSD (Supervised)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;TipRanks&lt;/font&gt;",
-            "source": "Google News",
-            "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQTXV3V0NnU0IzNE1Gc0kxN21aSGdDY3hnQVRZLTVpNnNnRTMwREJPNlZPQzVwWWw4Q3ozcEJSTWhQMWpVNW5ESlkzVUhKR2Q5ZzNHNWpGMmxjM2QxYjdtLThMOFdiRk0tNktvSUgzekp6TjdkdUlVVVJWNU9LQmc5TEZRNHlacU1TcHBWVmx3RThBWlJaXzEtaGRmUURUTUtHQW5nN2NTNTAybjZNQXUyeFozWHQ3clo0UlJqSkJ1RTV0aXpHUjFCMjJiMGtBeTdKa2RPR0R3?oc=5",
-            "published": "Wed, 15 Apr 2026 17:01:51 GMT",
-            "published_at_et": "2026-04-15T13:01:51-04:00",
-            "in_window": false,
-            "sentiment": "BEARISH",
-            "impact": "HIGH",
-            "net_score": -1,
-            "is_material": true,
-            "categories": [
-              "earnings",
-              "analyst"
-            ],
-            "rationale": "Quarterly results and guidance language can move the stock quickly into the open."
           },
           {
             "headline": "Tesla Stock (TSLA) Gains as Elon Musk Reveals AI5 Chip Milestone, Teases AI6",
@@ -5634,6 +5728,41 @@
               "analyst"
             ],
             "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          },
+          {
+            "headline": "Why Tesla (TSLA) Stock Is Up Today - Yahoo Finance",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMilgFBVV95cUxNZkhGamlKcFBWY2JtOVBjY0dGWnl0aGdva3g0X1BKb1NuSWpsSzdKU2c3S0F3ZmUtbFNJQ2VuV0U2NEhBMkd0MlgwbFIwTlZEWUMtaF9NZXN1ZDhtd1FTS1BBNFEtX19DYnF2UlpjT1hOa3RTdmdqaVZndWxjUUlkZUQ2d3Z0RzZvaU93UFJURXFWWlZiYmc?oc=5\" target=\"_blank\"&gt;Why Tesla (TSLA) Stock Is Up Today&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNZkhGamlKcFBWY2JtOVBjY0dGWnl0aGdva3g0X1BKb1NuSWpsSzdKU2c3S0F3ZmUtbFNJQ2VuV0U2NEhBMkd0MlgwbFIwTlZEWUMtaF9NZXN1ZDhtd1FTS1BBNFEtX19DYnF2UlpjT1hOa3RTdmdqaVZndWxjUUlkZUQ2d3Z0RzZvaU93UFJURXFWWlZiYmc?oc=5",
+            "published": "Tue, 14 Apr 2026 21:26:03 GMT",
+            "published_at_et": "2026-04-14T17:26:03-04:00",
+            "in_window": false,
+            "sentiment": "NEUTRAL",
+            "impact": "MEDIUM",
+            "net_score": 0,
+            "is_material": false,
+            "categories": [
+              "analyst"
+            ],
+            "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
+          },
+          {
+            "headline": "Prediction: Down 30%, Tesla Stock Is Still Not a Buy Ahead of Its Earnings Later This Month - The Motley Fool",
+            "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMilAFBVV95cUxQWTQxS1VWQkpSMVNMaWs3dE5aR2Q5Vlg4c3p5Qy05aEZRbEhubFVqS0JfUzItam9QSWpGcGoxSVJHdk9KanV3YTdJaFl3ME9RdUxjbjRSNW00UmdCTU9TUDlfSG5pc0kweFpyeGNYd2hvN2t0a00zakJPQnFFclIwdGM1bUYtcUhTbjhSc3B5RVJ1SUFm?oc=5\" target=\"_blank\"&gt;Prediction: Down 30%, Tesla Stock Is Still Not a Buy Ahead of Its Earnings Later This Month&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;The Motley Fool&lt;/font&gt;",
+            "source": "Google News",
+            "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQWTQxS1VWQkpSMVNMaWs3dE5aR2Q5Vlg4c3p5Qy05aEZRbEhubFVqS0JfUzItam9QSWpGcGoxSVJHdk9KanV3YTdJaFl3ME9RdUxjbjRSNW00UmdCTU9TUDlfSG5pc0kweFpyeGNYd2hvN2t0a00zakJPQnFFclIwdGM1bUYtcUhTbjhSc3B5RVJ1SUFm?oc=5",
+            "published": "Sun, 12 Apr 2026 19:46:00 GMT",
+            "published_at_et": "2026-04-12T15:46:00-04:00",
+            "in_window": false,
+            "sentiment": "BULLISH",
+            "impact": "HIGH",
+            "net_score": 1,
+            "is_material": true,
+            "categories": [
+              "earnings",
+              "analyst"
+            ],
+            "rationale": "Quarterly results and guidance language can move the stock quickly into the open."
           }
         ]
       },
@@ -5666,12 +5795,12 @@
         {
           "title": "Champion model",
           "direction": "neutral",
-          "detail": "TSLA linear champion for 1d outputs 46.7% up with -0.45% expected return."
+          "detail": "TSLA linear champion for 1d outputs 46.9% up with -0.45% expected return."
         },
         {
           "title": "Calibration and trust",
           "direction": "bull",
-          "detail": "Trust is 74.6% with recent walk-forward accuracy 75.0% / 68.3%."
+          "detail": "Trust is 65.5% with recent walk-forward accuracy 75.0% / 68.3%."
         },
         {
           "title": "Daily trend structure",
@@ -5680,7 +5809,7 @@
         },
         {
           "title": "Pre-open news window",
-          "direction": "neutral",
+          "direction": "bull",
           "detail": "No fresh TSLA headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
         },
         {
@@ -5690,17 +5819,17 @@
         }
       ],
       "reasoning": {
-        "summary": "TSLA carries a mixed day-to-day structure with score -0.18; the live forecast is aligned with that backdrop.",
+        "summary": "TSLA carries a mixed day-to-day structure with score -0.18; the live forecast is aligned with that backdrop. 1d edge status: TACTICAL / FALLBACK NEWS.",
         "drivers": [
           {
             "title": "Champion model",
             "direction": "neutral",
-            "detail": "TSLA linear champion for 1d outputs 46.7% up with -0.45% expected return."
+            "detail": "TSLA linear champion for 1d outputs 46.9% up with -0.45% expected return."
           },
           {
             "title": "Calibration and trust",
             "direction": "bull",
-            "detail": "Trust is 74.6% with recent walk-forward accuracy 75.0% / 68.3%."
+            "detail": "Trust is 65.5% with recent walk-forward accuracy 75.0% / 68.3%."
           },
           {
             "title": "Daily trend structure",
@@ -5709,7 +5838,7 @@
           },
           {
             "title": "Pre-open news window",
-            "direction": "neutral",
+            "direction": "bull",
             "detail": "No fresh TSLA headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
           },
           {
@@ -5721,19 +5850,20 @@
         "top_model_drivers": []
       },
       "component_scores": {
-        "probability_centered": -0.033,
-        "trust": 0.746,
+        "probability_centered": -0.031,
+        "trust": 0.655,
         "trend": -0.1842,
-        "news_weight": 0.45
+        "news_weight": 0.45,
+        "one_day_edge": -0.15
       },
       "card": {
         "sig": "HOLD",
         "sc": "hold",
-        "conf": 0.671,
+        "conf": 0.59,
         "px": 394.34,
         "chg": 8.28,
-        "l1h": 0.0,
-        "l4h": 0.0,
+        "l1h": 0.18,
+        "l4h": 0.4,
         "l1d": -0.45,
         "l5d": -1.73,
         "l10d": -4.88,
@@ -5743,24 +5873,26 @@
         "trend_state": "MIXED",
         "trend_score": -0.1842,
         "trend_supported": true,
-        "headline_summary": "TSLA is HOLD for 2026-04-16 with 46.7% odds up, -0.45% expected return, 74.6% trust, and a mixed daily trend."
+        "edge_label": "TACTICAL / FALLBACK NEWS",
+        "edge_status": "fallback",
+        "headline_summary": "TSLA is HOLD for 2026-04-16 with 46.9% odds up, -0.45% expected return, 65.5% trust, a mixed daily trend, and a tactical / fallback news 1d setup."
       }
     }
   },
   "news_feed": [
     {
-      "id": 12696,
+      "id": 12557,
       "ticker": "PLTR",
       "dir": "bear",
-      "impact": "HIGH",
+      "impact": "MEDIUM",
       "vader": -0.3333333333333333,
       "age": "0h",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5",
-      "headline": "Veteran analyst drops bold take on Palantir Anthropic situation",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOX1FsOU5BcDVQR08xdW50NXU0aTgzUld6M2U5NEp0ZHV4WHFlQzVnd2VrRXVkNl9ISVNxUDVnS1NWZ1djVGVCX1RCTGhhY0xWbndEUEJYNTQ5dlJlV2ZXSENLTHBVRVpLUUttUG1VUnV3Sk1vVUFQYXE2b0NvT0dBT1BwSUwyaVlFbE93RE5Ya1k0NEk?oc=5",
+      "headline": "Palantir: 3 Reasons That Could Pressure The Stock Down To $100 (NASDAQ:PLTR) - Seeking Alpha",
       "source": "Google News",
-      "news_cat": "competition",
-      "summary": "Competition and valuation language keep the near-term read cautious.",
-      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5\" target=\"_blank\"&gt;Veteran analyst drops bold take on Palantir Anthropic situation&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;thestreet.com&lt;/font&gt;\n\nCompetition and valuation language keep the near-term read cautious.",
+      "news_cat": "analyst",
+      "summary": "Headline tone leans cautious on multiple, competition, or risk.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMikwFBVV95cUxOX1FsOU5BcDVQR08xdW50NXU0aTgzUld6M2U5NEp0ZHV4WHFlQzVnd2VrRXVkNl9ISVNxUDVnS1NWZ1djVGVCX1RCTGhhY0xWbndEUEJYNTQ5dlJlV2ZXSENLTHBVRVpLUUttUG1VUnV3Sk1vVUFQYXE2b0NvT0dBT1BwSUwyaVlFbE93RE5Ya1k0NEk?oc=5\" target=\"_blank\"&gt;Palantir: 3 Reasons That Could Pressure The Stock Down To $100 (NASDAQ:PLTR)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Seeking Alpha&lt;/font&gt;\n\nHeadline tone leans cautious on multiple, competition, or risk.",
       "px_impact": "+0.5% next-day bias",
       "horizons": [
         {
@@ -5778,7 +5910,7 @@
       ]
     },
     {
-      "id": 12296,
+      "id": 12473,
       "ticker": "PLTR",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -5807,7 +5939,7 @@
       ]
     },
     {
-      "id": 12014,
+      "id": 12691,
       "ticker": "PLTR",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -5836,36 +5968,36 @@
       ]
     },
     {
-      "id": 12593,
+      "id": 12727,
       "ticker": "PLTR",
-      "dir": "bull",
-      "impact": "MEDIUM",
-      "vader": 0.0,
+      "dir": "bear",
+      "impact": "HIGH",
+      "vader": -0.3333333333333333,
       "age": "0h",
-      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPV00zSDRpaFBmb0g4NldFak9jUThOR0Z3UmhvT0hUazBCVXpYVG1DRjJHbUlTVzRVR09ha2dKWmhlU0ZRLWk4RDJlMjRYQmVIb3gwWW1saERUejY4dUlZX0h0MS1vQjM3ZV9TOS14OU1aUENGNFNyRHY4ZWVrQl95LWluVUtDUkdXZFI1UU0tSEhsOFg1UTZUb2ptelRwLXNwWEhyZzBfd3lnTzdvc3NNbTdR?oc=5",
-      "headline": "How To Position For A 40% Discount On Palantir Stock?",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5",
+      "headline": "Veteran analyst drops bold take on Palantir Anthropic situation",
       "source": "Google News",
-      "news_cat": "analyst",
-      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
-      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMisgFBVV95cUxPV00zSDRpaFBmb0g4NldFak9jUThOR0Z3UmhvT0hUazBCVXpYVG1DRjJHbUlTVzRVR09ha2dKWmhlU0ZRLWk4RDJlMjRYQmVIb3gwWW1saERUejY4dUlZX0h0MS1vQjM3ZV9TOS14OU1aUENGNFNyRHY4ZWVrQl95LWluVUtDUkdXZFI1UU0tSEhsOFg1UTZUb2ptelRwLXNwWEhyZzBfd3lnTzdvc3NNbTdR?oc=5\" target=\"_blank\"&gt;How To Position For A 40% Discount On Palantir Stock?&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Trefis&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
-      "px_impact": "+0.7% next-day bias",
+      "news_cat": "competition",
+      "summary": "Competition and valuation language keep the near-term read cautious.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5\" target=\"_blank\"&gt;Veteran analyst drops bold take on Palantir Anthropic situation&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;thestreet.com&lt;/font&gt;\n\nCompetition and valuation language keep the near-term read cautious.",
+      "px_impact": "+0.5% next-day bias",
       "horizons": [
         {
           "l": "1D",
-          "v": "+0.7%"
+          "v": "+0.5%"
         },
         {
           "l": "1W",
-          "v": "+0.4%"
+          "v": "+0.2%"
         },
         {
           "l": "2W",
-          "v": "+4.3%"
+          "v": "+4.0%"
         }
       ]
     },
     {
-      "id": 12586,
+      "id": 12162,
       "ticker": "AAPL",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -5894,7 +6026,36 @@
       ]
     },
     {
-      "id": 12194,
+      "id": 12280,
+      "ticker": "AAPL",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.0,
+      "age": "0h",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQMDZfZ21qMzBIVTZuN2tVbkx5bi1BVHdIbzdIX1dfNExBTFVqVjlUcFBHaHg3UzFacEZONVJPQ0J6VkluazRuVENnZzZVR0U5RllGbjdkSFJGQ3hkVV9zZUl4MVhuN1VTeWExWWpoV01QUmFnVUpjcjdQUHF1c1pxVUphQmRZbVVTcm5NSFg2eEw2Y3lUQndRN0ZMRmRncENwelNnXw?oc=5",
+      "headline": "Apple (AAPL) Stock Trades Up, Here Is Why",
+      "source": "Google News",
+      "news_cat": "analyst",
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMipAFBVV95cUxQMDZfZ21qMzBIVTZuN2tVbkx5bi1BVHdIbzdIX1dfNExBTFVqVjlUcFBHaHg3UzFacEZONVJPQ0J6VkluazRuVENnZzZVR0U5RllGbjdkSFJGQ3hkVV9zZUl4MVhuN1VTeWExWWpoV01QUmFnVUpjcjdQUHF1c1pxVUphQmRZbVVTcm5NSFg2eEw2Y3lUQndRN0ZMRmRncENwelNnXw?oc=5\" target=\"_blank\"&gt;Apple (AAPL) Stock Trades Up, Here Is Why&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;StockStory&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "+0.2% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "+0.2%"
+        },
+        {
+          "l": "1W",
+          "v": "+1.0%"
+        },
+        {
+          "l": "2W",
+          "v": "+2.4%"
+        }
+      ]
+    },
+    {
+      "id": 12553,
       "ticker": "AAPL",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -5923,7 +6084,7 @@
       ]
     },
     {
-      "id": 12149,
+      "id": 12978,
       "ticker": "AAPL",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -5952,36 +6113,7 @@
       ]
     },
     {
-      "id": 12280,
-      "ticker": "AAPL",
-      "dir": "bull",
-      "impact": "MEDIUM",
-      "vader": 0.0,
-      "age": "0h",
-      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5sR1cwanVDTlExY0VXYUpUOEkwbENyYm1KWEZiM3FLWmIxWmNQVHEwMVdNUTJKeXpEVmEwUVg3M1prbks2LUNQWU5SSmx5bGY0VXRhQWhSdkVrMVdCRThneTBmR3o1aVV3TUNHemJ5U0hEWDBmbU8xdg?oc=5",
-      "headline": "Apple: Inventory Does Not Lie (NASDAQ:AAPL) - Seeking Alpha",
-      "source": "Google News",
-      "news_cat": "analyst",
-      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
-      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMieEFVX3lxTE5sR1cwanVDTlExY0VXYUpUOEkwbENyYm1KWEZiM3FLWmIxWmNQVHEwMVdNUTJKeXpEVmEwUVg3M1prbks2LUNQWU5SSmx5bGY0VXRhQWhSdkVrMVdCRThneTBmR3o1aVV3TUNHemJ5U0hEWDBmbU8xdg?oc=5\" target=\"_blank\"&gt;Apple: Inventory Does Not Lie (NASDAQ:AAPL)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Seeking Alpha&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
-      "px_impact": "+0.2% next-day bias",
-      "horizons": [
-        {
-          "l": "1D",
-          "v": "+0.2%"
-        },
-        {
-          "l": "1W",
-          "v": "+1.0%"
-        },
-        {
-          "l": "2W",
-          "v": "+2.4%"
-        }
-      ]
-    },
-    {
-      "id": 12788,
+      "id": 12450,
       "ticker": "NVDA",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -6010,7 +6142,7 @@
       ]
     },
     {
-      "id": 12592,
+      "id": 12149,
       "ticker": "NVDA",
       "dir": "bull",
       "impact": "HIGH",
@@ -6039,7 +6171,7 @@
       ]
     },
     {
-      "id": 12899,
+      "id": 12915,
       "ticker": "NVDA",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -6068,18 +6200,18 @@
       ]
     },
     {
-      "id": 12581,
+      "id": 13002,
       "ticker": "NVDA",
       "dir": "bull",
       "impact": "MEDIUM",
       "vader": 0.0,
       "age": "0h",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPUHl4c1FHb2J5RFlHRjJPQmlUTGRNekpoT2trM2hPTTlOVUpjeVh5b09STVZlZFdVd0ZpazAwT3BOZlRLOFkwQVR2ektBZ1RnZ09xbXFlcW9ZSkJjVGVBSnoyRUQwaE9ITVotVWhyTTM5dDViWVhEQy1MNzNxUkZYOVp5Q2RpQTdFTHVSZ3M2MGhtbGJQa01LNy0wb2dkOHV5eFE?oc=5",
-      "headline": "Jim Cramer Shares Biggest Confusion For NVIDIA (NVDA) Stock - Yahoo Finance",
+      "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQWUNwUHpaMEd1WTYzVW9zMDBhSmlnT3lJM0EyNUp5RkYxZmNvTkFVa1pTX1loMlR1dkRIVzNCNGcwOF9LdDdXVGtNeHRaZnV2QW05cm9iTnlZZHZiY3VRczNrd3o0bVJCMUpPdGtKMTZjdE1temlTaEc4MXJHUEpPN2F0bWRabW11dWVrN3ctVllZa3ZHaURlamFuMmQ2aUplcHM1Qi02akNZVGlHaENzX0RndFVDalZCWG5qVE43ZkNxWnZCLXk1UjRwY0owT1FmeFp2ZWJYQjF4UQ?oc=5",
+      "headline": "Why \u2018Rule of 10\u2019 stocks like Nvidia and Meta are now poised for a comeback, according to Goldman Sachs",
       "source": "Google News",
       "news_cat": "analyst",
       "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
-      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxPUHl4c1FHb2J5RFlHRjJPQmlUTGRNekpoT2trM2hPTTlOVUpjeVh5b09STVZlZFdVd0ZpazAwT3BOZlRLOFkwQVR2ektBZ1RnZ09xbXFlcW9ZSkJjVGVBSnoyRUQwaE9ITVotVWhyTTM5dDViWVhEQy1MNzNxUkZYOVp5Q2RpQTdFTHVSZ3M2MGhtbGJQa01LNy0wb2dkOHV5eFE?oc=5\" target=\"_blank\"&gt;Jim Cramer Shares Biggest Confusion For NVIDIA (NVDA) Stock&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMi2gFBVV95cUxQWUNwUHpaMEd1WTYzVW9zMDBhSmlnT3lJM0EyNUp5RkYxZmNvTkFVa1pTX1loMlR1dkRIVzNCNGcwOF9LdDdXVGtNeHRaZnV2QW05cm9iTnlZZHZiY3VRczNrd3o0bVJCMUpPdGtKMTZjdE1temlTaEc4MXJHUEpPN2F0bWRabW11dWVrN3ctVllZa3ZHaURlamFuMmQ2aUplcHM1Qi02akNZVGlHaENzX0RndFVDalZCWG5qVE43ZkNxWnZCLXk1UjRwY0owT1FmeFp2ZWJYQjF4UQ?oc=5\" target=\"_blank\"&gt;Why \u2018Rule of 10\u2019 stocks like Nvidia and Meta are now poised for a comeback, according to Goldman Sachs&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;MarketWatch&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
       "px_impact": "+3.5% next-day bias",
       "horizons": [
         {
@@ -6097,36 +6229,7 @@
       ]
     },
     {
-      "id": 12358,
-      "ticker": "TSLA",
-      "dir": "bull",
-      "impact": "MEDIUM",
-      "vader": 0.0,
-      "age": "0h",
-      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNZkhGamlKcFBWY2JtOVBjY0dGWnl0aGdva3g0X1BKb1NuSWpsSzdKU2c3S0F3ZmUtbFNJQ2VuV0U2NEhBMkd0MlgwbFIwTlZEWUMtaF9NZXN1ZDhtd1FTS1BBNFEtX19DYnF2UlpjT1hOa3RTdmdqaVZndWxjUUlkZUQ2d3Z0RzZvaU93UFJURXFWWlZiYmc?oc=5",
-      "headline": "Why Tesla (TSLA) Stock Is Up Today - Yahoo Finance",
-      "source": "Google News",
-      "news_cat": "analyst",
-      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
-      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMilgFBVV95cUxNZkhGamlKcFBWY2JtOVBjY0dGWnl0aGdva3g0X1BKb1NuSWpsSzdKU2c3S0F3ZmUtbFNJQ2VuV0U2NEhBMkd0MlgwbFIwTlZEWUMtaF9NZXN1ZDhtd1FTS1BBNFEtX19DYnF2UlpjT1hOa3RTdmdqaVZndWxjUUlkZUQ2d3Z0RzZvaU93UFJURXFWWlZiYmc?oc=5\" target=\"_blank\"&gt;Why Tesla (TSLA) Stock Is Up Today&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
-      "px_impact": "-0.5% next-day bias",
-      "horizons": [
-        {
-          "l": "1D",
-          "v": "-0.5%"
-        },
-        {
-          "l": "1W",
-          "v": "-1.7%"
-        },
-        {
-          "l": "2W",
-          "v": "-4.9%"
-        }
-      ]
-    },
-    {
-      "id": 12704,
+      "id": 12570,
       "ticker": "TSLA",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -6155,36 +6258,7 @@
       ]
     },
     {
-      "id": 12248,
-      "ticker": "TSLA",
-      "dir": "bear",
-      "impact": "HIGH",
-      "vader": -0.3333333333333333,
-      "age": "0h",
-      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQTXV3V0NnU0IzNE1Gc0kxN21aSGdDY3hnQVRZLTVpNnNnRTMwREJPNlZPQzVwWWw4Q3ozcEJSTWhQMWpVNW5ESlkzVUhKR2Q5ZzNHNWpGMmxjM2QxYjdtLThMOFdiRk0tNktvSUgzekp6TjdkdUlVVVJWNU9LQmc5TEZRNHlacU1TcHBWVmx3RThBWlJaXzEtaGRmUURUTUtHQW5nN2NTNTAybjZNQXUyeFozWHQ3clo0UlJqSkJ1RTV0aXpHUjFCMjJiMGtBeTdKa2RPR0R3?oc=5",
-      "headline": "\u201c\u2026I Could Clearly See a Train Coming\u201d Tesla Stock (NASDAQ:TSLA) Surges Despite Another Near-Miss for FSD (Supervised)",
-      "source": "Google News",
-      "news_cat": "earnings",
-      "summary": "Quarterly results and guidance language can move the stock quickly into the open.",
-      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxQTXV3V0NnU0IzNE1Gc0kxN21aSGdDY3hnQVRZLTVpNnNnRTMwREJPNlZPQzVwWWw4Q3ozcEJSTWhQMWpVNW5ESlkzVUhKR2Q5ZzNHNWpGMmxjM2QxYjdtLThMOFdiRk0tNktvSUgzekp6TjdkdUlVVVJWNU9LQmc5TEZRNHlacU1TcHBWVmx3RThBWlJaXzEtaGRmUURUTUtHQW5nN2NTNTAybjZNQXUyeFozWHQ3clo0UlJqSkJ1RTV0aXpHUjFCMjJiMGtBeTdKa2RPR0R3?oc=5\" target=\"_blank\"&gt;\u201c\u2026I Could Clearly See a Train Coming\u201d Tesla Stock (NASDAQ:TSLA) Surges Despite Another Near-Miss for FSD (Supervised)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;TipRanks&lt;/font&gt;\n\nQuarterly results and guidance language can move the stock quickly into the open.",
-      "px_impact": "-0.6% next-day bias",
-      "horizons": [
-        {
-          "l": "1D",
-          "v": "-0.6%"
-        },
-        {
-          "l": "1W",
-          "v": "-2.0%"
-        },
-        {
-          "l": "2W",
-          "v": "-5.2%"
-        }
-      ]
-    },
-    {
-      "id": 12109,
+      "id": 12838,
       "ticker": "TSLA",
       "dir": "bull",
       "impact": "MEDIUM",
@@ -6196,6 +6270,64 @@
       "news_cat": "analyst",
       "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
       "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMipgFBVV95cUxOc3U4TE9VcEFIdHZoWEZjUGRQcWFFTWNjakVMZ05Eb0t6ajB0ejRVaGJTa2xLM19IdmVCUFh5WnRUWk1YVDlWR05oWW5wZ0lvT0ZWWVc4X1hrLXFfMWJadGM2S3ltLXM1bWR0U2N5UjQ2UjVaZ19aQ09ycUxuZVRsZzN3VS1IZFQydzJCUnl4U1E0RFhKNG0xYU1QeThvRVJGNV9iZ1Vn?oc=5\" target=\"_blank\"&gt;Tesla Stock (TSLA) Gains as Elon Musk Reveals AI5 Chip Milestone, Teases AI6&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;TipRanks&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "-0.5% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "-0.5%"
+        },
+        {
+          "l": "1W",
+          "v": "-1.7%"
+        },
+        {
+          "l": "2W",
+          "v": "-4.9%"
+        }
+      ]
+    },
+    {
+      "id": 12217,
+      "ticker": "TSLA",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.0,
+      "age": "0h",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPeDV2YmsxWDNQaVdiUjkxWXI2bVBqaTZGdXUxLWJQX00yNGhHUjJTWDExZW1yMDdYUDZsMlB2djktcDNmZnVRUHpROTZ6Q19rMkRrR1pDMUlNbUtfTU54YnJPNWZEdUxlWWJaRTdERW56M1Vrc0hhdVhpc1pKei1qckxZcUEtQWVXWWZlb2dUa9IBlAFBVV95cUxOb19aOEFjQng2YlNVN1JsVmpsVlpTVmxOOGY0eVAwX095TFEwSzFwYjM3MEVLSV8xMnZkOUwwQTdubC1zc3l6alNLVVBtY3JlNDkzS0FQWWFVd21ZcVpxN09PZjMzajBRdnNVVFlRNHFSY3ViWkNXdXd0Q2U5RmpZejYxaEFlWWItekd2RE1iSkxWd2M5?oc=5",
+      "headline": "Tesla stock pops as Elon Musk touts chip progress",
+      "source": "Google News",
+      "news_cat": "analyst",
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMijwFBVV95cUxPeDV2YmsxWDNQaVdiUjkxWXI2bVBqaTZGdXUxLWJQX00yNGhHUjJTWDExZW1yMDdYUDZsMlB2djktcDNmZnVRUHpROTZ6Q19rMkRrR1pDMUlNbUtfTU54YnJPNWZEdUxlWWJaRTdERW56M1Vrc0hhdVhpc1pKei1qckxZcUEtQWVXWWZlb2dUa9IBlAFBVV95cUxOb19aOEFjQng2YlNVN1JsVmpsVlpTVmxOOGY0eVAwX095TFEwSzFwYjM3MEVLSV8xMnZkOUwwQTdubC1zc3l6alNLVVBtY3JlNDkzS0FQWWFVd21ZcVpxN09PZjMzajBRdnNVVFlRNHFSY3ViWkNXdXd0Q2U5RmpZejYxaEFlWWItekd2RE1iSkxWd2M5?oc=5\" target=\"_blank\"&gt;Tesla stock pops as Elon Musk touts chip progress&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;CNBC&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
+      "px_impact": "-0.5% next-day bias",
+      "horizons": [
+        {
+          "l": "1D",
+          "v": "-0.5%"
+        },
+        {
+          "l": "1W",
+          "v": "-1.7%"
+        },
+        {
+          "l": "2W",
+          "v": "-4.9%"
+        }
+      ]
+    },
+    {
+      "id": 12760,
+      "ticker": "TSLA",
+      "dir": "bull",
+      "impact": "MEDIUM",
+      "vader": 0.0,
+      "age": "0h",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNZkhGamlKcFBWY2JtOVBjY0dGWnl0aGdva3g0X1BKb1NuSWpsSzdKU2c3S0F3ZmUtbFNJQ2VuV0U2NEhBMkd0MlgwbFIwTlZEWUMtaF9NZXN1ZDhtd1FTS1BBNFEtX19DYnF2UlpjT1hOa3RTdmdqaVZndWxjUUlkZUQ2d3Z0RzZvaU93UFJURXFWWlZiYmc?oc=5",
+      "headline": "Why Tesla (TSLA) Stock Is Up Today - Yahoo Finance",
+      "source": "Google News",
+      "news_cat": "analyst",
+      "summary": "Headline looks mixed and does not add a strong directional edge by itself.",
+      "body": "&lt;a href=\"https://news.google.com/rss/articles/CBMilgFBVV95cUxNZkhGamlKcFBWY2JtOVBjY0dGWnl0aGdva3g0X1BKb1NuSWpsSzdKU2c3S0F3ZmUtbFNJQ2VuV0U2NEhBMkd0MlgwbFIwTlZEWUMtaF9NZXN1ZDhtd1FTS1BBNFEtX19DYnF2UlpjT1hOa3RTdmdqaVZndWxjUUlkZUQ2d3Z0RzZvaU93UFJURXFWWlZiYmc?oc=5\" target=\"_blank\"&gt;Why Tesla (TSLA) Stock Is Up Today&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Yahoo Finance&lt;/font&gt;\n\nHeadline looks mixed and does not add a strong directional edge by itself.",
       "px_impact": "-0.5% next-day bias",
       "horizons": [
         {
