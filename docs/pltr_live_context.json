@@ -6,29 +6,44 @@
   "primary_horizon": "1d",
   "signal": {
     "signal": "HOLD",
-    "probability_up": 50.6,
-    "confidence": 53.01,
+    "probability_up": 50.4,
+    "confidence": 43.92,
     "pred_return_pct": 0.66,
     "current_price": 142.21,
     "target_price": 143.15,
-    "trust_score": 58.9,
+    "trust_score": 48.8,
     "trend_score": -0.3563,
     "trend_state": "BEARISH",
     "trend_supported": false,
+    "edge_status": "low_edge",
+    "edge_label": "TACTICAL / LOW EDGE",
     "forecast_for_date": "2026-04-16",
     "date": "2026-04-15",
-    "summary": "PLTR is HOLD for 2026-04-16 with 50.6% odds up, +0.66% expected return, 58.9% trust, and a bearish daily trend."
+    "summary": "PLTR is HOLD for 2026-04-16 with 50.4% odds up, +0.66% expected return, 48.8% trust, a bearish daily trend, and a tactical / low edge 1d setup."
   },
-  "summary": "PLTR is HOLD for 2026-04-16 with 50.6% odds up, +0.66% expected return, 58.9% trust, and a bearish daily trend.",
+  "summary": "PLTR is HOLD for 2026-04-16 with 50.4% odds up, +0.66% expected return, 48.8% trust, a bearish daily trend, and a tactical / low edge 1d setup.",
+  "one_day_edge": {
+    "status": "low_edge",
+    "label": "TACTICAL / LOW EDGE",
+    "tone": "bad",
+    "summary": "Recent 1d walk-forward accuracy is 40.0% / 55.0% over the last 20 / 60 matured calls, so the next-day read is being treated as a low-edge tactical signal.",
+    "recent20_accuracy": 0.4,
+    "recent60_accuracy": 0.55,
+    "recent20_brier": 0.2441,
+    "recent20_log_loss": 0.6811,
+    "supported_probability": true,
+    "used_recent_fallback": true,
+    "is_low_edge": true
+  },
   "horizons": {
     "1d": {
       "horizon_days": 1,
       "model_family": "linear",
       "model_version": "research_v1-pltr-1d-linear",
-      "probability_up": 50.6,
+      "probability_up": 50.4,
       "expected_return_pct": 0.66,
       "target_price": 143.15,
-      "trust_score": 58.9,
+      "trust_score": 48.8,
       "supported_probability": true,
       "trend_supported": false,
       "evaluation_mode": "premarket_refresh",
@@ -382,7 +397,20 @@
         "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
       },
       "top_drivers": [],
-      "signal": "HOLD"
+      "signal": "HOLD",
+      "edge_assessment": {
+        "status": "low_edge",
+        "label": "TACTICAL / LOW EDGE",
+        "tone": "bad",
+        "summary": "Recent 1d walk-forward accuracy is 40.0% / 55.0% over the last 20 / 60 matured calls, so the next-day read is being treated as a low-edge tactical signal.",
+        "recent20_accuracy": 0.4,
+        "recent60_accuracy": 0.55,
+        "recent20_brier": 0.2441,
+        "recent20_log_loss": 0.6811,
+        "supported_probability": true,
+        "used_recent_fallback": true,
+        "is_low_edge": true
+      }
     },
     "5d": {
       "horizon_days": 5,
@@ -736,7 +764,8 @@
         "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
       },
       "top_drivers": [],
-      "signal": "HOLD"
+      "signal": "HOLD",
+      "edge_assessment": null
     },
     "10d": {
       "horizon_days": 10,
@@ -1117,7 +1146,8 @@
         "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
       },
       "top_drivers": [],
-      "signal": "BUY"
+      "signal": "BUY",
+      "edge_assessment": null
     }
   },
   "champion_model": {
@@ -1181,7 +1211,7 @@
   },
   "data_freshness": {
     "market_date": "2026-04-15",
-    "generated_at": "2026-04-15T12:48:43.254047-07:00",
+    "generated_at": "2026-04-15T13:46:05.240607-07:00",
     "rows": 1326,
     "used_live_premarket_news": true,
     "used_recent_fallback": true
@@ -1195,17 +1225,17 @@
     "analysis_mode": "heuristic",
     "article_count": 5,
     "material_count": 1,
-    "overall_sentiment": "NEUTRAL",
-    "intraday_bias": "FLAT",
-    "net_score": -0.2,
+    "overall_sentiment": "BEARISH",
+    "intraday_bias": "DOWN",
+    "net_score": -0.4,
     "used_recent_fallback": true,
     "category_counts": {
-      "competition": 1,
-      "analyst": 5
+      "analyst": 5,
+      "competition": 1
     },
     "summary": "No fresh PLTR headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution.",
     "feature_values": {
-      "premkt_live_net": -0.2,
+      "premkt_live_net": -0.4,
       "premkt_live_article_count": 5.0,
       "premkt_live_material_count": 1.0,
       "premkt_live_competition_risk": 1.0,
@@ -1214,22 +1244,21 @@
     },
     "articles": [
       {
-        "headline": "Veteran analyst drops bold take on Palantir Anthropic situation",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5\" target=\"_blank\"&gt;Veteran analyst drops bold take on Palantir Anthropic situation&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;thestreet.com&lt;/font&gt;",
+        "headline": "Palantir: 3 Reasons That Could Pressure The Stock Down To $100 (NASDAQ:PLTR) - Seeking Alpha",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMikwFBVV95cUxOX1FsOU5BcDVQR08xdW50NXU0aTgzUld6M2U5NEp0ZHV4WHFlQzVnd2VrRXVkNl9ISVNxUDVnS1NWZ1djVGVCX1RCTGhhY0xWbndEUEJYNTQ5dlJlV2ZXSENLTHBVRVpLUUttUG1VUnV3Sk1vVUFQYXE2b0NvT0dBT1BwSUwyaVlFbE93RE5Ya1k0NEk?oc=5\" target=\"_blank\"&gt;Palantir: 3 Reasons That Could Pressure The Stock Down To $100 (NASDAQ:PLTR)&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Seeking Alpha&lt;/font&gt;",
         "source": "Google News",
-        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5",
-        "published": "Mon, 13 Apr 2026 15:00:54 GMT",
-        "published_at_et": "2026-04-13T11:00:54-04:00",
+        "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOX1FsOU5BcDVQR08xdW50NXU0aTgzUld6M2U5NEp0ZHV4WHFlQzVnd2VrRXVkNl9ISVNxUDVnS1NWZ1djVGVCX1RCTGhhY0xWbndEUEJYNTQ5dlJlV2ZXSENLTHBVRVpLUUttUG1VUnV3Sk1vVUFQYXE2b0NvT0dBT1BwSUwyaVlFbE93RE5Ya1k0NEk?oc=5",
+        "published": "Tue, 14 Apr 2026 13:00:00 GMT",
+        "published_at_et": "2026-04-14T09:00:00-04:00",
         "in_window": false,
         "sentiment": "BEARISH",
-        "impact": "HIGH",
+        "impact": "MEDIUM",
         "net_score": -1,
-        "is_material": true,
+        "is_material": false,
         "categories": [
-          "competition",
           "analyst"
         ],
-        "rationale": "Competition and valuation language keep the near-term read cautious."
+        "rationale": "Headline tone leans cautious on multiple, competition, or risk."
       },
       {
         "headline": "Palantir Price Prediction: How High Can PLTR Realistically Go? - Yahoo Finance",
@@ -1266,29 +1295,30 @@
         "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
       },
       {
+        "headline": "Veteran analyst drops bold take on Palantir Anthropic situation",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5\" target=\"_blank\"&gt;Veteran analyst drops bold take on Palantir Anthropic situation&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;thestreet.com&lt;/font&gt;",
+        "source": "Google News",
+        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb0JJYkV2ZDJHNHJ1ak9jNDExWE12dlk0YkExcnVkdU5OXzFoXzF4RXoxbHRqUjBvc2JkdkxaR0FVWjYyaHdUZnVYcGhZU2hTcFZ1UHlWQzRjYzhIS0FPeFdLalhjcXRNUkxWTmQxRG16RXdCY3N4NUZoNTd2Nk9LQUZsUWtoNVBsREhXT0NQczh2eXNCU1pwQlI3RkxnUS16YmtLazRNcGF5dw?oc=5",
+        "published": "Mon, 13 Apr 2026 15:00:54 GMT",
+        "published_at_et": "2026-04-13T11:00:54-04:00",
+        "in_window": false,
+        "sentiment": "BEARISH",
+        "impact": "HIGH",
+        "net_score": -1,
+        "is_material": true,
+        "categories": [
+          "competition",
+          "analyst"
+        ],
+        "rationale": "Competition and valuation language keep the near-term read cautious."
+      },
+      {
         "headline": "How To Position For A 40% Discount On Palantir Stock?",
         "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMisgFBVV95cUxPV00zSDRpaFBmb0g4NldFak9jUThOR0Z3UmhvT0hUazBCVXpYVG1DRjJHbUlTVzRVR09ha2dKWmhlU0ZRLWk4RDJlMjRYQmVIb3gwWW1saERUejY4dUlZX0h0MS1vQjM3ZV9TOS14OU1aUENGNFNyRHY4ZWVrQl95LWluVUtDUkdXZFI1UU0tSEhsOFg1UTZUb2ptelRwLXNwWEhyZzBfd3lnTzdvc3NNbTdR?oc=5\" target=\"_blank\"&gt;How To Position For A 40% Discount On Palantir Stock?&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Trefis&lt;/font&gt;",
         "source": "Google News",
         "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPV00zSDRpaFBmb0g4NldFak9jUThOR0Z3UmhvT0hUazBCVXpYVG1DRjJHbUlTVzRVR09ha2dKWmhlU0ZRLWk4RDJlMjRYQmVIb3gwWW1saERUejY4dUlZX0h0MS1vQjM3ZV9TOS14OU1aUENGNFNyRHY4ZWVrQl95LWluVUtDUkdXZFI1UU0tSEhsOFg1UTZUb2ptelRwLXNwWEhyZzBfd3lnTzdvc3NNbTdR?oc=5",
         "published": "Mon, 13 Apr 2026 15:04:38 GMT",
         "published_at_et": "2026-04-13T11:04:38-04:00",
-        "in_window": false,
-        "sentiment": "NEUTRAL",
-        "impact": "MEDIUM",
-        "net_score": 0,
-        "is_material": false,
-        "categories": [
-          "analyst"
-        ],
-        "rationale": "Headline looks mixed and does not add a strong directional edge by itself."
-      },
-      {
-        "headline": "Why Is Palantir Stock Rising On Monday?",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMioAFBVV95cUxOeDRtLVNVUm9kb2VYbm1TNkN5OGtnRWZYbFJ6ZnN6OGZzaXZja09PSklLVXA4VF9IN1RjbXkxeWpTV21Nb3V4NS1ITnFmUVpOOGRwTzIwRUJlMUtoMFFTeFo3VklxS2U0c1ZLR2hGQ3JUcklsb1RDNm5fWkV3RVhrYXp4VExIbVNFcmVuMGlTelpweVZyN0JpNkY4YTZGYUti?oc=5\" target=\"_blank\"&gt;Why Is Palantir Stock Rising On Monday?&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;font color=\"#6f6f6f\"&gt;Benzinga&lt;/font&gt;",
-        "source": "Google News",
-        "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOeDRtLVNVUm9kb2VYbm1TNkN5OGtnRWZYbFJ6ZnN6OGZzaXZja09PSklLVXA4VF9IN1RjbXkxeWpTV21Nb3V4NS1ITnFmUVpOOGRwTzIwRUJlMUtoMFFTeFo3VklxS2U0c1ZLR2hGQ3JUcklsb1RDNm5fWkV3RVhrYXp4VExIbVNFcmVuMGlTelpweVZyN0JpNkY4YTZGYUti?oc=5",
-        "published": "Mon, 13 Apr 2026 14:07:33 GMT",
-        "published_at_et": "2026-04-13T10:07:33-04:00",
         "in_window": false,
         "sentiment": "NEUTRAL",
         "impact": "MEDIUM",
@@ -1330,12 +1360,12 @@
     {
       "title": "Champion model",
       "direction": "neutral",
-      "detail": "PLTR linear champion for 1d outputs 50.6% up with +0.66% expected return."
+      "detail": "PLTR linear champion for 1d outputs 50.4% up with +0.66% expected return."
     },
     {
       "title": "Calibration and trust",
-      "direction": "bull",
-      "detail": "Trust is 58.9% with recent walk-forward accuracy 40.0% / 55.0%."
+      "direction": "neutral",
+      "detail": "Trust is 48.8% with recent walk-forward accuracy 40.0% / 55.0%. The 1d edge is currently weak, so the live call is intentionally shrunk back toward neutral."
     },
     {
       "title": "Daily trend structure",
@@ -1344,7 +1374,7 @@
     },
     {
       "title": "Pre-open news window",
-      "direction": "neutral",
+      "direction": "bear",
       "detail": "No fresh PLTR headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
     },
     {
@@ -1354,17 +1384,17 @@
     }
   ],
   "reasoning": {
-    "summary": "PLTR carries a bearish day-to-day structure with score -0.36; the live forecast is leaning against that backdrop.",
+    "summary": "PLTR carries a bearish day-to-day structure with score -0.36; the live forecast is leaning against that backdrop. 1d edge status: TACTICAL / LOW EDGE.",
     "drivers": [
       {
         "title": "Champion model",
         "direction": "neutral",
-        "detail": "PLTR linear champion for 1d outputs 50.6% up with +0.66% expected return."
+        "detail": "PLTR linear champion for 1d outputs 50.4% up with +0.66% expected return."
       },
       {
         "title": "Calibration and trust",
-        "direction": "bull",
-        "detail": "Trust is 58.9% with recent walk-forward accuracy 40.0% / 55.0%."
+        "direction": "neutral",
+        "detail": "Trust is 48.8% with recent walk-forward accuracy 40.0% / 55.0%. The 1d edge is currently weak, so the live call is intentionally shrunk back toward neutral."
       },
       {
         "title": "Daily trend structure",
@@ -1373,7 +1403,7 @@
       },
       {
         "title": "Pre-open news window",
-        "direction": "neutral",
+        "direction": "bear",
         "detail": "No fresh PLTR headlines landed in the current post-close / pre-open window, so the model is using the most recent broader headlines with extra caution."
       },
       {
@@ -1385,19 +1415,20 @@
     "top_model_drivers": []
   },
   "component_scores": {
-    "probability_centered": 0.006,
-    "trust": 0.589,
+    "probability_centered": 0.004,
+    "trust": 0.488,
     "trend": -0.3563,
-    "news_weight": 0.45
+    "news_weight": 0.45,
+    "one_day_edge": -0.4
   },
   "card": {
     "sig": "HOLD",
     "sc": "hold",
-    "conf": 0.53,
+    "conf": 0.439,
     "px": 142.21,
     "chg": 4.79,
-    "l1h": -0.09,
-    "l4h": -0.2,
+    "l1h": -0.18,
+    "l4h": -0.4,
     "l1d": 0.66,
     "l5d": 0.39,
     "l10d": 4.26,
@@ -1407,6 +1438,8 @@
     "trend_state": "BEARISH",
     "trend_score": -0.3563,
     "trend_supported": false,
-    "headline_summary": "PLTR is HOLD for 2026-04-16 with 50.6% odds up, +0.66% expected return, 58.9% trust, and a bearish daily trend."
+    "edge_label": "TACTICAL / LOW EDGE",
+    "edge_status": "low_edge",
+    "headline_summary": "PLTR is HOLD for 2026-04-16 with 50.4% odds up, +0.66% expected return, 48.8% trust, a bearish daily trend, and a tactical / low edge 1d setup."
   }
 }

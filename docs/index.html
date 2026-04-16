@@ -333,6 +333,36 @@ body{font-family:var(--ui);background:var(--bg);color:var(--t0);
 .sent-fill{height:100%;border-radius:2px}
 .sent-val{font-family:var(--mono);font-size:9px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
 
+/* Trade cockpit — densest single visual trading block */
+.trade-viz{flex-shrink:0;border-bottom:2px solid var(--ln2);background:linear-gradient(180deg,rgba(74,158,255,.05),transparent 20%),var(--bg)}
+.trade-viz-head{height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 9px;border-bottom:1px solid var(--ln);gap:8px}
+.trade-viz-title{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.trade-chip-row{display:flex;flex-wrap:wrap;gap:5px;padding:8px 9px 0}
+.trade-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--ln);margin-top:8px}
+.trade-stat{background:var(--bg1);padding:7px 8px}
+.trade-stat-l{font-size:8px;color:var(--t2);font-family:var(--mono);margin-bottom:3px;letter-spacing:.04em}
+.trade-stat-v{font-family:var(--mono);font-size:12px;font-weight:700;line-height:1.05}
+.trade-stat-s{font-family:var(--mono);font-size:8px;color:var(--t2);margin-top:3px;line-height:1.35}
+.trade-map{padding:8px 9px 9px}
+.trade-map-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;font-size:8px;color:var(--t2);font-family:var(--mono)}
+.trade-track{position:relative;height:16px;border-radius:999px;overflow:hidden;border:1px solid var(--ln2);background:linear-gradient(90deg,rgba(255,61,90,.22),rgba(247,183,49,.12) 48%,rgba(0,212,126,.22))}
+.trade-band{position:absolute;top:2px;bottom:2px;border-radius:999px;background:rgba(74,158,255,.18);border:1px solid rgba(74,158,255,.28)}
+.trade-marker{position:absolute;width:2px;height:20px;top:-2px;border-radius:2px;transform:translateX(-50%)}
+.trade-marker.current{background:#f4f4f4}
+.trade-marker.target1{background:var(--cyan)}
+.trade-marker.target10{background:var(--pur)}
+.trade-marker.ma20{background:var(--gold);height:10px;top:3px}
+.trade-scale{display:flex;justify-content:space-between;gap:8px;margin-top:6px;font-size:8px;color:var(--t2);font-family:var(--mono)}
+.trade-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.trade-legend-item{display:flex;align-items:center;gap:4px;font-size:8px;color:var(--t2);font-family:var(--mono)}
+.trade-dot{width:9px;height:2px;border-radius:999px}
+.trade-scan{padding:0 9px 9px}
+.trade-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid var(--ln)}
+.trade-row:first-child{border-top:1px solid var(--ln2)}
+.trade-row-l{font-size:8px;color:var(--t2);font-family:var(--mono)}
+.trade-row-v{font-family:var(--mono);font-size:9px;font-weight:700;text-align:right;line-height:1.35}
+.trade-summary{padding:0 9px 9px;font-size:9px;color:var(--t1);line-height:1.55}
+
 /* Intel blocks */
 .intel-scroll{flex:1;overflow-y:auto;min-height:0}
 .intel-scroll::-webkit-scrollbar{width:2px}.intel-scroll::-webkit-scrollbar-thumb{background:var(--ln2)}
@@ -700,6 +730,13 @@ body{font-family:var(--ui);background:var(--bg);color:var(--t0);
         <span class="sent-label">Trend</span>
         <div class="sent-bar"><div class="sent-fill" id="sent-jpn" style="width:50%;background:var(--cyan)"></div></div>
         <span class="sent-val" id="sent-jpn-v" style="color:var(--cyan)">NEU</span>
+      </div>
+    </div>
+
+    <div class="trade-viz" id="tradeVisualizer">
+      <div class="trade-viz-head">
+        <span class="trade-viz-title">Trade Cockpit</span>
+        <span class="status-chip info">SYNCING</span>
       </div>
     </div>
 

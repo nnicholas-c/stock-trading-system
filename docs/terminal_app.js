@@ -35,6 +35,11 @@
     return `${Math.round(num)}`;
   }
 
+  function num(value, fallback = 0) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
   function fmtAgeFromIso(value) {
     if (!value) return "now";
     const then = new Date(value);
@@ -69,6 +74,15 @@
 
   function currentPayload() {
     return state.bundle?.tickers?.[state.cur] || null;
+  }
+
+  function oneDayEdge(payload) {
+    return payload?.one_day_edge || payload?.horizons?.["1d"]?.edge_assessment || {
+      status: "calibrated",
+      label: "CALIBRATED 1D",
+      tone: "good",
+      summary: "The next-day setup is calibrated and can be treated like a normal tactical input.",
+    };
   }
 
   function currentCandles() {
@@ -162,11 +176,13 @@
     const badge = document.getElementById("watchlist-status");
     if (!payload || !el) return;
     const mode = state.bundle.pages_publish_mode || {};
+    const edge = oneDayEdge(payload);
     if (badge) badge.textContent = `${mode.label || "Latest"} · ${payload.market_date}`;
     el.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
         <span class="status-chip ${statusClass(mode.label)}">${mode.label || "CHAMPION"}</span>
         <span class="status-chip ${payload.news_monitor.used_recent_fallback ? "bad" : "good"}">${payload.news_monitor.status_label}</span>
+        <span class="status-chip ${edge.tone || statusClass(edge.label)}">${edge.label}</span>
       </div>
       <div class="watch-kpi">
         <div class="watch-kpi-card">
@@ -185,7 +201,8 @@
           <div class="watch-kpi-l">TREND</div>
           <div class="watch-kpi-v ${toneClass(payload.trend_snapshot.state === "BULLISH" ? "bull" : payload.trend_snapshot.state === "BEARISH" ? "bear" : "neutral")}">${payload.trend_snapshot.state}</div>
         </div>
-      </div>`;
+      </div>
+      <div style="margin-top:7px;font-size:8px;color:var(--t2);line-height:1.55">${edge.summary}</div>`;
   }
 
   function renderSigTable() {
@@ -195,9 +212,10 @@
       const payload = state.bundle.tickers[ticker];
       const signal = payload.signal;
       const sc = signalClass(signal.signal);
+      const edge = oneDayEdge(payload);
       return `<div class="srow ${sc}${ticker === state.cur ? " on" : ""}" onclick="selectTicker('${ticker}')">
         <div class="sr-row">
-          <div><div class="ssym" style="color:${COLORS[ticker]}">${ticker}</div><div class="ssec">${payload.company_name}</div></div>
+          <div><div class="ssym" style="color:${COLORS[ticker]}">${ticker}</div><div class="ssec">${payload.company_name} · ${edge.label}</div></div>
           <div style="text-align:right">
             <div class="spx">${fmtPrice(payload.quote_snapshot.close)}</div>
             <div class="schg ${payload.quote_snapshot.change_pct >= 0 ? "up" : "dn"}">${fmtPct(payload.quote_snapshot.change_pct)}</div>
@@ -224,6 +242,7 @@
     const trend = document.getElementById("ch-trend");
     const fresh = document.getElementById("ch-fresh");
     const status = document.getElementById("ch-status");
+    const edge = oneDayEdge(payload);
     if (sym) {
       sym.textContent = state.cur;
       sym.style.color = COLORS[state.cur];
@@ -256,6 +275,7 @@
       const flags = [];
       flags.push(`mkt ${payload.market_date}`);
       flags.push(`fcst ${payload.forecast_for_date}`);
+      flags.push(edge.label.toLowerCase());
       if (payload.news_monitor.used_recent_fallback) flags.push("fallback news");
       if (payload.data_freshness.is_stale) flags.push("stale quote");
       fresh.textContent = flags.join(" · ");
@@ -266,6 +286,7 @@
     const payload = currentPayload();
     if (!payload) return;
     const overlay = payload.forecast_overlay;
+    const edge = oneDayEdge(payload);
     const one = overlay.points.find((p) => p.key === "1d") || overlay.points[0];
     const five = overlay.points.find((p) => p.key === "5d") || overlay.points[1];
     const ten = overlay.points.find((p) => p.key === "10d") || overlay.points[2];
@@ -335,7 +356,151 @@
     const title = document.getElementById("intel-title");
     const badge = document.getElementById("intel-badge");
     if (title) title.textContent = `Focus Intel · ${state.cur}`;
-    if (badge) badge.textContent = `${state.bundle.artifact_version.toUpperCase()} · ${state.bundle.pages_publish_mode.label}`;
+    if (badge) badge.textContent = `${state.bundle.artifact_version.toUpperCase()} · ${edge.label}`;
+  }
+
+  function renderTradeVisualizer() {
+    const payload = currentPayload();
+    const el = document.getElementById("tradeVisualizer");
+    if (!payload || !el) return;
+
+    const overlay = payload.forecast_overlay || {};
+    const points = overlay.points || [];
+    const one = points.find((point) => point.key === "1d") || points[0] || {};
+    const ten = points.find((point) => point.key === "10d") || points[points.length - 1] || one;
+    const quote = payload.quote_snapshot || {};
+    const levels = payload.levels || {};
+    const tech = payload.technical_snapshot || {};
+    const market = payload.market_context || {};
+    const perf = payload.recent_performance || {};
+    const edge = oneDayEdge(payload);
+
+    const current = num(quote.close);
+    const support = num(levels.support_20d, current);
+    const resistance = num(levels.resistance_20d, current);
+    const ma20 = num(levels.ma20, current);
+    const ma50 = num(levels.ma50, current);
+    const oneTarget = num(one.target_price, num(payload.signal.target_price, current));
+    const tenTarget = num(ten.target_price, current);
+    const bandLow = num(one.lower_price, current);
+    const bandHigh = num(one.upper_price, current);
+    const downsidePct = current ? ((support - current) / current) * 100 : 0;
+    const upsidePct = current ? ((resistance - current) / current) * 100 : 0;
+    const rr = Math.abs(downsidePct) > 0.05 ? upsidePct / Math.abs(downsidePct) : null;
+    const invalidation = Math.min(support || current, ma50 || current);
+    const reclaim = Math.max(ma20 || current, current);
+    const trendChip = payload.trend_snapshot.state === "BULLISH" ? "good" : payload.trend_snapshot.state === "BEARISH" ? "bad" : "info";
+    const supportChip = payload.signal.trend_supported ? "good" : "bad";
+    const edgeChip = edge.tone === "good" ? "good" : edge.tone === "bad" ? "bad" : "warn";
+    const newsChip = payload.news_monitor.used_recent_fallback ? "warn" : "good";
+    const signalChip = payload.signal.signal === "BUY" ? "good" : payload.signal.signal === "SELL" ? "bad" : "warn";
+    const rangeMin = Math.min(support || current, bandLow, current);
+    const rangeMax = Math.max(resistance || current, tenTarget, bandHigh, current);
+    const pos = (value) => {
+      if (!(rangeMax > rangeMin) || !Number.isFinite(value)) return 50;
+      return Math.max(0, Math.min(100, ((value - rangeMin) / (rangeMax - rangeMin)) * 100));
+    };
+    const bandLeft = pos(Math.min(bandLow, bandHigh));
+    const bandRight = pos(Math.max(bandLow, bandHigh));
+    const bandWidth = Math.max(3, bandRight - bandLeft);
+    const rewardText = rr === null ? "—" : `${rr.toFixed(2)}R`;
+    const setupLabel = payload.signal.trend_supported ? "Trend aligned" : "Trend conflict";
+    const summary = payload.signal.trend_supported
+      ? `${payload.signal.summary} The daily trend is supporting the active direction, so the setup can be read more cleanly than the raw 1d edge alone.`
+      : `${payload.signal.summary} The daily trend is pushing back against the next-day setup, so support, reclaim levels, and news quality matter more than the headline probability.`;
+
+    el.innerHTML = `
+      <div class="trade-viz-head">
+        <span class="trade-viz-title">Trade Cockpit</span>
+        <span class="status-chip ${supportChip}">${setupLabel}</span>
+      </div>
+      <div class="trade-chip-row">
+        <span class="status-chip ${signalChip}">${payload.signal.signal}</span>
+        <span class="status-chip ${edgeChip}">${edge.label}</span>
+        <span class="status-chip ${trendChip}">${payload.trend_snapshot.state} ${num(payload.trend_snapshot.score).toFixed(2)}</span>
+        <span class="status-chip ${newsChip}">${payload.news_monitor.status_label}</span>
+        <span class="status-chip info">${market.macro_regime || "NEUTRAL"} REGIME</span>
+      </div>
+      <div class="trade-grid">
+        <div class="trade-stat">
+          <div class="trade-stat-l">LAST / CHANGE</div>
+          <div class="trade-stat-v">${fmtPrice(current)}</div>
+          <div class="trade-stat-s ${quote.change_pct >= 0 ? "up" : "dn"}">${fmtPct(quote.change_pct)} · ${quote.volume_label || fmtCompact(quote.volume)}</div>
+        </div>
+        <div class="trade-stat">
+          <div class="trade-stat-l">1D TARGET</div>
+          <div class="trade-stat-v ${num(one.expected_return_pct) >= 0 ? "up" : "dn"}">${fmtPrice(oneTarget)}</div>
+          <div class="trade-stat-s">${fmtPct(num(one.expected_return_pct))} · ${num(one.probability_up).toFixed(1)}% up</div>
+        </div>
+        <div class="trade-stat">
+          <div class="trade-stat-l">10D TARGET</div>
+          <div class="trade-stat-v ${num(ten.expected_return_pct) >= 0 ? "up" : "dn"}">${fmtPrice(tenTarget)}</div>
+          <div class="trade-stat-s">${fmtPct(num(ten.expected_return_pct))} · ${num(ten.trust_score).toFixed(1)} trust</div>
+        </div>
+        <div class="trade-stat">
+          <div class="trade-stat-l">R:R TO RANGE</div>
+          <div class="trade-stat-v ${rr !== null && rr >= 1 ? "up" : "dn"}">${rewardText}</div>
+          <div class="trade-stat-s">risk ${fmtPct(downsidePct, 1)} · reward ${fmtPct(upsidePct, 1)}</div>
+        </div>
+        <div class="trade-stat">
+          <div class="trade-stat-l">SUPPORT / RESIST</div>
+          <div class="trade-stat-v">${fmtPrice(support)} / ${fmtPrice(resistance)}</div>
+          <div class="trade-stat-s">MA20 ${fmtPrice(ma20)} · MA50 ${fmtPrice(ma50)}</div>
+        </div>
+        <div class="trade-stat">
+          <div class="trade-stat-l">TACTICAL HEALTH</div>
+          <div class="trade-stat-v ${num(perf.recent20_accuracy) >= 0.5 ? "up" : "dn"}">${(num(perf.recent20_accuracy) * 100).toFixed(1)}%</div>
+          <div class="trade-stat-s">recent20 acc · Brier ${num(perf.recent20_brier).toFixed(3)}</div>
+        </div>
+      </div>
+      <div class="trade-map">
+        <div class="trade-map-head">
+          <span>TRADE MAP · support to resistance</span>
+          <span>${fmtPrice(rangeMin)} → ${fmtPrice(rangeMax)}</span>
+        </div>
+        <div class="trade-track">
+          <div class="trade-band" style="left:${bandLeft}%;width:${bandWidth}%"></div>
+          <div class="trade-marker ma20" style="left:${pos(ma20)}%"></div>
+          <div class="trade-marker target10" style="left:${pos(tenTarget)}%"></div>
+          <div class="trade-marker target1" style="left:${pos(oneTarget)}%"></div>
+          <div class="trade-marker current" style="left:${pos(current)}%"></div>
+        </div>
+        <div class="trade-scale">
+          <span>S20 ${fmtPrice(support)}</span>
+          <span>LAST ${fmtPrice(current)}</span>
+          <span>R20 ${fmtPrice(resistance)}</span>
+        </div>
+        <div class="trade-legend">
+          <div class="trade-legend-item"><span class="trade-dot" style="background:#f4f4f4"></span>Last</div>
+          <div class="trade-legend-item"><span class="trade-dot" style="background:var(--cyan)"></span>1D target</div>
+          <div class="trade-legend-item"><span class="trade-dot" style="background:var(--pur)"></span>10D target</div>
+          <div class="trade-legend-item"><span class="trade-dot" style="background:var(--gold)"></span>MA20</div>
+          <div class="trade-legend-item"><span class="trade-dot" style="background:rgba(74,158,255,.7)"></span>1D band</div>
+        </div>
+      </div>
+      <div class="trade-scan">
+        <div class="trade-row">
+          <span class="trade-row-l">1D ODDS / TRUST</span>
+          <span class="trade-row-v">${num(payload.signal.probability_up).toFixed(1)}% up · ${num(payload.signal.trust_score).toFixed(1)} trust</span>
+        </div>
+        <div class="trade-row">
+          <span class="trade-row-l">NEWS / CATALYST LOAD</span>
+          <span class="trade-row-v">${payload.news_monitor.article_count || 0} items · score ${num(payload.news_monitor.net_score).toFixed(2)} · material ${payload.news_monitor.material_count || 0}</span>
+        </div>
+        <div class="trade-row">
+          <span class="trade-row-l">MOMENTUM / TAPE</span>
+          <span class="trade-row-v">RSI ${num(tech.rsi14).toFixed(1)} · vol ${num(tech.volume_ratio, 1).toFixed(2)}x · 5d ${fmtPct(num(tech.ret_5d_pct), 1)}</span>
+        </div>
+        <div class="trade-row">
+          <span class="trade-row-l">MACRO CONTEXT</span>
+          <span class="trade-row-v">SPY ${fmtPct(num(market.spy_ret_1_pct), 1)} · QQQ ${fmtPct(num(market.qqq_ret_1_pct), 1)} · ${market.risk_on ? "risk-on" : "risk-off"}</span>
+        </div>
+        <div class="trade-row">
+          <span class="trade-row-l">INVALIDATION / RECLAIM</span>
+          <span class="trade-row-v">below ${fmtPrice(invalidation)} · reclaim ${fmtPrice(reclaim)}</span>
+        </div>
+      </div>
+      <div class="trade-summary">${summary}</div>`;
   }
 
   function renderIntel() {
@@ -782,6 +947,7 @@
       const payload = state.bundle.tickers[ticker];
       const sc = signalClass(payload.signal.signal);
       const horizons = payload.forecast_overlay.scenario_ladder || [];
+      const edge = oneDayEdge(payload);
       return `<div class="sc">
         <div class="sc-head">
           <span class="sc-sym" style="color:${COLORS[ticker]}">${ticker}</span>
@@ -790,6 +956,10 @@
           <span class="sc-badge ${sc}">${payload.signal.signal}</span>
         </div>
         <div class="sc-body">
+          <div class="news-group" style="padding:6px 0 8px;border-bottom:1px solid var(--ln)">
+            <div class="news-group-head"><span class="news-group-title">1D EDGE</span><span class="status-chip ${edge.tone || statusClass(edge.label)}">${edge.label}</span></div>
+            <div class="news-mini-meta">${edge.summary}</div>
+          </div>
           <div class="hz-grid">
             ${horizons.map((point) => `<div class="hz-cell">
               <div class="hz-l">${point.label}</div>
@@ -820,18 +990,20 @@
       <div class="kpi-grid">
         ${TICKERS.map((ticker) => {
           const payload = state.bundle.tickers[ticker];
+          const edge = oneDayEdge(payload);
           return `<div class="kpi">
             <div class="kpi-l" style="color:${COLORS[ticker]}">${ticker} · ${payload.company_name}</div>
             <div class="kpi-v">${fmtPrice(payload.quote_snapshot.close)}</div>
-            <div class="kpi-s">${payload.trend_snapshot.state} · Trust ${payload.signal.trust_score.toFixed(1)}%</div>
+            <div class="kpi-s">${payload.trend_snapshot.state} · Trust ${payload.signal.trust_score.toFixed(1)}% · ${edge.label}</div>
           </div>`;
         }).join("")}
       </div>
       <table class="rtable">
-        <thead><tr><th>Ticker</th><th>Signal</th><th>Prob Up</th><th>1D</th><th>5D</th><th>10D</th><th>Trend</th><th>Freshness</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>Signal</th><th>Prob Up</th><th>1D</th><th>5D</th><th>10D</th><th>1D Edge</th><th>Trend</th><th>Freshness</th></tr></thead>
         <tbody>
           ${TICKERS.map((ticker) => {
             const payload = state.bundle.tickers[ticker];
+            const edge = oneDayEdge(payload);
             return `<tr>
               <td class="m" style="color:${COLORS[ticker]}">${ticker}</td>
               <td class="${toneClass(payload.signal.signal)}">${payload.signal.signal}</td>
@@ -839,6 +1011,7 @@
               <td class="${payload.horizons["1d"].expected_return_pct >= 0 ? "up" : "dn"}">${fmtPct(payload.horizons["1d"].expected_return_pct, 2)}</td>
               <td class="${payload.horizons["5d"].expected_return_pct >= 0 ? "up" : "dn"}">${fmtPct(payload.horizons["5d"].expected_return_pct, 2)}</td>
               <td class="${payload.horizons["10d"].expected_return_pct >= 0 ? "up" : "dn"}">${fmtPct(payload.horizons["10d"].expected_return_pct, 2)}</td>
+              <td class="m">${edge.label}</td>
               <td class="m">${payload.trend_snapshot.state} ${payload.trend_snapshot.score.toFixed(2)}</td>
               <td class="m">${payload.data_freshness.is_stale ? "STALE" : "LIVE"}</td>
             </tr>`;
@@ -897,22 +1070,24 @@
     const ac = document.getElementById("analysisContent");
     const payload = currentPayload();
     if (!ac || !payload) return;
+    const edge = oneDayEdge(payload);
     ac.innerHTML = `
       <div class="anlys-hero">
         <div class="anlys-hero-title">${state.cur} Desk Analysis</div>
-        <div class="anlys-hero-sub">Market date ${payload.market_date} · Forecast for ${payload.forecast_for_date} · ${state.bundle.pages_publish_mode.label}</div>
+        <div class="anlys-hero-sub">Market date ${payload.market_date} · Forecast for ${payload.forecast_for_date} · ${state.bundle.pages_publish_mode.label} · ${edge.label}</div>
       </div>
       <div class="anlys-nlp">
         <div class="anlys-nlp-title">Desk Read</div>
         <div class="anlys-nlp-body">
           <strong>${payload.summary}</strong><br><br>
           ${payload.reasoning.summary}<br><br>
+          <strong>1D edge:</strong> ${edge.summary}<br><br>
           <strong>News monitor:</strong> ${payload.news_monitor.summary || "No fresh catalyst in the current feed."}<br><br>
           <strong>Trend structure:</strong> ${payload.trend_snapshot.state} (${payload.trend_snapshot.score.toFixed(2)}) with 5d slope ${fmtPct(payload.trend_snapshot.close_slope_5d, 3)}/day and 20d slope ${fmtPct(payload.trend_snapshot.close_slope_20d, 3)}/day.
         </div>
       </div>
       <div class="anlys-grid">
-        <div class="anlys-card"><div class="anlys-card-title">1D</div><div style="font-family:var(--mono);font-size:20px;font-weight:700;color:${payload.horizons["1d"].expected_return_pct >= 0 ? "var(--G)" : "var(--R)"}">${fmtPct(payload.horizons["1d"].expected_return_pct, 2)}</div><div style="font-size:9px;color:var(--t2);margin-top:6px">${fmtPrice(payload.horizons["1d"].target_price)}</div></div>
+        <div class="anlys-card"><div class="anlys-card-title">1D · ${edge.label}</div><div style="font-family:var(--mono);font-size:20px;font-weight:700;color:${payload.horizons["1d"].expected_return_pct >= 0 ? "var(--G)" : "var(--R)"}">${fmtPct(payload.horizons["1d"].expected_return_pct, 2)}</div><div style="font-size:9px;color:var(--t2);margin-top:6px">${fmtPrice(payload.horizons["1d"].target_price)}</div></div>
         <div class="anlys-card"><div class="anlys-card-title">5D</div><div style="font-family:var(--mono);font-size:20px;font-weight:700;color:${payload.horizons["5d"].expected_return_pct >= 0 ? "var(--G)" : "var(--R)"}">${fmtPct(payload.horizons["5d"].expected_return_pct, 2)}</div><div style="font-size:9px;color:var(--t2);margin-top:6px">${fmtPrice(payload.horizons["5d"].target_price)}</div></div>
         <div class="anlys-card"><div class="anlys-card-title">10D</div><div style="font-family:var(--mono);font-size:20px;font-weight:700;color:${payload.horizons["10d"].expected_return_pct >= 0 ? "var(--G)" : "var(--R)"}">${fmtPct(payload.horizons["10d"].expected_return_pct, 2)}</div><div style="font-size:9px;color:var(--t2);margin-top:6px">${fmtPrice(payload.horizons["10d"].target_price)}</div></div>
       </div>
@@ -1038,6 +1213,7 @@
     renderWatchMeta();
     updateChartHeader();
     updatePredictionCard();
+    renderTradeVisualizer();
     renderIntel();
     renderBottomNews();
     renderResearchOps();
