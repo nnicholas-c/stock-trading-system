@@ -1,0 +1,199 @@
+{
+  "ticker": "AAPL",
+  "horizon": 5,
+  "model_version": "research_v1-aapl-5d-tree",
+  "family": "tree",
+  "metrics": {
+    "brier": 0.2881,
+    "log_loss": 0.774,
+    "accuracy": 0.4583,
+    "recent20_accuracy": 0.4,
+    "recent60_accuracy": 0.4583,
+    "ece": 0.2409,
+    "stability": 0.9417,
+    "strategy_return": -0.242,
+    "bah_return": -0.1358,
+    "alpha": -0.1062,
+    "sharpe": -1.9725,
+    "sortino": -3.7265,
+    "max_drawdown": -0.3034,
+    "n_trades": 18,
+    "portfolio_values": [
+      1.0143,
+      1.0637,
+      1.0051,
+      1.0051,
+      1.0174,
+      1.003,
+      0.9685,
+      0.9299,
+      0.9299,
+      0.9299,
+      0.9884,
+      1.0523,
+      1.0832,
+      1.0881,
+      1.076,
+      1.0366,
+      0.9966,
+      0.9966,
+      0.9966,
+      0.9432,
+      0.8865,
+      0.8187,
+      0.758,
+      0.758
+    ],
+    "bah_values": [
+      0.9857,
+      0.9377,
+      0.8861,
+      0.8712,
+      0.8606,
+      0.8728,
+      0.9027,
+      0.9388,
+      0.969,
+      1.0105,
+      1.074,
+      1.1435,
+      1.1771,
+      1.1824,
+      1.1692,
+      1.1265,
+      1.17,
+      1.1978,
+      1.1753,
+      1.1123,
+      1.0455,
+      0.9655,
+      0.8939,
+      0.8642
+    ],
+    "regime_split": {
+      "BEAR": {
+        "count": 6,
+        "accuracy": 0.0,
+        "brier": 0.3302
+      },
+      "BULL": {
+        "count": 8,
+        "accuracy": 0.75,
+        "brier": 0.23
+      },
+      "NEUTRAL": {
+        "count": 2,
+        "accuracy": 0.5,
+        "brier": 0.2937
+      }
+    }
+  },
+  "bucket_table": [
+    {
+      "bucket": 6,
+      "lower": 0.3,
+      "upper": 0.35,
+      "count": 1,
+      "avg_probability": 0.3256,
+      "hit_rate": 1.0,
+      "avg_return_pct": 3.8612
+    },
+    {
+      "bucket": 7,
+      "lower": 0.35,
+      "upper": 0.4,
+      "count": 2,
+      "avg_probability": 0.3659,
+      "hit_rate": 1.0,
+      "avg_return_pct": 2.7037
+    },
+    {
+      "bucket": 8,
+      "lower": 0.4,
+      "upper": 0.45,
+      "count": 4,
+      "avg_probability": 0.433,
+      "hit_rate": 0.25,
+      "avg_return_pct": -1.0217
+    },
+    {
+      "bucket": 9,
+      "lower": 0.45,
+      "upper": 0.5,
+      "count": 3,
+      "avg_probability": 0.4907,
+      "hit_rate": 0.3333,
+      "avg_return_pct": -0.8745
+    },
+    {
+      "bucket": 10,
+      "lower": 0.5,
+      "upper": 0.55,
+      "count": 3,
+      "avg_probability": 0.5311,
+      "hit_rate": 0.6667,
+      "avg_return_pct": 1.8752
+    },
+    {
+      "bucket": 11,
+      "lower": 0.55,
+      "upper": 0.6,
+      "count": 4,
+      "avg_probability": 0.5718,
+      "hit_rate": 0.0,
+      "avg_return_pct": -6.6086
+    },
+    {
+      "bucket": 12,
+      "lower": 0.6,
+      "upper": 0.65,
+      "count": 1,
+      "avg_probability": 0.6351,
+      "hit_rate": 1.0,
+      "avg_return_pct": 6.2898
+    },
+    {
+      "bucket": 13,
+      "lower": 0.65,
+      "upper": 0.7,
+      "count": 5,
+      "avg_probability": 0.6708,
+      "hit_rate": 0.6,
+      "avg_return_pct": 1.0168
+    },
+    {
+      "bucket": 14,
+      "lower": 0.7,
+      "upper": 0.75,
+      "count": 1,
+      "avg_probability": 0.7429,
+      "hit_rate": 0.0,
+      "avg_return_pct": -5.5055
+    }
+  ],
+  "drivers": [],
+  "ablation": {
+    "price_only": {
+      "feature_count": 27,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "structured_no_news": {
+      "feature_count": 44,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "full": {
+      "feature_count": 50,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "structured_events_delta_brier": null,
+    "premarket_news_delta_brier": null,
+    "meta_policy_used": true,
+    "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+  }
+}

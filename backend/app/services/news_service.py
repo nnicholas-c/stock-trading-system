@@ -7,12 +7,10 @@ Scores sentiment, detects material events, estimates intraday impact.
 import asyncio
 import aiohttp
 import re
-import json
 from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Optional
 
 from app.core.config import settings
+from app.services.openai_service import OpenAIService
 
 BULLISH_KW = ["beat","record","upgraded","strong","awarded","contract","partnership",
               "breakthrough","acceleration","AI","demand","backlog","growth","raised"]
@@ -58,7 +56,7 @@ class NewsService:
         query   = f"{ticker} {company} stock"
         url     = f"https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en"
 
-        articles = []
+        raw_articles = []
         try:
             timeout = aiohttp.ClientTimeout(total=8)
             async with aiohttp.ClientSession(timeout=timeout) as session:
@@ -81,39 +79,112 @@ class NewsService:
                 link  = link_m.group(1).strip() if link_m else ""
                 pub   = pub_m.group(1).strip() if pub_m else ""
 
-                scored = cls._score(title + " " + desc)
-                articles.append({
+                raw_articles.append({
                     "ticker":    ticker,
                     "headline":  title,
-                    "sentiment": scored["sentiment"],
-                    "impact":    scored["impact"],
                     "source":    "Google News",
                     "url":       link,
                     "published": pub,
-                    "net_score": scored["net_score"],
-                    "is_material": scored["is_material"],
+                    "description": desc,
                 })
 
         except Exception as e:
-            articles = [{"ticker": ticker, "headline": f"News fetch error: {e}",
-                         "sentiment": "NEUTRAL", "impact": "LOW",
-                         "source": "—", "url": "", "published": "", "net_score": 0,
-                         "is_material": False}]
+            raw_articles = [{
+                "ticker": ticker,
+                "headline": f"News fetch error: {e}",
+                "source": "—",
+                "url": "",
+                "published": "",
+                "description": "",
+            }]
 
-        # Aggregate sentiment
-        sentiments = [a["sentiment"] for a in articles]
-        bull_n = sentiments.count("BULLISH")
-        bear_n = sentiments.count("BEARISH")
-        overall = "BULLISH" if bull_n > bear_n+1 else "BEARISH" if bear_n > bull_n+1 else "NEUTRAL"
-        material_count = sum(1 for a in articles if a["is_material"])
+        llm_analysis = None
+        if raw_articles:
+            try:
+                llm_analysis = await asyncio.to_thread(
+                    OpenAIService.analyze_news,
+                    ticker,
+                    company,
+                    raw_articles,
+                )
+            except Exception:
+                llm_analysis = None
 
-        # Intraday impact estimate
-        if overall == "BULLISH" and bull_n >= 3:
-            intraday = "UP"
-        elif overall == "BEARISH" and bear_n >= 3:
-            intraday = "DOWN"
+        articles = []
+        if llm_analysis:
+            analyzed = {item.headline: item for item in llm_analysis.articles}
+            for raw in raw_articles:
+                scored = analyzed.get(raw["headline"])
+                if scored is None:
+                    heuristic = cls._score(raw["headline"] + " " + raw.get("description", ""))
+                    articles.append({
+                        "ticker": ticker,
+                        "headline": raw["headline"],
+                        "sentiment": heuristic["sentiment"],
+                        "impact": heuristic["impact"],
+                        "source": raw["source"],
+                        "url": raw["url"],
+                        "published": raw["published"],
+                        "net_score": heuristic["net_score"],
+                        "is_material": heuristic["is_material"],
+                        "rationale": "Fallback keyword scoring used for this article.",
+                    })
+                    continue
+
+                articles.append({
+                    "ticker": ticker,
+                    "headline": raw["headline"],
+                    "sentiment": scored.sentiment,
+                    "impact": scored.impact,
+                    "source": raw["source"],
+                    "url": raw["url"],
+                    "published": raw["published"],
+                    "net_score": scored.net_score,
+                    "is_material": scored.is_material,
+                    "rationale": scored.rationale,
+                })
+
+            overall = llm_analysis.overall_sentiment
+            material_count = llm_analysis.material_events
+            intraday = llm_analysis.intraday_impact
+            summary = llm_analysis.summary
+            analysis_provider = "openai"
+            analysis_model = settings.openai_model
         else:
-            intraday = "FLAT"
+            for raw in raw_articles:
+                scored = cls._score(raw["headline"] + " " + raw.get("description", ""))
+                articles.append({
+                    "ticker": ticker,
+                    "headline": raw["headline"],
+                    "sentiment": scored["sentiment"],
+                    "impact": scored["impact"],
+                    "source": raw["source"],
+                    "url": raw["url"],
+                    "published": raw["published"],
+                    "net_score": scored["net_score"],
+                    "is_material": scored["is_material"],
+                    "rationale": "Keyword-based heuristic sentiment fallback.",
+                })
+
+            sentiments = [a["sentiment"] for a in articles]
+            bull_n = sentiments.count("BULLISH")
+            bear_n = sentiments.count("BEARISH")
+            overall = "BULLISH" if bull_n > bear_n + 1 else "BEARISH" if bear_n > bull_n + 1 else "NEUTRAL"
+            material_count = sum(1 for a in articles if a["is_material"])
+
+            if overall == "BULLISH" and bull_n >= 3:
+                intraday = "UP"
+            elif overall == "BEARISH" and bear_n >= 3:
+                intraday = "DOWN"
+            else:
+                intraday = "FLAT"
+
+            summary = (
+                f"{overall.title()} read on {ticker} across {len(articles)} headline(s); "
+                f"{material_count} material event(s) detected."
+            )
+            analysis_provider = "heuristic"
+            analysis_model = None
 
         data = {
             "ticker":            ticker,
@@ -122,6 +193,9 @@ class NewsService:
             "articles":          sorted(articles, key=lambda x: -abs(x["net_score"]))[:8],
             "material_events":   material_count,
             "intraday_impact":   intraday,
+            "summary":           summary,
+            "analysis_provider": analysis_provider,
+            "analysis_model":    analysis_model,
             "cached":            False,
         }
 

@@ -1,0 +1,217 @@
+{
+  "ticker": "PLTR",
+  "horizon": 1,
+  "model_version": "research_v1-pltr-1d-linear",
+  "family": "linear",
+  "metrics": {
+    "brier": 0.2718,
+    "log_loss": 0.7538,
+    "accuracy": 0.4583,
+    "recent20_accuracy": 0.45,
+    "recent60_accuracy": 0.4583,
+    "ece": 0.2365,
+    "stability": 0.9917,
+    "strategy_return": 0.2025,
+    "bah_return": 0.2088,
+    "alpha": -0.0064,
+    "sharpe": 5.1625,
+    "sortino": 11.4809,
+    "max_drawdown": -0.0541,
+    "n_trades": 18,
+    "portfolio_values": [
+      1.0267,
+      1.0218,
+      1.0279,
+      0.9891,
+      0.9782,
+      0.9757,
+      0.9757,
+      0.9769,
+      0.9723,
+      0.9723,
+      0.9723,
+      0.9723,
+      0.9948,
+      0.9948,
+      0.9795,
+      0.9795,
+      1.0471,
+      1.0957,
+      1.1139,
+      1.1278,
+      1.1507,
+      1.1289,
+      1.2074,
+      1.2025
+    ],
+    "bah_values": [
+      1.0267,
+      1.0218,
+      1.0279,
+      0.9891,
+      0.9782,
+      0.9757,
+      0.9794,
+      0.9806,
+      0.9853,
+      0.9718,
+      0.9635,
+      0.9641,
+      0.9865,
+      1.0347,
+      1.0188,
+      0.9847,
+      1.0527,
+      1.1015,
+      1.1198,
+      1.1337,
+      1.1568,
+      1.1349,
+      1.2138,
+      1.2088
+    ],
+    "regime_split": {
+      "BEAR": {
+        "count": 6,
+        "accuracy": 0.8333,
+        "brier": 0.1531
+      },
+      "BULL": {
+        "count": 8,
+        "accuracy": 0.25,
+        "brier": 0.2772
+      },
+      "NEUTRAL": {
+        "count": 2,
+        "accuracy": 0.5,
+        "brier": 0.3658
+      }
+    }
+  },
+  "bucket_table": [
+    {
+      "bucket": 8,
+      "lower": 0.4,
+      "upper": 0.45,
+      "count": 1,
+      "avg_probability": 0.4251,
+      "hit_rate": 1.0,
+      "avg_return_pct": 0.4796
+    },
+    {
+      "bucket": 9,
+      "lower": 0.45,
+      "upper": 0.5,
+      "count": 2,
+      "avg_probability": 0.4619,
+      "hit_rate": 1.0,
+      "avg_return_pct": 0.2171
+    },
+    {
+      "bucket": 10,
+      "lower": 0.5,
+      "upper": 0.55,
+      "count": 4,
+      "avg_probability": 0.5265,
+      "hit_rate": 0.25,
+      "avg_return_pct": -0.1698
+    },
+    {
+      "bucket": 11,
+      "lower": 0.55,
+      "upper": 0.6,
+      "count": 3,
+      "avg_probability": 0.5815,
+      "hit_rate": 0.6667,
+      "avg_return_pct": 1.151
+    },
+    {
+      "bucket": 12,
+      "lower": 0.6,
+      "upper": 0.65,
+      "count": 1,
+      "avg_probability": 0.6363,
+      "hit_rate": 1.0,
+      "avg_return_pct": 0.5938
+    },
+    {
+      "bucket": 13,
+      "lower": 0.65,
+      "upper": 0.7,
+      "count": 2,
+      "avg_probability": 0.6677,
+      "hit_rate": 0.0,
+      "avg_return_pct": -2.0131
+    },
+    {
+      "bucket": 14,
+      "lower": 0.7,
+      "upper": 0.75,
+      "count": 1,
+      "avg_probability": 0.7282,
+      "hit_rate": 0.0,
+      "avg_return_pct": -0.4728
+    },
+    {
+      "bucket": 15,
+      "lower": 0.75,
+      "upper": 0.8,
+      "count": 3,
+      "avg_probability": 0.7613,
+      "hit_rate": 0.6667,
+      "avg_return_pct": 1.991
+    },
+    {
+      "bucket": 16,
+      "lower": 0.8,
+      "upper": 0.85,
+      "count": 2,
+      "avg_probability": 0.819,
+      "hit_rate": 0.5,
+      "avg_return_pct": 3.2465
+    },
+    {
+      "bucket": 17,
+      "lower": 0.85,
+      "upper": 0.9,
+      "count": 1,
+      "avg_probability": 0.8942,
+      "hit_rate": 1.0,
+      "avg_return_pct": 1.6581
+    },
+    {
+      "bucket": 18,
+      "lower": 0.9,
+      "upper": 0.95,
+      "count": 4,
+      "avg_probability": 0.9144,
+      "hit_rate": 0.75,
+      "avg_return_pct": 1.507
+    }
+  ],
+  "drivers": [],
+  "ablation": {
+    "price_only": {
+      "feature_count": 55,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "structured_no_news": {
+      "feature_count": 92,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "full": {
+      "feature_count": 106,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "structured_events_delta_brier": null,
+    "premarket_news_delta_brier": null,
+    "meta_policy_used": true,
+    "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+  }
+}

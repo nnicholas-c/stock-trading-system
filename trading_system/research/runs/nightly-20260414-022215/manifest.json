@@ -1,0 +1,63 @@
+{
+  "run_id": "nightly-20260414-022215",
+  "generated_at": "2026-04-14T02:26:02.398232-07:00",
+  "run_type": "nightly_champion",
+  "tickers": {
+    "PLTR": {
+      "1d": {
+        "model_version": "research_v1-pltr-1d-linear",
+        "family": "linear"
+      },
+      "5d": {
+        "model_version": "research_v1-pltr-5d-tree",
+        "family": "tree"
+      },
+      "10d": {
+        "model_version": "research_v1-pltr-10d-linear",
+        "family": "linear"
+      }
+    },
+    "AAPL": {
+      "1d": {
+        "model_version": "research_v1-aapl-1d-tree",
+        "family": "tree"
+      },
+      "5d": {
+        "model_version": "research_v1-aapl-5d-tree",
+        "family": "tree"
+      },
+      "10d": {
+        "model_version": "research_v1-aapl-10d-tree",
+        "family": "tree"
+      }
+    },
+    "NVDA": {
+      "1d": {
+        "model_version": "research_v1-nvda-1d-linear",
+        "family": "linear"
+      },
+      "5d": {
+        "model_version": "research_v1-nvda-5d-tree",
+        "family": "tree"
+      },
+      "10d": {
+        "model_version": "research_v1-nvda-10d-linear",
+        "family": "linear"
+      }
+    },
+    "TSLA": {
+      "1d": {
+        "model_version": "research_v1-tsla-1d-linear",
+        "family": "linear"
+      },
+      "5d": {
+        "model_version": "research_v1-tsla-5d-tree",
+        "family": "tree"
+      },
+      "10d": {
+        "model_version": "research_v1-tsla-10d-tree",
+        "family": "tree"
+      }
+    }
+  }
+}

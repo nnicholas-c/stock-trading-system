@@ -1,12 +1,16 @@
 """Pydantic schemas — request/response contracts for every endpoint."""
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional
 from datetime import datetime
 
 
+class SchemaModel(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+
+
 # ── Signal ────────────────────────────────────────────────────────────────────
-class SignalResponse(BaseModel):
+class SignalResponse(SchemaModel):
     ticker:           str
     generated_at:     datetime
     price:            float
@@ -25,6 +29,10 @@ class SignalResponse(BaseModel):
     rsi14:            float
     macd_hist:        float
     trend_score:      float
+    trend_state:      Optional[str] = None
+    trend_supported:  Optional[bool] = None
+    edge_label:       Optional[str] = None
+    edge_status:      Optional[str] = None
     top_features:     list[list]   # [[name, importance], ...]
     sector:           str
     market_cap:       float
@@ -36,8 +44,53 @@ class SignalResponse(BaseModel):
     r40:              float
 
 
+class HorizonForecast(SchemaModel):
+    horizon_days:        int
+    model_family:        str
+    model_version:       str
+    probability_up:      float
+    expected_return_pct: float
+    target_price:        float
+    trust_score:         float
+    supported_probability: bool
+    trend_supported:     bool
+    edge_assessment:     Optional[dict] = None
+    evaluation_mode:     str
+    calibration:         dict
+    recent_performance:  dict
+    backtest:            dict
+    regime_split:        dict
+    trend_regime_split:  dict
+    ablation:            dict
+    top_drivers:         list[dict]
+    signal:              str
+
+
+class CanonicalForecastResponse(SchemaModel):
+    ticker:             str
+    company_name:       str
+    market_date:        str
+    forecast_for_date:  str
+    primary_horizon:    str
+    signal:             dict
+    summary:            str
+    horizons:           dict[str, HorizonForecast]
+    champion_model:     dict
+    calibration:        dict
+    recent_performance: dict
+    data_freshness:     dict
+    news:               dict
+    technical_snapshot: dict
+    trend_snapshot:     dict
+    one_day_edge:       Optional[dict] = None
+    drivers:            list[dict]
+    reasoning:          dict
+    component_scores:   dict
+    card:               dict
+
+
 # ── Prediction ────────────────────────────────────────────────────────────────
-class IntraDayPrediction(BaseModel):
+class IntraDayPrediction(SchemaModel):
     ticker:            str
     generated_at:      datetime
     direction:         str        # UP / DOWN / FLAT
@@ -49,7 +102,7 @@ class IntraDayPrediction(BaseModel):
     technical_bias:    str
 
 
-class WeeklyPrediction(BaseModel):
+class WeeklyPrediction(SchemaModel):
     ticker:       str
     generated_at: datetime
     week_targets: list[dict]  # [{week: 1, price: x, pct: y}, ...]
@@ -60,7 +113,7 @@ class WeeklyPrediction(BaseModel):
 
 
 # ── News ──────────────────────────────────────────────────────────────────────
-class NewsArticle(BaseModel):
+class NewsArticle(SchemaModel):
     ticker:    str
     headline:  str
     sentiment: str        # BULLISH / BEARISH / NEUTRAL
@@ -69,20 +122,25 @@ class NewsArticle(BaseModel):
     url:       str
     published: str
     net_score: int
+    is_material: bool = False
+    rationale: Optional[str] = None
 
 
-class NewsResponse(BaseModel):
+class NewsResponse(SchemaModel):
     ticker:            str
     generated_at:      datetime
     overall_sentiment: str
     articles:          list[NewsArticle]
     material_events:   int
     intraday_impact:   str   # UP / DOWN / FLAT
+    summary:           Optional[str] = None
+    analysis_provider: Optional[str] = None
+    analysis_model:    Optional[str] = None
     cached:            bool
 
 
 # ── Backtest ──────────────────────────────────────────────────────────────────
-class BacktestResponse(BaseModel):
+class BacktestResponse(SchemaModel):
     ticker:           str
     start_date:       str
     end_date:         str
@@ -102,7 +160,7 @@ class BacktestResponse(BaseModel):
 
 
 # ── Health ────────────────────────────────────────────────────────────────────
-class HealthResponse(BaseModel):
+class HealthResponse(SchemaModel):
     status:       str
     models_loaded: bool
     last_updated: Optional[datetime]

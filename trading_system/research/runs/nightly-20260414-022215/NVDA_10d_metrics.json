@@ -1,0 +1,199 @@
+{
+  "ticker": "NVDA",
+  "horizon": 10,
+  "model_version": "research_v1-nvda-10d-linear",
+  "family": "linear",
+  "metrics": {
+    "brier": 0.2353,
+    "log_loss": 0.6682,
+    "accuracy": 0.7083,
+    "recent20_accuracy": 0.7,
+    "recent60_accuracy": 0.7083,
+    "ece": 0.3214,
+    "stability": 0.9917,
+    "strategy_return": 1.7897,
+    "bah_return": 7.353,
+    "alpha": -5.5633,
+    "sharpe": 2.3501,
+    "sortino": 4.7502,
+    "max_drawdown": -0.3305,
+    "n_trades": 19,
+    "portfolio_values": [
+      1.0,
+      1.0911,
+      1.1869,
+      1.1869,
+      1.1486,
+      1.0571,
+      0.9048,
+      0.7946,
+      0.8846,
+      0.8846,
+      0.9849,
+      1.0812,
+      1.1933,
+      1.327,
+      1.5424,
+      1.5424,
+      1.7579,
+      1.9386,
+      2.0371,
+      2.3044,
+      2.7464,
+      3.4126,
+      3.4126,
+      2.7897
+    ],
+    "bah_values": [
+      0.9504,
+      0.8638,
+      0.788,
+      0.7316,
+      0.7552,
+      0.8154,
+      0.9329,
+      1.0464,
+      1.165,
+      1.3302,
+      1.481,
+      1.6258,
+      1.7943,
+      1.9955,
+      2.3193,
+      2.6427,
+      3.012,
+      3.3216,
+      3.4903,
+      3.9484,
+      4.7057,
+      5.8471,
+      7.0636,
+      8.353
+    ],
+    "regime_split": {
+      "BEAR": {
+        "count": 6,
+        "accuracy": 1.0,
+        "brier": 0.1151
+      },
+      "BULL": {
+        "count": 8,
+        "accuracy": 0.875,
+        "brier": 0.1937
+      },
+      "NEUTRAL": {
+        "count": 2,
+        "accuracy": 0.5,
+        "brier": 0.266
+      }
+    }
+  },
+  "bucket_table": [
+    {
+      "bucket": 5,
+      "lower": 0.25,
+      "upper": 0.3,
+      "count": 3,
+      "avg_probability": 0.2636,
+      "hit_rate": 1.0,
+      "avg_return_pct": 9.9371
+    },
+    {
+      "bucket": 6,
+      "lower": 0.3,
+      "upper": 0.35,
+      "count": 2,
+      "avg_probability": 0.3194,
+      "hit_rate": 0.5,
+      "avg_return_pct": -0.406
+    },
+    {
+      "bucket": 8,
+      "lower": 0.4,
+      "upper": 0.45,
+      "count": 2,
+      "avg_probability": 0.4209,
+      "hit_rate": 0.5,
+      "avg_return_pct": 4.5708
+    },
+    {
+      "bucket": 9,
+      "lower": 0.45,
+      "upper": 0.5,
+      "count": 2,
+      "avg_probability": 0.4892,
+      "hit_rate": 0.5,
+      "avg_return_pct": 3.3939
+    },
+    {
+      "bucket": 10,
+      "lower": 0.5,
+      "upper": 0.55,
+      "count": 3,
+      "avg_probability": 0.5217,
+      "hit_rate": 0.6667,
+      "avg_return_pct": 10.0108
+    },
+    {
+      "bucket": 11,
+      "lower": 0.55,
+      "upper": 0.6,
+      "count": 3,
+      "avg_probability": 0.5612,
+      "hit_rate": 1.0,
+      "avg_return_pct": 12.4463
+    },
+    {
+      "bucket": 12,
+      "lower": 0.6,
+      "upper": 0.65,
+      "count": 5,
+      "avg_probability": 0.6105,
+      "hit_rate": 1.0,
+      "avg_return_pct": 11.4333
+    },
+    {
+      "bucket": 13,
+      "lower": 0.65,
+      "upper": 0.7,
+      "count": 3,
+      "avg_probability": 0.6707,
+      "hit_rate": 1.0,
+      "avg_return_pct": 15.8865
+    },
+    {
+      "bucket": 14,
+      "lower": 0.7,
+      "upper": 0.75,
+      "count": 1,
+      "avg_probability": 0.7238,
+      "hit_rate": 1.0,
+      "avg_return_pct": 13.9714
+    }
+  ],
+  "drivers": [],
+  "ablation": {
+    "price_only": {
+      "feature_count": 27,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "structured_no_news": {
+      "feature_count": 44,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "full": {
+      "feature_count": 50,
+      "brier": null,
+      "log_loss": null,
+      "accuracy": null
+    },
+    "structured_events_delta_brier": null,
+    "premarket_news_delta_brier": null,
+    "meta_policy_used": true,
+    "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+  }
+}

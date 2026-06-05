@@ -30,11 +30,47 @@ async def get_backtest(ticker: str):
     ticker = ticker.upper()
     if ticker not in settings.tickers:
         raise HTTPException(404)
+    forecast = ModelService.get_forecast(ticker)
+    if forecast:
+        horizons = forecast.get("horizons", {})
+        primary = horizons.get("1d") or next(iter(horizons.values()))
+        return {
+            "ticker": ticker,
+            "generated_at": datetime.now().isoformat(),
+            "start_date": forecast.get("market_date"),
+            "end_date": forecast.get("forecast_for_date"),
+            **primary.get("backtest", {}),
+            "recent_performance": forecast.get("recent_performance", {}),
+            "calibration": forecast.get("calibration", {}),
+            "trend_snapshot": forecast.get("trend_snapshot", {}),
+            "trend_regime_split": primary.get("trend_regime_split", {}),
+        }
     bt = BACKTEST_CACHE.get(ticker, {})
     return {"ticker": ticker, "generated_at": datetime.now().isoformat(), **bt}
 
 @router.get("/", summary="Backtest comparison across all tickers")
 async def get_all_backtests():
+    artifact = ModelService.get_all_forecasts()
+    if artifact.get("tickers"):
+        results = {}
+        for ticker, forecast in artifact["tickers"].items():
+            primary = forecast["horizons"]["1d"]["backtest"]
+            results[ticker] = {
+                "ticker": ticker,
+                **primary,
+                "recent_performance": forecast["recent_performance"],
+                "trend_snapshot": forecast.get("trend_snapshot", {}),
+                "trend_regime_split": forecast["horizons"]["1d"].get("trend_regime_split", {}),
+            }
+        return {
+            "generated_at": datetime.now().isoformat(),
+            "results": results,
+            "portfolio": {
+                "avg_alpha": sum(v["alpha"] for v in results.values()) / max(1, len(results)),
+                "best_sharpe": max(v["sharpe"] for v in results.values()),
+                "best_ticker": max(results, key=lambda t: results[t]["sharpe"]),
+            },
+        }
     return {
         "generated_at": datetime.now().isoformat(),
         "results": {t: {"ticker": t, **v} for t, v in BACKTEST_CACHE.items()},

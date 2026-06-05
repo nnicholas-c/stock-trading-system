@@ -1,0 +1,3614 @@
+{
+  "artifact_version": "research_v1",
+  "run_id": "nightly-20260414-022027",
+  "run_type": "nightly_champion",
+  "generated_at": "2026-04-14T02:21:34.936039-07:00",
+  "market_date": "2026-04-13",
+  "forecast_for_date": "2026-04-14",
+  "methodology": {
+    "summary": "Calibrated daily forecasting platform with anchored walk-forward evaluation, trust scoring, and premarket inference refresh.",
+    "selection": "Champion chosen by Brier score, log loss, recent walk-forward hit rate, regime stability, and calibration.",
+    "policy": "Signals are derived from probabilities plus trust; meta-policy can shrink confidence but not override direction."
+  },
+  "config_snapshot": {
+    "artifact_version": "research_v1",
+    "tickers": [
+      "PLTR",
+      "AAPL",
+      "NVDA",
+      "TSLA"
+    ],
+    "horizons": [
+      1,
+      5,
+      10
+    ],
+    "min_train_size": 120,
+    "validation_size": 8,
+    "step_size": 320,
+    "purge_size": 10,
+    "min_bucket_samples": 8,
+    "probability_cap_without_support": 0.65,
+    "random_state": 42,
+    "top_driver_count": 5,
+    "light_mode": true
+  },
+  "tickers": {
+    "PLTR": {
+      "ticker": "PLTR",
+      "company_name": "Palantir",
+      "market_date": "2026-04-13",
+      "forecast_for_date": "2026-04-14",
+      "primary_horizon": "1d",
+      "signal": {
+        "signal": "HOLD",
+        "probability_up": 57.8,
+        "confidence": 54.18000000000001,
+        "pred_return_pct": 1.15,
+        "current_price": 132.37,
+        "target_price": 133.89,
+        "trust_score": 60.2,
+        "forecast_for_date": "2026-04-14",
+        "date": "2026-04-13",
+        "summary": "PLTR is HOLD for 2026-04-14 with 57.8% odds up, +1.15% expected return, and 60.2% trust."
+      },
+      "summary": "PLTR is HOLD for 2026-04-14 with 57.8% odds up, +1.15% expected return, and 60.2% trust.",
+      "horizons": {
+        "1d": {
+          "horizon_days": 1,
+          "model_family": "linear",
+          "model_version": "research_v1-pltr-1d-linear",
+          "probability_up": 57.8,
+          "expected_return_pct": 1.15,
+          "target_price": 133.89,
+          "trust_score": 60.2,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.2718,
+            "log_loss": 0.7538,
+            "ece": 0.2365,
+            "bucket_table": [
+              {
+                "bucket": 8,
+                "lower": 0.4,
+                "upper": 0.45,
+                "count": 1,
+                "avg_probability": 0.4251,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.4796
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 2,
+                "avg_probability": 0.4619,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.2171
+              },
+              {
+                "bucket": 10,
+                "lower": 0.5,
+                "upper": 0.55,
+                "count": 4,
+                "avg_probability": 0.5265,
+                "hit_rate": 0.25,
+                "avg_return_pct": -0.1698
+              },
+              {
+                "bucket": 11,
+                "lower": 0.55,
+                "upper": 0.6,
+                "count": 3,
+                "avg_probability": 0.5815,
+                "hit_rate": 0.6667,
+                "avg_return_pct": 1.151
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 1,
+                "avg_probability": 0.6363,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.5938
+              },
+              {
+                "bucket": 13,
+                "lower": 0.65,
+                "upper": 0.7,
+                "count": 2,
+                "avg_probability": 0.6677,
+                "hit_rate": 0.0,
+                "avg_return_pct": -2.0131
+              },
+              {
+                "bucket": 14,
+                "lower": 0.7,
+                "upper": 0.75,
+                "count": 1,
+                "avg_probability": 0.7282,
+                "hit_rate": 0.0,
+                "avg_return_pct": -0.4728
+              },
+              {
+                "bucket": 15,
+                "lower": 0.75,
+                "upper": 0.8,
+                "count": 3,
+                "avg_probability": 0.7613,
+                "hit_rate": 0.6667,
+                "avg_return_pct": 1.991
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 2,
+                "avg_probability": 0.819,
+                "hit_rate": 0.5,
+                "avg_return_pct": 3.2465
+              },
+              {
+                "bucket": 17,
+                "lower": 0.85,
+                "upper": 0.9,
+                "count": 1,
+                "avg_probability": 0.8942,
+                "hit_rate": 1.0,
+                "avg_return_pct": 1.6581
+              },
+              {
+                "bucket": 18,
+                "lower": 0.9,
+                "upper": 0.95,
+                "count": 4,
+                "avg_probability": 0.9144,
+                "hit_rate": 0.75,
+                "avg_return_pct": 1.507
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.4583,
+            "recent20_accuracy": 0.45,
+            "recent60_accuracy": 0.4583,
+            "stability": 0.9917
+          },
+          "backtest": {
+            "strategy_return": 0.2025,
+            "bah_return": 0.2088,
+            "alpha": -0.0064,
+            "sharpe": 5.1625,
+            "sortino": 11.4809,
+            "max_drawdown": -0.0541,
+            "n_trades": 18,
+            "portfolio_values": [
+              1.0267,
+              1.0218,
+              1.0279,
+              0.9891,
+              0.9782,
+              0.9757,
+              0.9757,
+              0.9769,
+              0.9723,
+              0.9723,
+              0.9723,
+              0.9723,
+              0.9948,
+              0.9948,
+              0.9795,
+              0.9795,
+              1.0471,
+              1.0957,
+              1.1139,
+              1.1278,
+              1.1507,
+              1.1289,
+              1.2074,
+              1.2025
+            ],
+            "bah_values": [
+              1.0267,
+              1.0218,
+              1.0279,
+              0.9891,
+              0.9782,
+              0.9757,
+              0.9794,
+              0.9806,
+              0.9853,
+              0.9718,
+              0.9635,
+              0.9641,
+              0.9865,
+              1.0347,
+              1.0188,
+              0.9847,
+              1.0527,
+              1.1015,
+              1.1198,
+              1.1337,
+              1.1568,
+              1.1349,
+              1.2138,
+              1.2088
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.8333,
+              "brier": 0.1531
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.25,
+              "brier": 0.2772
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.5,
+              "brier": 0.3658
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "HOLD"
+        },
+        "5d": {
+          "horizon_days": 5,
+          "model_family": "linear",
+          "model_version": "research_v1-pltr-5d-linear",
+          "probability_up": 52.1,
+          "expected_return_pct": -1.8,
+          "target_price": 129.98,
+          "trust_score": 53.3,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.4168,
+            "log_loss": 1.1892,
+            "ece": 0.4945,
+            "bucket_table": [
+              {
+                "bucket": 4,
+                "lower": 0.2,
+                "upper": 0.25,
+                "count": 3,
+                "avg_probability": 0.2239,
+                "hit_rate": 0.0,
+                "avg_return_pct": -2.9549
+              },
+              {
+                "bucket": 6,
+                "lower": 0.3,
+                "upper": 0.35,
+                "count": 2,
+                "avg_probability": 0.3281,
+                "hit_rate": 1.0,
+                "avg_return_pct": 2.8057
+              },
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 2,
+                "avg_probability": 0.3734,
+                "hit_rate": 1.0,
+                "avg_return_pct": 3.5181
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 1,
+                "avg_probability": 0.4648,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.3659
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 4,
+                "avg_probability": 0.8202,
+                "hit_rate": 0.25,
+                "avg_return_pct": -0.8624
+              },
+              {
+                "bucket": 17,
+                "lower": 0.85,
+                "upper": 0.9,
+                "count": 5,
+                "avg_probability": 0.8717,
+                "hit_rate": 0.6,
+                "avg_return_pct": 3.6001
+              },
+              {
+                "bucket": 18,
+                "lower": 0.9,
+                "upper": 0.95,
+                "count": 7,
+                "avg_probability": 0.9177,
+                "hit_rate": 0.2857,
+                "avg_return_pct": -1.8036
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.375,
+            "recent20_accuracy": 0.45,
+            "recent60_accuracy": 0.375,
+            "stability": 0.925
+          },
+          "backtest": {
+            "strategy_return": -0.0586,
+            "bah_return": 0.0192,
+            "alpha": -0.0778,
+            "sharpe": -0.0913,
+            "sortino": -0.2673,
+            "max_drawdown": -0.3086,
+            "n_trades": 23,
+            "portfolio_values": [
+              0.9782,
+              0.9296,
+              0.891,
+              0.8499,
+              0.7853,
+              0.7736,
+              0.7851,
+              0.7696,
+              0.7649,
+              0.7266,
+              0.6914,
+              0.6763,
+              0.6763,
+              0.6936,
+              0.7137,
+              0.738,
+              0.867,
+              0.9347,
+              1.03,
+              1.1119,
+              1.0428,
+              0.9727,
+              0.9974,
+              0.9414
+            ],
+            "bah_values": [
+              0.9782,
+              0.9296,
+              0.891,
+              0.8499,
+              0.7853,
+              0.7736,
+              0.7851,
+              0.7696,
+              0.7742,
+              0.813,
+              0.8523,
+              0.871,
+              0.8742,
+              0.8518,
+              0.8271,
+              0.799,
+              0.9386,
+              1.0119,
+              1.1151,
+              1.2038,
+              1.129,
+              1.0531,
+              1.0798,
+              1.0192
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.6667,
+              "brier": 0.2987
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.375,
+              "brier": 0.2658
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.5,
+              "brier": 0.3632
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "HOLD"
+        },
+        "10d": {
+          "horizon_days": 10,
+          "model_family": "linear",
+          "model_version": "research_v1-pltr-10d-linear",
+          "probability_up": 36.0,
+          "expected_return_pct": 5.05,
+          "target_price": 139.05,
+          "trust_score": 76.6,
+          "supported_probability": true,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.2762,
+            "log_loss": 0.9193,
+            "ece": 0.264,
+            "bucket_table": [
+              {
+                "bucket": 1,
+                "lower": 0.05,
+                "upper": 0.1,
+                "count": 2,
+                "avg_probability": 0.0745,
+                "hit_rate": 0.5,
+                "avg_return_pct": -1.7849
+              },
+              {
+                "bucket": 3,
+                "lower": 0.15,
+                "upper": 0.2,
+                "count": 3,
+                "avg_probability": 0.1821,
+                "hit_rate": 0.3333,
+                "avg_return_pct": 7.98
+              },
+              {
+                "bucket": 4,
+                "lower": 0.2,
+                "upper": 0.25,
+                "count": 2,
+                "avg_probability": 0.2241,
+                "hit_rate": 1.0,
+                "avg_return_pct": 1.6197
+              },
+              {
+                "bucket": 5,
+                "lower": 0.25,
+                "upper": 0.3,
+                "count": 1,
+                "avg_probability": 0.2632,
+                "hit_rate": 0.0,
+                "avg_return_pct": -1.9784
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 1,
+                "avg_probability": 0.8288,
+                "hit_rate": 1.0,
+                "avg_return_pct": 4.2163
+              },
+              {
+                "bucket": 18,
+                "lower": 0.9,
+                "upper": 0.95,
+                "count": 4,
+                "avg_probability": 0.9319,
+                "hit_rate": 0.5,
+                "avg_return_pct": 0.5932
+              },
+              {
+                "bucket": 19,
+                "lower": 0.95,
+                "upper": 1.0,
+                "count": 11,
+                "avg_probability": 0.9859,
+                "hit_rate": 0.8182,
+                "avg_return_pct": 5.0476
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.6667,
+            "recent20_accuracy": 0.8,
+            "recent60_accuracy": 0.6667,
+            "stability": 0.8667
+          },
+          "backtest": {
+            "strategy_return": 0.3841,
+            "bah_return": 1.16,
+            "alpha": -0.7759,
+            "sharpe": 1.1037,
+            "sortino": 1.0935,
+            "max_drawdown": -0.262,
+            "n_trades": 24,
+            "portfolio_values": [
+              0.9636,
+              0.9294,
+              0.8731,
+              0.8288,
+              0.843,
+              0.865,
+              0.9317,
+              0.9894,
+              1.009,
+              0.9891,
+              0.9766,
+              0.9945,
+              0.9987,
+              0.9844,
+              1.0336,
+              0.7628,
+              0.8359,
+              0.9241,
+              0.9612,
+              0.9931,
+              1.0959,
+              1.2046,
+              1.3281,
+              1.3841
+            ],
+            "bah_values": [
+              0.9636,
+              0.9294,
+              0.8731,
+              0.8288,
+              0.843,
+              0.865,
+              0.9317,
+              0.9894,
+              0.9699,
+              0.989,
+              1.0015,
+              0.9832,
+              0.979,
+              0.993,
+              0.9433,
+              1.1905,
+              1.3045,
+              1.4422,
+              1.5,
+              1.5498,
+              1.7103,
+              1.8798,
+              2.0726,
+              2.16
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 1.0,
+              "brier": 0.0
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.5,
+              "brier": 0.3639
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 1.0,
+              "brier": 0.0178
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "SELL"
+        }
+      },
+      "champion_model": {
+        "family": "linear",
+        "model_version": "research_v1-pltr-1d-linear",
+        "selection": "lowest Brier / log loss with recent stability and calibration support"
+      },
+      "calibration": {
+        "brier": 0.2718,
+        "log_loss": 0.7538,
+        "ece": 0.2365,
+        "bucket_table": [
+          {
+            "bucket": 8,
+            "lower": 0.4,
+            "upper": 0.45,
+            "count": 1,
+            "avg_probability": 0.4251,
+            "hit_rate": 1.0,
+            "avg_return_pct": 0.4796
+          },
+          {
+            "bucket": 9,
+            "lower": 0.45,
+            "upper": 0.5,
+            "count": 2,
+            "avg_probability": 0.4619,
+            "hit_rate": 1.0,
+            "avg_return_pct": 0.2171
+          },
+          {
+            "bucket": 10,
+            "lower": 0.5,
+            "upper": 0.55,
+            "count": 4,
+            "avg_probability": 0.5265,
+            "hit_rate": 0.25,
+            "avg_return_pct": -0.1698
+          },
+          {
+            "bucket": 11,
+            "lower": 0.55,
+            "upper": 0.6,
+            "count": 3,
+            "avg_probability": 0.5815,
+            "hit_rate": 0.6667,
+            "avg_return_pct": 1.151
+          },
+          {
+            "bucket": 12,
+            "lower": 0.6,
+            "upper": 0.65,
+            "count": 1,
+            "avg_probability": 0.6363,
+            "hit_rate": 1.0,
+            "avg_return_pct": 0.5938
+          },
+          {
+            "bucket": 13,
+            "lower": 0.65,
+            "upper": 0.7,
+            "count": 2,
+            "avg_probability": 0.6677,
+            "hit_rate": 0.0,
+            "avg_return_pct": -2.0131
+          },
+          {
+            "bucket": 14,
+            "lower": 0.7,
+            "upper": 0.75,
+            "count": 1,
+            "avg_probability": 0.7282,
+            "hit_rate": 0.0,
+            "avg_return_pct": -0.4728
+          },
+          {
+            "bucket": 15,
+            "lower": 0.75,
+            "upper": 0.8,
+            "count": 3,
+            "avg_probability": 0.7613,
+            "hit_rate": 0.6667,
+            "avg_return_pct": 1.991
+          },
+          {
+            "bucket": 16,
+            "lower": 0.8,
+            "upper": 0.85,
+            "count": 2,
+            "avg_probability": 0.819,
+            "hit_rate": 0.5,
+            "avg_return_pct": 3.2465
+          },
+          {
+            "bucket": 17,
+            "lower": 0.85,
+            "upper": 0.9,
+            "count": 1,
+            "avg_probability": 0.8942,
+            "hit_rate": 1.0,
+            "avg_return_pct": 1.6581
+          },
+          {
+            "bucket": 18,
+            "lower": 0.9,
+            "upper": 0.95,
+            "count": 4,
+            "avg_probability": 0.9144,
+            "hit_rate": 0.75,
+            "avg_return_pct": 1.507
+          }
+        ]
+      },
+      "recent_performance": {
+        "accuracy": 0.4583,
+        "recent20_accuracy": 0.45,
+        "recent60_accuracy": 0.4583,
+        "stability": 0.9917
+      },
+      "data_freshness": {
+        "market_date": "2026-04-13",
+        "generated_at": "2026-04-14T02:20:43.348397-07:00",
+        "rows": 1324,
+        "used_live_premarket_news": false,
+        "used_recent_fallback": false
+      },
+      "news": {
+        "ticker": "PLTR",
+        "forecast_for_date": "2026-04-14",
+        "article_count": 0,
+        "material_count": 0,
+        "net_score": 0.0,
+        "summary": "No live premarket refresh was requested for this artifact.",
+        "articles": [],
+        "used_recent_fallback": false,
+        "feature_values": {}
+      },
+      "technical_snapshot": {
+        "rsi14": 27.6,
+        "ret_1d_pct": 3.37,
+        "ret_5d_pct": -10.52,
+        "ret_20d_pct": -12.31,
+        "pct_from_ma20": -9.85,
+        "pct_from_ma50": -8.04,
+        "volume_ratio": 1.36
+      },
+      "drivers": [
+        {
+          "title": "Champion model",
+          "direction": "bull",
+          "detail": "PLTR linear champion for 1d outputs 57.8% up with +1.15% expected return."
+        },
+        {
+          "title": "Calibration and trust",
+          "direction": "bull",
+          "detail": "Trust is 60.2% with recent walk-forward accuracy 45.0% / 45.8%."
+        },
+        {
+          "title": "Technical context",
+          "direction": "bear",
+          "detail": "RSI 14 is 27.6, 5-day return is -10.52%, and the stock sits -9.85% from the 20-day mean."
+        }
+      ],
+      "reasoning": {
+        "drivers": [
+          {
+            "title": "Champion model",
+            "direction": "bull",
+            "detail": "PLTR linear champion for 1d outputs 57.8% up with +1.15% expected return."
+          },
+          {
+            "title": "Calibration and trust",
+            "direction": "bull",
+            "detail": "Trust is 60.2% with recent walk-forward accuracy 45.0% / 45.8%."
+          },
+          {
+            "title": "Technical context",
+            "direction": "bear",
+            "detail": "RSI 14 is 27.6, 5-day return is -10.52%, and the stock sits -9.85% from the 20-day mean."
+          }
+        ],
+        "top_model_drivers": []
+      },
+      "component_scores": {
+        "probability_centered": 0.078,
+        "trust": 0.602,
+        "news_weight": 0.0
+      },
+      "card": {
+        "sig": "HOLD",
+        "sc": "hold",
+        "conf": 0.542,
+        "px": 132.37,
+        "chg": 3.37,
+        "l1h": 0.0,
+        "l4h": 0.0,
+        "l1d": 1.15,
+        "l5d": -1.8,
+        "l10d": 5.05,
+        "l20d": 9.09,
+        "tgt": 133.89,
+        "up": 1.1,
+        "headline_summary": "PLTR is HOLD for 2026-04-14 with 57.8% odds up, +1.15% expected return, and 60.2% trust."
+      }
+    },
+    "AAPL": {
+      "ticker": "AAPL",
+      "company_name": "Apple",
+      "market_date": "2026-04-13",
+      "forecast_for_date": "2026-04-14",
+      "primary_horizon": "1d",
+      "signal": {
+        "signal": "HOLD",
+        "probability_up": 50.0,
+        "confidence": 73.44,
+        "pred_return_pct": -0.71,
+        "current_price": 259.2,
+        "target_price": 257.36,
+        "trust_score": 81.6,
+        "forecast_for_date": "2026-04-14",
+        "date": "2026-04-13",
+        "summary": "AAPL is HOLD for 2026-04-14 with 50.0% odds up, -0.71% expected return, and 81.6% trust."
+      },
+      "summary": "AAPL is HOLD for 2026-04-14 with 50.0% odds up, -0.71% expected return, and 81.6% trust.",
+      "horizons": {
+        "1d": {
+          "horizon_days": 1,
+          "model_family": "linear",
+          "model_version": "research_v1-aapl-1d-linear",
+          "probability_up": 50.0,
+          "expected_return_pct": -0.71,
+          "target_price": 257.36,
+          "trust_score": 81.6,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.1624,
+            "log_loss": 0.496,
+            "ece": 0.2181,
+            "bucket_table": [
+              {
+                "bucket": 5,
+                "lower": 0.25,
+                "upper": 0.3,
+                "count": 1,
+                "avg_probability": 0.2616,
+                "hit_rate": 0.0,
+                "avg_return_pct": -0.6626
+              },
+              {
+                "bucket": 6,
+                "lower": 0.3,
+                "upper": 0.35,
+                "count": 1,
+                "avg_probability": 0.3161,
+                "hit_rate": 0.0,
+                "avg_return_pct": -3.7362
+              },
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 2,
+                "avg_probability": 0.3941,
+                "hit_rate": 0.5,
+                "avg_return_pct": -0.0715
+              },
+              {
+                "bucket": 8,
+                "lower": 0.4,
+                "upper": 0.45,
+                "count": 2,
+                "avg_probability": 0.4156,
+                "hit_rate": 0.0,
+                "avg_return_pct": -2.1888
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 3,
+                "avg_probability": 0.4807,
+                "hit_rate": 0.3333,
+                "avg_return_pct": -0.7117
+              },
+              {
+                "bucket": 10,
+                "lower": 0.5,
+                "upper": 0.55,
+                "count": 2,
+                "avg_probability": 0.5316,
+                "hit_rate": 1.0,
+                "avg_return_pct": 1.1093
+              },
+              {
+                "bucket": 11,
+                "lower": 0.55,
+                "upper": 0.6,
+                "count": 2,
+                "avg_probability": 0.5692,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.6971
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 1,
+                "avg_probability": 0.63,
+                "hit_rate": 1.0,
+                "avg_return_pct": 3.2571
+              },
+              {
+                "bucket": 13,
+                "lower": 0.65,
+                "upper": 0.7,
+                "count": 3,
+                "avg_probability": 0.6679,
+                "hit_rate": 0.3333,
+                "avg_return_pct": -0.2474
+              },
+              {
+                "bucket": 15,
+                "lower": 0.75,
+                "upper": 0.8,
+                "count": 2,
+                "avg_probability": 0.7846,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.4475
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 4,
+                "avg_probability": 0.8302,
+                "hit_rate": 1.0,
+                "avg_return_pct": 1.5564
+              },
+              {
+                "bucket": 18,
+                "lower": 0.9,
+                "upper": 0.95,
+                "count": 1,
+                "avg_probability": 0.9471,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.4367
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.8333,
+            "recent20_accuracy": 0.9,
+            "recent60_accuracy": 0.8333,
+            "stability": 0.9333
+          },
+          "backtest": {
+            "strategy_return": 0.2229,
+            "bah_return": 0.0226,
+            "alpha": 0.2002,
+            "sharpe": 10.838,
+            "sortino": 99.3787,
+            "max_drawdown": -0.0052,
+            "n_trades": 19,
+            "portfolio_values": [
+              1.0,
+              0.9979,
+              1.0046,
+              1.0046,
+              1.0069,
+              1.0069,
+              1.0023,
+              1.036,
+              1.0378,
+              1.0506,
+              1.0452,
+              1.0792,
+              1.0792,
+              1.0923,
+              1.0923,
+              1.0961,
+              1.1163,
+              1.1212,
+              1.1258,
+              1.1316,
+              1.1385,
+              1.1429,
+              1.1856,
+              1.2229
+            ],
+            "bah_values": [
+              1.0256,
+              1.0277,
+              1.0209,
+              0.9834,
+              0.9857,
+              0.9756,
+              0.9711,
+              1.0038,
+              1.0056,
+              0.9932,
+              0.9881,
+              1.0202,
+              1.0361,
+              1.0487,
+              1.0557,
+              1.052,
+              1.0714,
+              1.076,
+              1.0805,
+              1.086,
+              1.0926,
+              1.0968,
+              1.0558,
+              1.0226
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 1.0,
+              "brier": 0.0303
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.875,
+              "brier": 0.2123
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 1.0,
+              "brier": 0.1356
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "HOLD"
+        },
+        "5d": {
+          "horizon_days": 5,
+          "model_family": "linear",
+          "model_version": "research_v1-aapl-5d-linear",
+          "probability_up": 59.4,
+          "expected_return_pct": 0.83,
+          "target_price": 261.35,
+          "trust_score": 68.6,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.2261,
+            "log_loss": 0.6334,
+            "ece": 0.2799,
+            "bucket_table": [
+              {
+                "bucket": 3,
+                "lower": 0.15,
+                "upper": 0.2,
+                "count": 2,
+                "avg_probability": 0.1774,
+                "hit_rate": 0.0,
+                "avg_return_pct": -4.5818
+              },
+              {
+                "bucket": 4,
+                "lower": 0.2,
+                "upper": 0.25,
+                "count": 3,
+                "avg_probability": 0.2291,
+                "hit_rate": 0.0,
+                "avg_return_pct": -2.5551
+              },
+              {
+                "bucket": 5,
+                "lower": 0.25,
+                "upper": 0.3,
+                "count": 1,
+                "avg_probability": 0.2937,
+                "hit_rate": 0.0,
+                "avg_return_pct": -3.3212
+              },
+              {
+                "bucket": 6,
+                "lower": 0.3,
+                "upper": 0.35,
+                "count": 1,
+                "avg_probability": 0.3293,
+                "hit_rate": 1.0,
+                "avg_return_pct": 2.937
+              },
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 2,
+                "avg_probability": 0.3886,
+                "hit_rate": 1.0,
+                "avg_return_pct": 3.8535
+              },
+              {
+                "bucket": 8,
+                "lower": 0.4,
+                "upper": 0.45,
+                "count": 5,
+                "avg_probability": 0.4274,
+                "hit_rate": 0.6,
+                "avg_return_pct": 1.0614
+              },
+              {
+                "bucket": 10,
+                "lower": 0.5,
+                "upper": 0.55,
+                "count": 2,
+                "avg_probability": 0.5354,
+                "hit_rate": 0.5,
+                "avg_return_pct": -2.5226
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 2,
+                "avg_probability": 0.6284,
+                "hit_rate": 0.0,
+                "avg_return_pct": -4.7625
+              },
+              {
+                "bucket": 14,
+                "lower": 0.7,
+                "upper": 0.75,
+                "count": 3,
+                "avg_probability": 0.73,
+                "hit_rate": 0.3333,
+                "avg_return_pct": -1.6321
+              },
+              {
+                "bucket": 15,
+                "lower": 0.75,
+                "upper": 0.8,
+                "count": 1,
+                "avg_probability": 0.7791,
+                "hit_rate": 1.0,
+                "avg_return_pct": 3.4321
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 2,
+                "avg_probability": 0.8357,
+                "hit_rate": 1.0,
+                "avg_return_pct": 3.9257
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.5417,
+            "recent20_accuracy": 0.45,
+            "recent60_accuracy": 0.5417,
+            "stability": 0.9083
+          },
+          "backtest": {
+            "strategy_return": -0.0083,
+            "bah_return": -0.1358,
+            "alpha": 0.1275,
+            "sharpe": 0.0793,
+            "sortino": 0.1404,
+            "max_drawdown": -0.2163,
+            "n_trades": 22,
+            "portfolio_values": [
+              1.0143,
+              1.0637,
+              1.1222,
+              1.1411,
+              1.155,
+              1.1386,
+              1.1777,
+              1.2247,
+              1.1853,
+              1.1345,
+              1.0631,
+              1.1319,
+              1.0987,
+              1.0937,
+              1.1059,
+              1.1464,
+              1.1907,
+              1.1907,
+              1.1683,
+              1.1057,
+              1.0393,
+              0.9598,
+              0.9598,
+              0.9917
+            ],
+            "bah_values": [
+              0.9857,
+              0.9377,
+              0.8861,
+              0.8712,
+              0.8606,
+              0.8728,
+              0.9027,
+              0.9388,
+              0.969,
+              1.0105,
+              1.074,
+              1.1435,
+              1.1771,
+              1.1824,
+              1.1692,
+              1.1265,
+              1.17,
+              1.1978,
+              1.1753,
+              1.1123,
+              1.0455,
+              0.9655,
+              0.8939,
+              0.8642
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.3333,
+              "brier": 0.3547
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.375,
+              "brier": 0.2456
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.5,
+              "brier": 0.1856
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "BUY"
+        },
+        "10d": {
+          "horizon_days": 10,
+          "model_family": "tree",
+          "model_version": "research_v1-aapl-10d-tree",
+          "probability_up": 38.0,
+          "expected_return_pct": -1.06,
+          "target_price": 256.44,
+          "trust_score": 79.0,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.2547,
+            "log_loss": 0.7216,
+            "ece": 0.2631,
+            "bucket_table": [
+              {
+                "bucket": 2,
+                "lower": 0.1,
+                "upper": 0.15,
+                "count": 1,
+                "avg_probability": 0.135,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.8144
+              },
+              {
+                "bucket": 3,
+                "lower": 0.15,
+                "upper": 0.2,
+                "count": 3,
+                "avg_probability": 0.1698,
+                "hit_rate": 0.3333,
+                "avg_return_pct": -0.9912
+              },
+              {
+                "bucket": 4,
+                "lower": 0.2,
+                "upper": 0.25,
+                "count": 1,
+                "avg_probability": 0.2044,
+                "hit_rate": 0.0,
+                "avg_return_pct": -3.0126
+              },
+              {
+                "bucket": 5,
+                "lower": 0.25,
+                "upper": 0.3,
+                "count": 1,
+                "avg_probability": 0.2672,
+                "hit_rate": 0.0,
+                "avg_return_pct": -5.1367
+              },
+              {
+                "bucket": 6,
+                "lower": 0.3,
+                "upper": 0.35,
+                "count": 3,
+                "avg_probability": 0.3351,
+                "hit_rate": 0.3333,
+                "avg_return_pct": -0.347
+              },
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 1,
+                "avg_probability": 0.3594,
+                "hit_rate": 0.0,
+                "avg_return_pct": -0.8766
+              },
+              {
+                "bucket": 8,
+                "lower": 0.4,
+                "upper": 0.45,
+                "count": 1,
+                "avg_probability": 0.4362,
+                "hit_rate": 0.0,
+                "avg_return_pct": -5.2215
+              },
+              {
+                "bucket": 11,
+                "lower": 0.55,
+                "upper": 0.6,
+                "count": 3,
+                "avg_probability": 0.5744,
+                "hit_rate": 0.6667,
+                "avg_return_pct": 0.908
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 2,
+                "avg_probability": 0.618,
+                "hit_rate": 1.0,
+                "avg_return_pct": 7.1947
+              },
+              {
+                "bucket": 13,
+                "lower": 0.65,
+                "upper": 0.7,
+                "count": 1,
+                "avg_probability": 0.6681,
+                "hit_rate": 1.0,
+                "avg_return_pct": 2.4016
+              },
+              {
+                "bucket": 14,
+                "lower": 0.7,
+                "upper": 0.75,
+                "count": 4,
+                "avg_probability": 0.7293,
+                "hit_rate": 0.5,
+                "avg_return_pct": 3.3268
+              },
+              {
+                "bucket": 15,
+                "lower": 0.75,
+                "upper": 0.8,
+                "count": 1,
+                "avg_probability": 0.7541,
+                "hit_rate": 0.0,
+                "avg_return_pct": -1.735
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 2,
+                "avg_probability": 0.8212,
+                "hit_rate": 0.5,
+                "avg_return_pct": -0.3335
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.6667,
+            "recent20_accuracy": 0.8,
+            "recent60_accuracy": 0.6667,
+            "stability": 0.8667
+          },
+          "backtest": {
+            "strategy_return": 0.5854,
+            "bah_return": 0.1181,
+            "alpha": 0.4673,
+            "sharpe": 2.9597,
+            "sortino": 7.978,
+            "max_drawdown": -0.0467,
+            "n_trades": 24,
+            "portfolio_values": [
+              0.9997,
+              0.9836,
+              0.9666,
+              0.953,
+              1.0019,
+              1.0663,
+              1.1688,
+              1.2618,
+              1.3082,
+              1.3491,
+              1.3815,
+              1.3945,
+              1.4076,
+              1.4496,
+              1.496,
+              1.5411,
+              1.4782,
+              1.5554,
+              1.6353,
+              1.6302,
+              1.6169,
+              1.6182,
+              1.6324,
+              1.5854
+            ],
+            "bah_values": [
+              0.9997,
+              0.9836,
+              0.9666,
+              0.953,
+              1.0019,
+              1.0663,
+              1.1688,
+              1.2618,
+              1.3082,
+              1.3491,
+              1.3815,
+              1.3945,
+              1.3814,
+              1.3403,
+              1.2973,
+              1.2583,
+              1.2069,
+              1.1439,
+              1.0851,
+              1.0885,
+              1.0974,
+              1.0965,
+              1.0869,
+              1.1181
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.5,
+              "brier": 0.3436
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 1.0,
+              "brier": 0.1004
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.5,
+              "brier": 0.2801
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "SELL"
+        }
+      },
+      "champion_model": {
+        "family": "linear",
+        "model_version": "research_v1-aapl-1d-linear",
+        "selection": "lowest Brier / log loss with recent stability and calibration support"
+      },
+      "calibration": {
+        "brier": 0.1624,
+        "log_loss": 0.496,
+        "ece": 0.2181,
+        "bucket_table": [
+          {
+            "bucket": 5,
+            "lower": 0.25,
+            "upper": 0.3,
+            "count": 1,
+            "avg_probability": 0.2616,
+            "hit_rate": 0.0,
+            "avg_return_pct": -0.6626
+          },
+          {
+            "bucket": 6,
+            "lower": 0.3,
+            "upper": 0.35,
+            "count": 1,
+            "avg_probability": 0.3161,
+            "hit_rate": 0.0,
+            "avg_return_pct": -3.7362
+          },
+          {
+            "bucket": 7,
+            "lower": 0.35,
+            "upper": 0.4,
+            "count": 2,
+            "avg_probability": 0.3941,
+            "hit_rate": 0.5,
+            "avg_return_pct": -0.0715
+          },
+          {
+            "bucket": 8,
+            "lower": 0.4,
+            "upper": 0.45,
+            "count": 2,
+            "avg_probability": 0.4156,
+            "hit_rate": 0.0,
+            "avg_return_pct": -2.1888
+          },
+          {
+            "bucket": 9,
+            "lower": 0.45,
+            "upper": 0.5,
+            "count": 3,
+            "avg_probability": 0.4807,
+            "hit_rate": 0.3333,
+            "avg_return_pct": -0.7117
+          },
+          {
+            "bucket": 10,
+            "lower": 0.5,
+            "upper": 0.55,
+            "count": 2,
+            "avg_probability": 0.5316,
+            "hit_rate": 1.0,
+            "avg_return_pct": 1.1093
+          },
+          {
+            "bucket": 11,
+            "lower": 0.55,
+            "upper": 0.6,
+            "count": 2,
+            "avg_probability": 0.5692,
+            "hit_rate": 1.0,
+            "avg_return_pct": 0.6971
+          },
+          {
+            "bucket": 12,
+            "lower": 0.6,
+            "upper": 0.65,
+            "count": 1,
+            "avg_probability": 0.63,
+            "hit_rate": 1.0,
+            "avg_return_pct": 3.2571
+          },
+          {
+            "bucket": 13,
+            "lower": 0.65,
+            "upper": 0.7,
+            "count": 3,
+            "avg_probability": 0.6679,
+            "hit_rate": 0.3333,
+            "avg_return_pct": -0.2474
+          },
+          {
+            "bucket": 15,
+            "lower": 0.75,
+            "upper": 0.8,
+            "count": 2,
+            "avg_probability": 0.7846,
+            "hit_rate": 1.0,
+            "avg_return_pct": 0.4475
+          },
+          {
+            "bucket": 16,
+            "lower": 0.8,
+            "upper": 0.85,
+            "count": 4,
+            "avg_probability": 0.8302,
+            "hit_rate": 1.0,
+            "avg_return_pct": 1.5564
+          },
+          {
+            "bucket": 18,
+            "lower": 0.9,
+            "upper": 0.95,
+            "count": 1,
+            "avg_probability": 0.9471,
+            "hit_rate": 1.0,
+            "avg_return_pct": 0.4367
+          }
+        ]
+      },
+      "recent_performance": {
+        "accuracy": 0.8333,
+        "recent20_accuracy": 0.9,
+        "recent60_accuracy": 0.8333,
+        "stability": 0.9333
+      },
+      "data_freshness": {
+        "market_date": "2026-04-13",
+        "generated_at": "2026-04-14T02:21:02.033815-07:00",
+        "rows": 1324,
+        "used_live_premarket_news": false,
+        "used_recent_fallback": false
+      },
+      "news": {
+        "ticker": "AAPL",
+        "forecast_for_date": "2026-04-14",
+        "article_count": 0,
+        "material_count": 0,
+        "net_score": 0.0,
+        "summary": "No live premarket refresh was requested for this artifact.",
+        "articles": [],
+        "used_recent_fallback": false,
+        "feature_values": {}
+      },
+      "technical_snapshot": {
+        "rsi14": 61.5,
+        "ret_1d_pct": -0.49,
+        "ret_5d_pct": 0.13,
+        "ret_20d_pct": 3.63,
+        "pct_from_ma20": 2.15,
+        "pct_from_ma50": -0.65,
+        "volume_ratio": 0.87
+      },
+      "drivers": [
+        {
+          "title": "Champion model",
+          "direction": "neutral",
+          "detail": "AAPL linear champion for 1d outputs 50.0% up with -0.71% expected return."
+        },
+        {
+          "title": "Calibration and trust",
+          "direction": "bull",
+          "detail": "Trust is 81.6% with recent walk-forward accuracy 90.0% / 83.3%."
+        },
+        {
+          "title": "Technical context",
+          "direction": "bull",
+          "detail": "RSI 14 is 61.5, 5-day return is +0.13%, and the stock sits +2.15% from the 20-day mean."
+        }
+      ],
+      "reasoning": {
+        "drivers": [
+          {
+            "title": "Champion model",
+            "direction": "neutral",
+            "detail": "AAPL linear champion for 1d outputs 50.0% up with -0.71% expected return."
+          },
+          {
+            "title": "Calibration and trust",
+            "direction": "bull",
+            "detail": "Trust is 81.6% with recent walk-forward accuracy 90.0% / 83.3%."
+          },
+          {
+            "title": "Technical context",
+            "direction": "bull",
+            "detail": "RSI 14 is 61.5, 5-day return is +0.13%, and the stock sits +2.15% from the 20-day mean."
+          }
+        ],
+        "top_model_drivers": []
+      },
+      "component_scores": {
+        "probability_centered": 0.0,
+        "trust": 0.816,
+        "news_weight": 0.0
+      },
+      "card": {
+        "sig": "HOLD",
+        "sc": "hold",
+        "conf": 0.734,
+        "px": 259.2,
+        "chg": -0.49,
+        "l1h": 0.0,
+        "l4h": 0.0,
+        "l1d": -0.71,
+        "l5d": 0.83,
+        "l10d": -1.06,
+        "l20d": -1.91,
+        "tgt": 257.36,
+        "up": -0.7,
+        "headline_summary": "AAPL is HOLD for 2026-04-14 with 50.0% odds up, -0.71% expected return, and 81.6% trust."
+      }
+    },
+    "NVDA": {
+      "ticker": "NVDA",
+      "company_name": "NVIDIA",
+      "market_date": "2026-04-13",
+      "forecast_for_date": "2026-04-14",
+      "primary_horizon": "1d",
+      "signal": {
+        "signal": "HOLD",
+        "probability_up": 49.5,
+        "confidence": 59.4,
+        "pred_return_pct": 1.33,
+        "current_price": 189.31,
+        "target_price": 191.83,
+        "trust_score": 66.0,
+        "forecast_for_date": "2026-04-14",
+        "date": "2026-04-13",
+        "summary": "NVDA is HOLD for 2026-04-14 with 49.5% odds up, +1.33% expected return, and 66.0% trust."
+      },
+      "summary": "NVDA is HOLD for 2026-04-14 with 49.5% odds up, +1.33% expected return, and 66.0% trust.",
+      "horizons": {
+        "1d": {
+          "horizon_days": 1,
+          "model_family": "linear",
+          "model_version": "research_v1-nvda-1d-linear",
+          "probability_up": 49.5,
+          "expected_return_pct": 1.33,
+          "target_price": 191.83,
+          "trust_score": 66.0,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.276,
+            "log_loss": 0.7535,
+            "ece": 0.2307,
+            "bucket_table": [
+              {
+                "bucket": 3,
+                "lower": 0.15,
+                "upper": 0.2,
+                "count": 1,
+                "avg_probability": 0.1926,
+                "hit_rate": 0.0,
+                "avg_return_pct": -2.0539
+              },
+              {
+                "bucket": 4,
+                "lower": 0.2,
+                "upper": 0.25,
+                "count": 2,
+                "avg_probability": 0.2159,
+                "hit_rate": 0.5,
+                "avg_return_pct": 0.0875
+              },
+              {
+                "bucket": 5,
+                "lower": 0.25,
+                "upper": 0.3,
+                "count": 2,
+                "avg_probability": 0.2778,
+                "hit_rate": 0.5,
+                "avg_return_pct": 2.0513
+              },
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 2,
+                "avg_probability": 0.39,
+                "hit_rate": 0.5,
+                "avg_return_pct": -2.1876
+              },
+              {
+                "bucket": 8,
+                "lower": 0.4,
+                "upper": 0.45,
+                "count": 3,
+                "avg_probability": 0.4111,
+                "hit_rate": 0.6667,
+                "avg_return_pct": 1.2557
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 4,
+                "avg_probability": 0.4672,
+                "hit_rate": 0.75,
+                "avg_return_pct": 1.3314
+              },
+              {
+                "bucket": 10,
+                "lower": 0.5,
+                "upper": 0.55,
+                "count": 4,
+                "avg_probability": 0.5204,
+                "hit_rate": 0.75,
+                "avg_return_pct": -0.0582
+              },
+              {
+                "bucket": 11,
+                "lower": 0.55,
+                "upper": 0.6,
+                "count": 2,
+                "avg_probability": 0.5615,
+                "hit_rate": 0.5,
+                "avg_return_pct": 1.7409
+              },
+              {
+                "bucket": 14,
+                "lower": 0.7,
+                "upper": 0.75,
+                "count": 1,
+                "avg_probability": 0.7067,
+                "hit_rate": 1.0,
+                "avg_return_pct": 5.2758
+              },
+              {
+                "bucket": 15,
+                "lower": 0.75,
+                "upper": 0.8,
+                "count": 2,
+                "avg_probability": 0.7906,
+                "hit_rate": 0.0,
+                "avg_return_pct": -0.6911
+              },
+              {
+                "bucket": 17,
+                "lower": 0.85,
+                "upper": 0.9,
+                "count": 1,
+                "avg_probability": 0.8691,
+                "hit_rate": 1.0,
+                "avg_return_pct": 4.0
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.5,
+            "recent20_accuracy": 0.45,
+            "recent60_accuracy": 0.5,
+            "stability": 0.95
+          },
+          "backtest": {
+            "strategy_return": 0.0933,
+            "bah_return": 0.1858,
+            "alpha": -0.0926,
+            "sharpe": 2.4354,
+            "sortino": 4.5501,
+            "max_drawdown": -0.0836,
+            "n_trades": 16,
+            "portfolio_values": [
+              1.0528,
+              1.0528,
+              1.0464,
+              1.1301,
+              1.1301,
+              1.1223,
+              1.1136,
+              1.1581,
+              1.1605,
+              1.1605,
+              1.1605,
+              1.1385,
+              1.186,
+              1.186,
+              1.186,
+              1.186,
+              1.143,
+              1.0938,
+              1.1163,
+              1.1133,
+              1.1143,
+              1.0868,
+              1.0868,
+              1.0933
+            ],
+            "bah_values": [
+              1.0528,
+              1.056,
+              1.0496,
+              0.9656,
+              0.9329,
+              0.9265,
+              0.9193,
+              0.956,
+              0.9541,
+              0.9832,
+              0.9775,
+              0.996,
+              1.0375,
+              1.0403,
+              1.0441,
+              1.0701,
+              1.1088,
+              1.1566,
+              1.1328,
+              1.1358,
+              1.1348,
+              1.1628,
+              1.1929,
+              1.1858
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.3333,
+              "brier": 0.3282
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.625,
+              "brier": 0.2317
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.5,
+              "brier": 0.2327
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "HOLD"
+        },
+        "5d": {
+          "horizon_days": 5,
+          "model_family": "linear",
+          "model_version": "research_v1-nvda-5d-linear",
+          "probability_up": 32.9,
+          "expected_return_pct": -2.67,
+          "target_price": 184.25,
+          "trust_score": 59.0,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.368,
+            "log_loss": 1.0061,
+            "ece": 0.4383,
+            "bucket_table": [
+              {
+                "bucket": 1,
+                "lower": 0.05,
+                "upper": 0.1,
+                "count": 1,
+                "avg_probability": 0.0529,
+                "hit_rate": 1.0,
+                "avg_return_pct": 4.8438
+              },
+              {
+                "bucket": 2,
+                "lower": 0.1,
+                "upper": 0.15,
+                "count": 1,
+                "avg_probability": 0.1465,
+                "hit_rate": 1.0,
+                "avg_return_pct": 6.1901
+              },
+              {
+                "bucket": 3,
+                "lower": 0.15,
+                "upper": 0.2,
+                "count": 2,
+                "avg_probability": 0.1693,
+                "hit_rate": 1.0,
+                "avg_return_pct": 5.809
+              },
+              {
+                "bucket": 4,
+                "lower": 0.2,
+                "upper": 0.25,
+                "count": 4,
+                "avg_probability": 0.2306,
+                "hit_rate": 0.75,
+                "avg_return_pct": -0.0516
+              },
+              {
+                "bucket": 5,
+                "lower": 0.25,
+                "upper": 0.3,
+                "count": 4,
+                "avg_probability": 0.2794,
+                "hit_rate": 0.25,
+                "avg_return_pct": -4.5372
+              },
+              {
+                "bucket": 6,
+                "lower": 0.3,
+                "upper": 0.35,
+                "count": 1,
+                "avg_probability": 0.3294,
+                "hit_rate": 1.0,
+                "avg_return_pct": 8.5188
+              },
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 1,
+                "avg_probability": 0.3724,
+                "hit_rate": 1.0,
+                "avg_return_pct": 6.0461
+              },
+              {
+                "bucket": 8,
+                "lower": 0.4,
+                "upper": 0.45,
+                "count": 2,
+                "avg_probability": 0.4342,
+                "hit_rate": 1.0,
+                "avg_return_pct": 6.0215
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 3,
+                "avg_probability": 0.4681,
+                "hit_rate": 1.0,
+                "avg_return_pct": 3.9091
+              },
+              {
+                "bucket": 10,
+                "lower": 0.5,
+                "upper": 0.55,
+                "count": 2,
+                "avg_probability": 0.532,
+                "hit_rate": 0.5,
+                "avg_return_pct": -1.8789
+              },
+              {
+                "bucket": 11,
+                "lower": 0.55,
+                "upper": 0.6,
+                "count": 1,
+                "avg_probability": 0.5537,
+                "hit_rate": 1.0,
+                "avg_return_pct": 1.8777
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 1,
+                "avg_probability": 0.6061,
+                "hit_rate": 1.0,
+                "avg_return_pct": 4.7826
+              },
+              {
+                "bucket": 14,
+                "lower": 0.7,
+                "upper": 0.75,
+                "count": 1,
+                "avg_probability": 0.7045,
+                "hit_rate": 1.0,
+                "avg_return_pct": 7.4734
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.3333,
+            "recent20_accuracy": 0.2,
+            "recent60_accuracy": 0.3333,
+            "stability": 0.8667
+          },
+          "backtest": {
+            "strategy_return": -0.1954,
+            "bah_return": 0.6061,
+            "alpha": -0.8015,
+            "sharpe": -0.7721,
+            "sortino": -2.2436,
+            "max_drawdown": -0.523,
+            "n_trades": 19,
+            "portfolio_values": [
+              1.0671,
+              1.1952,
+              1.3499,
+              1.4702,
+              1.4702,
+              1.4702,
+              1.4702,
+              1.5405,
+              1.4093,
+              1.282,
+              1.2026,
+              1.0887,
+              1.0027,
+              0.9768,
+              0.9306,
+              0.8855,
+              0.832,
+              0.7915,
+              0.7666,
+              0.7666,
+              0.7348,
+              0.7897,
+              0.7897,
+              0.8046
+            ],
+            "bah_values": [
+              0.9329,
+              0.8209,
+              0.7147,
+              0.651,
+              0.6052,
+              0.6166,
+              0.6368,
+              0.6673,
+              0.7241,
+              0.7895,
+              0.8384,
+              0.9178,
+              0.9903,
+              1.0159,
+              1.0639,
+              1.1155,
+              1.1829,
+              1.2405,
+              1.2795,
+              1.3394,
+              1.3949,
+              1.4991,
+              1.5765,
+              1.6061
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.1667,
+              "brier": 0.3801
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.0,
+              "brier": 0.6108
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.5,
+              "brier": 0.2349
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "SELL"
+        },
+        "10d": {
+          "horizon_days": 10,
+          "model_family": "tree",
+          "model_version": "research_v1-nvda-10d-tree",
+          "probability_up": 17.7,
+          "expected_return_pct": 7.24,
+          "target_price": 203.02,
+          "trust_score": 56.1,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.4284,
+            "log_loss": 1.1417,
+            "ece": 0.5374,
+            "bucket_table": [
+              {
+                "bucket": 2,
+                "lower": 0.1,
+                "upper": 0.15,
+                "count": 5,
+                "avg_probability": 0.1206,
+                "hit_rate": 0.8,
+                "avg_return_pct": 5.2983
+              },
+              {
+                "bucket": 3,
+                "lower": 0.15,
+                "upper": 0.2,
+                "count": 4,
+                "avg_probability": 0.1784,
+                "hit_rate": 0.75,
+                "avg_return_pct": 7.2404
+              },
+              {
+                "bucket": 4,
+                "lower": 0.2,
+                "upper": 0.25,
+                "count": 3,
+                "avg_probability": 0.228,
+                "hit_rate": 0.6667,
+                "avg_return_pct": 9.1161
+              },
+              {
+                "bucket": 5,
+                "lower": 0.25,
+                "upper": 0.3,
+                "count": 4,
+                "avg_probability": 0.2774,
+                "hit_rate": 0.75,
+                "avg_return_pct": 9.0639
+              },
+              {
+                "bucket": 6,
+                "lower": 0.3,
+                "upper": 0.35,
+                "count": 2,
+                "avg_probability": 0.3212,
+                "hit_rate": 1.0,
+                "avg_return_pct": 15.5853
+              },
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 1,
+                "avg_probability": 0.3995,
+                "hit_rate": 1.0,
+                "avg_return_pct": 11.328
+              },
+              {
+                "bucket": 8,
+                "lower": 0.4,
+                "upper": 0.45,
+                "count": 1,
+                "avg_probability": 0.4263,
+                "hit_rate": 1.0,
+                "avg_return_pct": 11.212
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 1,
+                "avg_probability": 0.4741,
+                "hit_rate": 1.0,
+                "avg_return_pct": 14.1839
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 2,
+                "avg_probability": 0.6201,
+                "hit_rate": 1.0,
+                "avg_return_pct": 15.0874
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 1,
+                "avg_probability": 0.8092,
+                "hit_rate": 1.0,
+                "avg_return_pct": 13.9714
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.2917,
+            "recent20_accuracy": 0.15,
+            "recent60_accuracy": 0.2917,
+            "stability": 0.8583
+          },
+          "backtest": {
+            "strategy_return": -0.7767,
+            "bah_return": 7.353,
+            "alpha": -8.1297,
+            "sharpe": -2.3151,
+            "sortino": -4.9565,
+            "max_drawdown": -0.8327,
+            "n_trades": 23,
+            "portfolio_values": [
+              1.0496,
+              1.1452,
+              1.2458,
+              1.3349,
+              1.2918,
+              1.1889,
+              1.0176,
+              0.8937,
+              0.7925,
+              0.7925,
+              0.7027,
+              0.634,
+              0.5682,
+              0.5045,
+              0.5864,
+              0.6682,
+              0.7615,
+              0.6833,
+              0.6485,
+              0.5634,
+              0.4554,
+              0.3449,
+              0.2732,
+              0.2233
+            ],
+            "bah_values": [
+              0.9504,
+              0.8638,
+              0.788,
+              0.7316,
+              0.7552,
+              0.8154,
+              0.9329,
+              1.0464,
+              1.165,
+              1.3302,
+              1.481,
+              1.6258,
+              1.7943,
+              1.9955,
+              2.3193,
+              2.6427,
+              3.012,
+              3.3216,
+              3.4903,
+              3.9484,
+              4.7057,
+              5.8471,
+              7.0636,
+              8.353
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.1667,
+              "brier": 0.5405
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.25,
+              "brier": 0.3407
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.0,
+              "brier": 0.5663
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "SELL"
+        }
+      },
+      "champion_model": {
+        "family": "linear",
+        "model_version": "research_v1-nvda-1d-linear",
+        "selection": "lowest Brier / log loss with recent stability and calibration support"
+      },
+      "calibration": {
+        "brier": 0.276,
+        "log_loss": 0.7535,
+        "ece": 0.2307,
+        "bucket_table": [
+          {
+            "bucket": 3,
+            "lower": 0.15,
+            "upper": 0.2,
+            "count": 1,
+            "avg_probability": 0.1926,
+            "hit_rate": 0.0,
+            "avg_return_pct": -2.0539
+          },
+          {
+            "bucket": 4,
+            "lower": 0.2,
+            "upper": 0.25,
+            "count": 2,
+            "avg_probability": 0.2159,
+            "hit_rate": 0.5,
+            "avg_return_pct": 0.0875
+          },
+          {
+            "bucket": 5,
+            "lower": 0.25,
+            "upper": 0.3,
+            "count": 2,
+            "avg_probability": 0.2778,
+            "hit_rate": 0.5,
+            "avg_return_pct": 2.0513
+          },
+          {
+            "bucket": 7,
+            "lower": 0.35,
+            "upper": 0.4,
+            "count": 2,
+            "avg_probability": 0.39,
+            "hit_rate": 0.5,
+            "avg_return_pct": -2.1876
+          },
+          {
+            "bucket": 8,
+            "lower": 0.4,
+            "upper": 0.45,
+            "count": 3,
+            "avg_probability": 0.4111,
+            "hit_rate": 0.6667,
+            "avg_return_pct": 1.2557
+          },
+          {
+            "bucket": 9,
+            "lower": 0.45,
+            "upper": 0.5,
+            "count": 4,
+            "avg_probability": 0.4672,
+            "hit_rate": 0.75,
+            "avg_return_pct": 1.3314
+          },
+          {
+            "bucket": 10,
+            "lower": 0.5,
+            "upper": 0.55,
+            "count": 4,
+            "avg_probability": 0.5204,
+            "hit_rate": 0.75,
+            "avg_return_pct": -0.0582
+          },
+          {
+            "bucket": 11,
+            "lower": 0.55,
+            "upper": 0.6,
+            "count": 2,
+            "avg_probability": 0.5615,
+            "hit_rate": 0.5,
+            "avg_return_pct": 1.7409
+          },
+          {
+            "bucket": 14,
+            "lower": 0.7,
+            "upper": 0.75,
+            "count": 1,
+            "avg_probability": 0.7067,
+            "hit_rate": 1.0,
+            "avg_return_pct": 5.2758
+          },
+          {
+            "bucket": 15,
+            "lower": 0.75,
+            "upper": 0.8,
+            "count": 2,
+            "avg_probability": 0.7906,
+            "hit_rate": 0.0,
+            "avg_return_pct": -0.6911
+          },
+          {
+            "bucket": 17,
+            "lower": 0.85,
+            "upper": 0.9,
+            "count": 1,
+            "avg_probability": 0.8691,
+            "hit_rate": 1.0,
+            "avg_return_pct": 4.0
+          }
+        ]
+      },
+      "recent_performance": {
+        "accuracy": 0.5,
+        "recent20_accuracy": 0.45,
+        "recent60_accuracy": 0.5,
+        "stability": 0.95
+      },
+      "data_freshness": {
+        "market_date": "2026-04-13",
+        "generated_at": "2026-04-14T02:21:19.232091-07:00",
+        "rows": 1324,
+        "used_live_premarket_news": false,
+        "used_recent_fallback": false
+      },
+      "news": {
+        "ticker": "NVDA",
+        "forecast_for_date": "2026-04-14",
+        "article_count": 0,
+        "material_count": 0,
+        "net_score": 0.0,
+        "summary": "No live premarket refresh was requested for this artifact.",
+        "articles": [],
+        "used_recent_fallback": false,
+        "feature_values": {}
+      },
+      "technical_snapshot": {
+        "rsi14": 66.44,
+        "ret_1d_pct": 0.36,
+        "ret_5d_pct": 6.57,
+        "ret_20d_pct": 5.03,
+        "pct_from_ma20": 6.43,
+        "pct_from_ma50": 4.01,
+        "volume_ratio": 0.79
+      },
+      "drivers": [
+        {
+          "title": "Champion model",
+          "direction": "neutral",
+          "detail": "NVDA linear champion for 1d outputs 49.5% up with +1.33% expected return."
+        },
+        {
+          "title": "Calibration and trust",
+          "direction": "bull",
+          "detail": "Trust is 66.0% with recent walk-forward accuracy 45.0% / 50.0%."
+        },
+        {
+          "title": "Technical context",
+          "direction": "bull",
+          "detail": "RSI 14 is 66.4, 5-day return is +6.57%, and the stock sits +6.43% from the 20-day mean."
+        }
+      ],
+      "reasoning": {
+        "drivers": [
+          {
+            "title": "Champion model",
+            "direction": "neutral",
+            "detail": "NVDA linear champion for 1d outputs 49.5% up with +1.33% expected return."
+          },
+          {
+            "title": "Calibration and trust",
+            "direction": "bull",
+            "detail": "Trust is 66.0% with recent walk-forward accuracy 45.0% / 50.0%."
+          },
+          {
+            "title": "Technical context",
+            "direction": "bull",
+            "detail": "RSI 14 is 66.4, 5-day return is +6.57%, and the stock sits +6.43% from the 20-day mean."
+          }
+        ],
+        "top_model_drivers": []
+      },
+      "component_scores": {
+        "probability_centered": -0.005,
+        "trust": 0.66,
+        "news_weight": 0.0
+      },
+      "card": {
+        "sig": "HOLD",
+        "sc": "hold",
+        "conf": 0.594,
+        "px": 189.31,
+        "chg": 0.36,
+        "l1h": 0.0,
+        "l4h": 0.0,
+        "l1d": 1.33,
+        "l5d": -2.67,
+        "l10d": 7.24,
+        "l20d": 13.03,
+        "tgt": 191.83,
+        "up": 1.3,
+        "headline_summary": "NVDA is HOLD for 2026-04-14 with 49.5% odds up, +1.33% expected return, and 66.0% trust."
+      }
+    },
+    "TSLA": {
+      "ticker": "TSLA",
+      "company_name": "Tesla",
+      "market_date": "2026-04-13",
+      "forecast_for_date": "2026-04-14",
+      "primary_horizon": "1d",
+      "signal": {
+        "signal": "SELL",
+        "probability_up": 36.9,
+        "confidence": 36.9,
+        "pred_return_pct": -2.26,
+        "current_price": 352.42,
+        "target_price": 344.45,
+        "trust_score": 66.6,
+        "forecast_for_date": "2026-04-14",
+        "date": "2026-04-13",
+        "summary": "TSLA is SELL for 2026-04-14 with 36.9% odds up, -2.26% expected return, and 66.6% trust."
+      },
+      "summary": "TSLA is SELL for 2026-04-14 with 36.9% odds up, -2.26% expected return, and 66.6% trust.",
+      "horizons": {
+        "1d": {
+          "horizon_days": 1,
+          "model_family": "tree",
+          "model_version": "research_v1-tsla-1d-tree",
+          "probability_up": 36.9,
+          "expected_return_pct": -2.26,
+          "target_price": 344.45,
+          "trust_score": 66.6,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.333,
+            "log_loss": 0.8812,
+            "ece": 0.2914,
+            "bucket_table": [
+              {
+                "bucket": 6,
+                "lower": 0.3,
+                "upper": 0.35,
+                "count": 4,
+                "avg_probability": 0.3283,
+                "hit_rate": 0.5,
+                "avg_return_pct": -1.1382
+              },
+              {
+                "bucket": 8,
+                "lower": 0.4,
+                "upper": 0.45,
+                "count": 2,
+                "avg_probability": 0.4338,
+                "hit_rate": 0.5,
+                "avg_return_pct": 0.7575
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 4,
+                "avg_probability": 0.4612,
+                "hit_rate": 0.75,
+                "avg_return_pct": 0.5389
+              },
+              {
+                "bucket": 10,
+                "lower": 0.5,
+                "upper": 0.55,
+                "count": 2,
+                "avg_probability": 0.5064,
+                "hit_rate": 0.5,
+                "avg_return_pct": 4.8769
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 1,
+                "avg_probability": 0.6252,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.1463
+              },
+              {
+                "bucket": 13,
+                "lower": 0.65,
+                "upper": 0.7,
+                "count": 2,
+                "avg_probability": 0.6635,
+                "hit_rate": 0.5,
+                "avg_return_pct": -0.0576
+              },
+              {
+                "bucket": 14,
+                "lower": 0.7,
+                "upper": 0.75,
+                "count": 2,
+                "avg_probability": 0.7073,
+                "hit_rate": 0.0,
+                "avg_return_pct": -1.4078
+              },
+              {
+                "bucket": 15,
+                "lower": 0.75,
+                "upper": 0.8,
+                "count": 4,
+                "avg_probability": 0.7703,
+                "hit_rate": 0.25,
+                "avg_return_pct": -1.2132
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 3,
+                "avg_probability": 0.821,
+                "hit_rate": 0.3333,
+                "avg_return_pct": -2.2626
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.375,
+            "recent20_accuracy": 0.4,
+            "recent60_accuracy": 0.375,
+            "stability": 0.975
+          },
+          "backtest": {
+            "strategy_return": -0.1127,
+            "bah_return": -0.0649,
+            "alpha": -0.0478,
+            "sharpe": -3.5746,
+            "sortino": -4.6,
+            "max_drawdown": -0.1153,
+            "n_trades": 18,
+            "portfolio_values": [
+              1.0,
+              1.0,
+              0.9889,
+              0.9263,
+              0.9263,
+              0.8995,
+              0.8964,
+              0.9149,
+              0.9484,
+              0.9529,
+              0.9718,
+              0.9552,
+              0.9566,
+              0.9413,
+              0.9429,
+              0.937,
+              0.9042,
+              0.9042,
+              0.9042,
+              0.8847,
+              0.9146,
+              0.9093,
+              0.9093,
+              0.8873
+            ],
+            "bah_values": [
+              1.029,
+              0.9934,
+              0.9824,
+              0.9203,
+              0.9198,
+              0.8932,
+              0.8962,
+              0.9147,
+              0.8812,
+              0.8853,
+              0.8677,
+              0.8529,
+              0.8542,
+              0.8405,
+              0.8419,
+              0.8366,
+              0.8659,
+              0.9508,
+              0.9539,
+              0.9744,
+              0.9415,
+              0.936,
+              0.9583,
+              0.9351
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.3333,
+              "brier": 0.31
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.625,
+              "brier": 0.2903
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.0,
+              "brier": 0.4268
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "SELL"
+        },
+        "5d": {
+          "horizon_days": 5,
+          "model_family": "tree",
+          "model_version": "research_v1-tsla-5d-tree",
+          "probability_up": 15.3,
+          "expected_return_pct": -5.0,
+          "target_price": 334.8,
+          "trust_score": 60.1,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.4813,
+            "log_loss": 1.3243,
+            "ece": 0.5236,
+            "bucket_table": [
+              {
+                "bucket": 4,
+                "lower": 0.2,
+                "upper": 0.25,
+                "count": 1,
+                "avg_probability": 0.213,
+                "hit_rate": 1.0,
+                "avg_return_pct": 12.5309
+              },
+              {
+                "bucket": 5,
+                "lower": 0.25,
+                "upper": 0.3,
+                "count": 1,
+                "avg_probability": 0.2757,
+                "hit_rate": 1.0,
+                "avg_return_pct": 8.096
+              },
+              {
+                "bucket": 6,
+                "lower": 0.3,
+                "upper": 0.35,
+                "count": 1,
+                "avg_probability": 0.3425,
+                "hit_rate": 1.0,
+                "avg_return_pct": 0.7931
+              },
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 1,
+                "avg_probability": 0.3991,
+                "hit_rate": 0.0,
+                "avg_return_pct": -1.9659
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 3,
+                "avg_probability": 0.4689,
+                "hit_rate": 0.3333,
+                "avg_return_pct": -2.3957
+              },
+              {
+                "bucket": 10,
+                "lower": 0.5,
+                "upper": 0.55,
+                "count": 2,
+                "avg_probability": 0.5324,
+                "hit_rate": 0.5,
+                "avg_return_pct": -0.9322
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 2,
+                "avg_probability": 0.6183,
+                "hit_rate": 0.0,
+                "avg_return_pct": -6.5006
+              },
+              {
+                "bucket": 13,
+                "lower": 0.65,
+                "upper": 0.7,
+                "count": 1,
+                "avg_probability": 0.6984,
+                "hit_rate": 0.0,
+                "avg_return_pct": -13.6387
+              },
+              {
+                "bucket": 14,
+                "lower": 0.7,
+                "upper": 0.75,
+                "count": 1,
+                "avg_probability": 0.7084,
+                "hit_rate": 0.0,
+                "avg_return_pct": -4.8975
+              },
+              {
+                "bucket": 15,
+                "lower": 0.75,
+                "upper": 0.8,
+                "count": 1,
+                "avg_probability": 0.7602,
+                "hit_rate": 0.0,
+                "avg_return_pct": -3.5815
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 3,
+                "avg_probability": 0.8291,
+                "hit_rate": 0.0,
+                "avg_return_pct": -9.7515
+              },
+              {
+                "bucket": 17,
+                "lower": 0.85,
+                "upper": 0.9,
+                "count": 2,
+                "avg_probability": 0.8806,
+                "hit_rate": 0.0,
+                "avg_return_pct": -7.4124
+              },
+              {
+                "bucket": 18,
+                "lower": 0.9,
+                "upper": 0.95,
+                "count": 4,
+                "avg_probability": 0.9282,
+                "hit_rate": 0.5,
+                "avg_return_pct": -3.4734
+              },
+              {
+                "bucket": 19,
+                "lower": 0.95,
+                "upper": 1.0,
+                "count": 1,
+                "avg_probability": 0.961,
+                "hit_rate": 0.0,
+                "avg_return_pct": -8.1051
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.25,
+            "recent20_accuracy": 0.3,
+            "recent60_accuracy": 0.25,
+            "stability": 0.95
+          },
+          "backtest": {
+            "strategy_return": -0.7205,
+            "bah_return": -0.6245,
+            "alpha": -0.096,
+            "sharpe": -6.8214,
+            "sortino": -9.0072,
+            "max_drawdown": -0.702,
+            "n_trades": 19,
+            "portfolio_values": [
+              0.9198,
+              0.7983,
+              0.7202,
+              0.6706,
+              0.6162,
+              0.6062,
+              0.6166,
+              0.6302,
+              0.6302,
+              0.6011,
+              0.5717,
+              0.5512,
+              0.4751,
+              0.4103,
+              0.3752,
+              0.3437,
+              0.3007,
+              0.2763,
+              0.2741,
+              0.2795,
+              0.2795,
+              0.2795,
+              0.2795,
+              0.2795
+            ],
+            "bah_values": [
+              0.9198,
+              0.7983,
+              0.7202,
+              0.6706,
+              0.6162,
+              0.6062,
+              0.6166,
+              0.6302,
+              0.5885,
+              0.5614,
+              0.5339,
+              0.5148,
+              0.4437,
+              0.3832,
+              0.3504,
+              0.321,
+              0.3612,
+              0.3905,
+              0.3936,
+              0.3858,
+              0.3638,
+              0.3561,
+              0.3616,
+              0.3755
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.3333,
+              "brier": 0.3751
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.125,
+              "brier": 0.4868
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 0.5,
+              "brier": 0.2494
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "SELL"
+        },
+        "10d": {
+          "horizon_days": 10,
+          "model_family": "tree",
+          "model_version": "research_v1-tsla-10d-tree",
+          "probability_up": 16.1,
+          "expected_return_pct": -4.61,
+          "target_price": 336.17,
+          "trust_score": 62.6,
+          "supported_probability": false,
+          "evaluation_mode": "walk_forward_champion",
+          "calibration": {
+            "brier": 0.5472,
+            "log_loss": 1.7508,
+            "ece": 0.6224,
+            "bucket_table": [
+              {
+                "bucket": 7,
+                "lower": 0.35,
+                "upper": 0.4,
+                "count": 1,
+                "avg_probability": 0.3828,
+                "hit_rate": 1.0,
+                "avg_return_pct": 9.753
+              },
+              {
+                "bucket": 9,
+                "lower": 0.45,
+                "upper": 0.5,
+                "count": 1,
+                "avg_probability": 0.4929,
+                "hit_rate": 1.0,
+                "avg_return_pct": 23.2209
+              },
+              {
+                "bucket": 11,
+                "lower": 0.55,
+                "upper": 0.6,
+                "count": 2,
+                "avg_probability": 0.5764,
+                "hit_rate": 1.0,
+                "avg_return_pct": 13.4399
+              },
+              {
+                "bucket": 12,
+                "lower": 0.6,
+                "upper": 0.65,
+                "count": 1,
+                "avg_probability": 0.616,
+                "hit_rate": 1.0,
+                "avg_return_pct": 21.8551
+              },
+              {
+                "bucket": 13,
+                "lower": 0.65,
+                "upper": 0.7,
+                "count": 1,
+                "avg_probability": 0.6545,
+                "hit_rate": 1.0,
+                "avg_return_pct": 11.3684
+              },
+              {
+                "bucket": 14,
+                "lower": 0.7,
+                "upper": 0.75,
+                "count": 2,
+                "avg_probability": 0.7191,
+                "hit_rate": 0.5,
+                "avg_return_pct": -4.5947
+              },
+              {
+                "bucket": 15,
+                "lower": 0.75,
+                "upper": 0.8,
+                "count": 1,
+                "avg_probability": 0.7624,
+                "hit_rate": 1.0,
+                "avg_return_pct": 14.3958
+              },
+              {
+                "bucket": 16,
+                "lower": 0.8,
+                "upper": 0.85,
+                "count": 1,
+                "avg_probability": 0.8448,
+                "hit_rate": 0.0,
+                "avg_return_pct": -12.7735
+              },
+              {
+                "bucket": 18,
+                "lower": 0.9,
+                "upper": 0.95,
+                "count": 8,
+                "avg_probability": 0.9179,
+                "hit_rate": 0.0,
+                "avg_return_pct": -11.2974
+              },
+              {
+                "bucket": 19,
+                "lower": 0.95,
+                "upper": 1.0,
+                "count": 6,
+                "avg_probability": 0.9746,
+                "hit_rate": 0.3333,
+                "avg_return_pct": -4.6102
+              }
+            ]
+          },
+          "recent_performance": {
+            "accuracy": 0.3333,
+            "recent20_accuracy": 0.4,
+            "recent60_accuracy": 0.3333,
+            "stability": 0.9333
+          },
+          "backtest": {
+            "strategy_return": -0.6049,
+            "bah_return": -0.4079,
+            "alpha": -0.197,
+            "sharpe": -1.3542,
+            "sortino": -4.4373,
+            "max_drawdown": -0.7801,
+            "n_trades": 23,
+            "portfolio_values": [
+              0.9049,
+              0.7988,
+              0.7365,
+              0.6411,
+              0.6163,
+              0.5839,
+              0.5999,
+              0.6203,
+              0.5003,
+              0.4364,
+              0.3802,
+              0.3303,
+              0.2945,
+              0.2608,
+              0.2261,
+              0.2001,
+              0.2205,
+              0.199,
+              0.2083,
+              0.2319,
+              0.2653,
+              0.2653,
+              0.3242,
+              0.3951
+            ],
+            "bah_values": [
+              0.9049,
+              0.7988,
+              0.7365,
+              0.6411,
+              0.6163,
+              0.5839,
+              0.5999,
+              0.6203,
+              0.5003,
+              0.4364,
+              0.3802,
+              0.3303,
+              0.2945,
+              0.2608,
+              0.2261,
+              0.2001,
+              0.2205,
+              0.242,
+              0.2533,
+              0.2821,
+              0.3227,
+              0.3976,
+              0.4859,
+              0.5921
+            ]
+          },
+          "regime_split": {
+            "BEAR": {
+              "count": 6,
+              "accuracy": 0.6667,
+              "brier": 0.1768
+            },
+            "BULL": {
+              "count": 8,
+              "accuracy": 0.0,
+              "brier": 0.777
+            },
+            "NEUTRAL": {
+              "count": 2,
+              "accuracy": 1.0,
+              "brier": 0.1683
+            }
+          },
+          "ablation": {
+            "price_only": {
+              "feature_count": 55,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_no_news": {
+              "feature_count": 92,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "full": {
+              "feature_count": 106,
+              "brier": null,
+              "log_loss": null,
+              "accuracy": null
+            },
+            "structured_events_delta_brier": null,
+            "premarket_news_delta_brier": null,
+            "meta_policy_used": true,
+            "meta_policy_note": "Light mode skips extra ablation reruns for speed; full nightly runs persist full ablation reports."
+          },
+          "top_drivers": [],
+          "signal": "SELL"
+        }
+      },
+      "champion_model": {
+        "family": "tree",
+        "model_version": "research_v1-tsla-1d-tree",
+        "selection": "lowest Brier / log loss with recent stability and calibration support"
+      },
+      "calibration": {
+        "brier": 0.333,
+        "log_loss": 0.8812,
+        "ece": 0.2914,
+        "bucket_table": [
+          {
+            "bucket": 6,
+            "lower": 0.3,
+            "upper": 0.35,
+            "count": 4,
+            "avg_probability": 0.3283,
+            "hit_rate": 0.5,
+            "avg_return_pct": -1.1382
+          },
+          {
+            "bucket": 8,
+            "lower": 0.4,
+            "upper": 0.45,
+            "count": 2,
+            "avg_probability": 0.4338,
+            "hit_rate": 0.5,
+            "avg_return_pct": 0.7575
+          },
+          {
+            "bucket": 9,
+            "lower": 0.45,
+            "upper": 0.5,
+            "count": 4,
+            "avg_probability": 0.4612,
+            "hit_rate": 0.75,
+            "avg_return_pct": 0.5389
+          },
+          {
+            "bucket": 10,
+            "lower": 0.5,
+            "upper": 0.55,
+            "count": 2,
+            "avg_probability": 0.5064,
+            "hit_rate": 0.5,
+            "avg_return_pct": 4.8769
+          },
+          {
+            "bucket": 12,
+            "lower": 0.6,
+            "upper": 0.65,
+            "count": 1,
+            "avg_probability": 0.6252,
+            "hit_rate": 1.0,
+            "avg_return_pct": 0.1463
+          },
+          {
+            "bucket": 13,
+            "lower": 0.65,
+            "upper": 0.7,
+            "count": 2,
+            "avg_probability": 0.6635,
+            "hit_rate": 0.5,
+            "avg_return_pct": -0.0576
+          },
+          {
+            "bucket": 14,
+            "lower": 0.7,
+            "upper": 0.75,
+            "count": 2,
+            "avg_probability": 0.7073,
+            "hit_rate": 0.0,
+            "avg_return_pct": -1.4078
+          },
+          {
+            "bucket": 15,
+            "lower": 0.75,
+            "upper": 0.8,
+            "count": 4,
+            "avg_probability": 0.7703,
+            "hit_rate": 0.25,
+            "avg_return_pct": -1.2132
+          },
+          {
+            "bucket": 16,
+            "lower": 0.8,
+            "upper": 0.85,
+            "count": 3,
+            "avg_probability": 0.821,
+            "hit_rate": 0.3333,
+            "avg_return_pct": -2.2626
+          }
+        ]
+      },
+      "recent_performance": {
+        "accuracy": 0.375,
+        "recent20_accuracy": 0.4,
+        "recent60_accuracy": 0.375,
+        "stability": 0.975
+      },
+      "data_freshness": {
+        "market_date": "2026-04-13",
+        "generated_at": "2026-04-14T02:21:34.935770-07:00",
+        "rows": 1324,
+        "used_live_premarket_news": false,
+        "used_recent_fallback": false
+      },
+      "news": {
+        "ticker": "TSLA",
+        "forecast_for_date": "2026-04-14",
+        "article_count": 0,
+        "material_count": 0,
+        "net_score": 0.0,
+        "summary": "No live premarket refresh was requested for this artifact.",
+        "articles": [],
+        "used_recent_fallback": false,
+        "feature_values": {}
+      },
+      "technical_snapshot": {
+        "rsi14": 36.95,
+        "ret_1d_pct": 0.99,
+        "ret_5d_pct": -0.11,
+        "ret_20d_pct": -9.91,
+        "pct_from_ma20": -4.47,
+        "pct_from_ma50": -10.33,
+        "volume_ratio": 0.83
+      },
+      "drivers": [
+        {
+          "title": "Champion model",
+          "direction": "bear",
+          "detail": "TSLA tree champion for 1d outputs 36.9% up with -2.26% expected return."
+        },
+        {
+          "title": "Calibration and trust",
+          "direction": "bull",
+          "detail": "Trust is 66.6% with recent walk-forward accuracy 40.0% / 37.5%."
+        },
+        {
+          "title": "Technical context",
+          "direction": "bear",
+          "detail": "RSI 14 is 37.0, 5-day return is -0.11%, and the stock sits -4.47% from the 20-day mean."
+        }
+      ],
+      "reasoning": {
+        "drivers": [
+          {
+            "title": "Champion model",
+            "direction": "bear",
+            "detail": "TSLA tree champion for 1d outputs 36.9% up with -2.26% expected return."
+          },
+          {
+            "title": "Calibration and trust",
+            "direction": "bull",
+            "detail": "Trust is 66.6% with recent walk-forward accuracy 40.0% / 37.5%."
+          },
+          {
+            "title": "Technical context",
+            "direction": "bear",
+            "detail": "RSI 14 is 37.0, 5-day return is -0.11%, and the stock sits -4.47% from the 20-day mean."
+          }
+        ],
+        "top_model_drivers": []
+      },
+      "component_scores": {
+        "probability_centered": -0.131,
+        "trust": 0.666,
+        "news_weight": 0.0
+      },
+      "card": {
+        "sig": "SELL",
+        "sc": "sell",
+        "conf": 0.369,
+        "px": 352.42,
+        "chg": 0.99,
+        "l1h": 0.0,
+        "l4h": 0.0,
+        "l1d": -2.26,
+        "l5d": -5.0,
+        "l10d": -4.61,
+        "l20d": -8.3,
+        "tgt": 344.45,
+        "up": -2.3,
+        "headline_summary": "TSLA is SELL for 2026-04-14 with 36.9% odds up, -2.26% expected return, and 66.6% trust."
+      }
+    }
+  },
+  "news_feed": []
+}

@@ -18,8 +18,8 @@ ROOT = Path(__file__).resolve().parent.parent
 DAILY_DIR = ROOT / "data" / "daily"
 MACRO_DIR = ROOT / "data" / "macro"
 
-EQUITIES = ["PLTR", "AAPL", "NVDA", "TSLA"]
-MACRO = ["SPY", "QQQ", "TLT", "GLD"]
+EQUITIES = [("PLTR", "PLTR"), ("AAPL", "AAPL"), ("NVDA", "NVDA"), ("TSLA", "TSLA")]
+MACRO = [("SPY", "SPY"), ("QQQ", "QQQ"), ("TLT", "TLT"), ("GLD", "GLD"), ("^VIX", "VIX")]
 
 
 def normalize(df: pd.DataFrame) -> pd.DataFrame:
@@ -39,8 +39,8 @@ def normalize(df: pd.DataFrame) -> pd.DataFrame:
     return frame.sort_values("date").drop_duplicates(subset=["date"], keep="last")
 
 
-def refresh_symbol(symbol: str, out_dir: Path, end_date: date) -> tuple[str, str]:
-    path = out_dir / f"{symbol}_daily.csv"
+def refresh_symbol(symbol: str, filename: str, out_dir: Path, end_date: date) -> tuple[str, str]:
+    path = out_dir / f"{filename}_daily.csv"
     if path.exists():
         existing = pd.read_csv(path)
         start = pd.to_datetime(existing["date"]).max().date() - timedelta(days=7)
@@ -58,14 +58,14 @@ def refresh_symbol(symbol: str, out_dir: Path, end_date: date) -> tuple[str, str
         threads=False,
     )
     if downloaded.empty:
-        return symbol, "no_new_data"
+        return filename, "no_new_data"
 
     latest = normalize(downloaded)
     merged = pd.concat([existing, latest], ignore_index=True)
     merged["date"] = pd.to_datetime(merged["date"]).dt.strftime("%Y-%m-%d")
     merged = merged.sort_values("date").drop_duplicates(subset=["date"], keep="last")
     merged.to_csv(path, index=False)
-    return symbol, merged["date"].iloc[-1]
+    return filename, merged["date"].iloc[-1]
 
 
 def main():
@@ -82,11 +82,11 @@ def main():
     MACRO_DIR.mkdir(parents=True, exist_ok=True)
 
     print(f"Refreshing market data through {end_date.isoformat()}...")
-    for symbol in EQUITIES:
-        sym, last_date = refresh_symbol(symbol, DAILY_DIR, end_date)
+    for symbol, filename in EQUITIES:
+        sym, last_date = refresh_symbol(symbol, filename, DAILY_DIR, end_date)
         print(f"  {sym}: {last_date}")
-    for symbol in MACRO:
-        sym, last_date = refresh_symbol(symbol, MACRO_DIR, end_date)
+    for symbol, filename in MACRO:
+        sym, last_date = refresh_symbol(symbol, filename, MACRO_DIR, end_date)
         print(f"  {sym}: {last_date}")
 
 

@@ -1,121 +1,42 @@
 {
-  "model": "AXIOM DRL v2",
-  "generated": "2026-04-13T23:14:48.170867",
-  "architecture": "PPO [256,128,64] + A2C [256,128,64] + XGBoost Oracle",
-  "drl_framework": "Stable Baselines3 2.8.0 / PyTorch 2.11",
-  "data_days": 1324,
-  "features": 92,
-  "gating": "XGB + DRL must agree | conf \u2265 62% for signal",
-  "evaluation_mode": "live_only",
-  "tickers": [
-    "PLTR",
-    "NVDA",
-    "AAPL",
-    "TSLA"
-  ],
-  "latest_signal_date": "2026-04-13",
-  "backtest": {
-    "PLTR": {
-      "ticker": "PLTR",
-      "overall_accuracy": 0.0,
-      "high_conf_accuracy": 0.0,
-      "high_conf_n": 0,
-      "buy_accuracy": 0.0,
-      "sell_accuracy": 0.0,
-      "ic": 0.0,
-      "sharpe": 0.0,
-      "n_signals": 0,
-      "n_buy": 0,
-      "n_sell": 0,
-      "converged": 0,
-      "evaluation_skipped": 1
-    },
-    "NVDA": {
-      "ticker": "NVDA",
-      "overall_accuracy": 0.0,
-      "high_conf_accuracy": 0.0,
-      "high_conf_n": 0,
-      "buy_accuracy": 0.0,
-      "sell_accuracy": 0.0,
-      "ic": 0.0,
-      "sharpe": 0.0,
-      "n_signals": 0,
-      "n_buy": 0,
-      "n_sell": 0,
-      "converged": 0,
-      "evaluation_skipped": 1
-    },
-    "AAPL": {
-      "ticker": "AAPL",
-      "overall_accuracy": 0.0,
-      "high_conf_accuracy": 0.0,
-      "high_conf_n": 0,
-      "buy_accuracy": 0.0,
-      "sell_accuracy": 0.0,
-      "ic": 0.0,
-      "sharpe": 0.0,
-      "n_signals": 0,
-      "n_buy": 0,
-      "n_sell": 0,
-      "converged": 0,
-      "evaluation_skipped": 1
-    },
-    "TSLA": {
-      "ticker": "TSLA",
-      "overall_accuracy": 0.0,
-      "high_conf_accuracy": 0.0,
-      "high_conf_n": 0,
-      "buy_accuracy": 0.0,
-      "sell_accuracy": 0.0,
-      "ic": 0.0,
-      "sharpe": 0.0,
-      "n_signals": 0,
-      "n_buy": 0,
-      "n_sell": 0,
-      "converged": 0,
-      "evaluation_skipped": 1
-    }
-  },
+  "generated_at": "2026-04-17T15:10:28.555317-07:00",
+  "evaluation_mode": "research_challenger_overlay",
   "signals": {
     "PLTR": {
-      "ticker": "PLTR",
       "signal": "HOLD",
-      "xgb_prob_up": 43.1,
-      "drl_proba_buy": 50.6,
-      "drl_proba_sell": 29.9,
-      "combined_conf": 50.0,
-      "current_price": 132.37,
-      "date": "2026-04-13"
-    },
-    "NVDA": {
-      "ticker": "NVDA",
-      "signal": "HOLD",
-      "xgb_prob_up": 55.3,
-      "drl_proba_buy": 38.1,
-      "drl_proba_sell": 22.8,
-      "combined_conf": 50.0,
-      "current_price": 189.31,
-      "date": "2026-04-13"
+      "xgb_prob_up": 51.7,
+      "drl_proba_buy": 0.8,
+      "drl_proba_sell": 0.0,
+      "combined_conf": 49.9,
+      "current_price": 146.39,
+      "target_price": 147.36
     },
     "AAPL": {
-      "ticker": "AAPL",
-      "signal": "HOLD",
-      "xgb_prob_up": 51.1,
-      "drl_proba_buy": 34.7,
-      "drl_proba_sell": 36.2,
-      "combined_conf": 50.0,
-      "current_price": 259.2,
-      "date": "2026-04-13"
+      "signal": "BUY",
+      "xgb_prob_up": 61.1,
+      "drl_proba_buy": 21.9,
+      "drl_proba_sell": 10.8,
+      "combined_conf": 82.7,
+      "current_price": 270.23,
+      "target_price": 270.89
+    },
+    "NVDA": {
+      "signal": "BUY",
+      "xgb_prob_up": 90.1,
+      "drl_proba_buy": 37.5,
+      "drl_proba_sell": 0.0,
+      "combined_conf": 85.0,
+      "current_price": 201.68,
+      "target_price": 208.68
     },
     "TSLA": {
-      "ticker": "TSLA",
-      "signal": "HOLD",
-      "xgb_prob_up": 34.0,
-      "drl_proba_buy": 31.6,
-      "drl_proba_sell": 34.3,
-      "combined_conf": 50.0,
-      "current_price": 352.42,
-      "date": "2026-04-13"
+      "signal": "BUY",
+      "xgb_prob_up": 58.6,
+      "drl_proba_buy": 20.7,
+      "drl_proba_sell": 12.1,
+      "combined_conf": 82.7,
+      "current_price": 400.62,
+      "target_price": 402.6
     }
   }
 }
