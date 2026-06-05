@@ -1,0 +1,30 @@
+{
+  "start": "2018-01-01",
+  "end": null,
+  "max_tickers": 60,
+  "min_tickers": 50,
+  "min_train_days": 504,
+  "validation_days": 63,
+  "step_days": 63,
+  "purge_days": 5,
+  "embargo_days": 5,
+  "long_threshold": 0.55,
+  "short_threshold": 0.45,
+  "transaction_cost_bps": 5.0,
+  "slippage_bps": 5.0,
+  "random_seed": 42,
+  "feature_columns": [
+    "ret_1d",
+    "ret_5d",
+    "ret_10d",
+    "ret_20d",
+    "vol_10d",
+    "vol_20d",
+    "ma_10_dist",
+    "ma_20_dist",
+    "ma_50_dist",
+    "rsi_14",
+    "volume_z_20",
+    "intraday_range"
+  ]
+}

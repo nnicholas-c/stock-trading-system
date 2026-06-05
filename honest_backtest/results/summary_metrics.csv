@@ -1,0 +1,4 @@
+strategy,n_daily_obs,n_prediction_rows,n_tickers_median,total_return,annualized_sharpe,max_drawdown,information_coefficient,ic_t_stat,hit_rate_active_signals,avg_daily_turnover,avg_active_fraction,configuration_trials_lower_bound,deflated_sharpe_threshold,deflated_sharpe,dsr_probability
+single_fixed_logistic_signal_net,1512,90713,60.0,0.018384507740696998,0.09744524553560269,-0.10210466561554998,0.007275158182557883,2.191209546396497,0.5347450657894737,0.10723178788150538,0.05361589394075269,41,0.8047215770163697,-0.7072763314807671,1.791440548749558e-235
+equal_weight_buy_hold_baseline,1512,90713,60.0,0.6420137367259562,0.646176359179504,-0.14949379166081855,,,,0.0,1.0,41,,,
+zero_skill_random_baseline_net,1512,90713,60.0,-0.15743044215430413,-3.499478837243811,-0.1641995767412202,,,,0.10723178788150538,0.05361589394075269,41,,,

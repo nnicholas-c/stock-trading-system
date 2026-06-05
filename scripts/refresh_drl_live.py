@@ -20,7 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PYTHON = ROOT / ".venv" / "bin" / "python"
 UPDATE_DATA = ROOT / "scripts" / "update_market_data.py"
-TRAIN_DRL = ROOT / "train_drl_v2.py"
+TRAIN_DRL = ROOT / "experiments" / "train_drl_v2.py"
 RESULTS = ROOT / "trading_system" / "drl" / "drl_v2_results.json"
 DEFAULT_TICKERS = ["PLTR", "NVDA", "AAPL", "TSLA"]
 
