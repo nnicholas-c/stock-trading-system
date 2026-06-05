@@ -1,5 +1,5 @@
-# AXIOM Research Audit Page
+# AXIOM Quant Research Portfolio Page
 
 Live page: https://nnicholas-c.github.io/stock-trading-system/
 
-The old dashboard claims have been invalidated. This page now points to the honest backtest and audit documents.
+This page summarizes the project as a quant research portfolio case study, with links to the validation harness, audit, and result artifacts.

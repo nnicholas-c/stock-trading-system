@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AXIOM Research Audit</title>
+  <title>AXIOM Quant Research Portfolio</title>
   <style>
     :root {
       color-scheme: dark;
@@ -31,7 +31,7 @@
     h1, h2 { line-height: 1.15; margin: 0 0 14px; }
     h1 { font-size: clamp(32px, 6vw, 56px); }
     h2 { font-size: 22px; margin-top: 32px; }
-    p { color: var(--muted); max-width: 760px; }
+    p { color: var(--muted); max-width: 800px; }
     a { color: var(--accent); }
     .panel {
       border: 1px solid var(--border);
@@ -67,43 +67,58 @@
 </head>
 <body>
   <main>
-    <h1>AXIOM Research Audit</h1>
+    <h1>AXIOM Quant Research Portfolio</h1>
     <p>
-      This project has been rewritten as a signal-research and backtest-audit portfolio project.
-      The former dashboard made claims that are now invalidated by the leakage audit.
+      A research project focused on equity signal design, backtest integrity, and model risk controls.
+      The work is presented as a quant research case study: define a signal hypothesis, validate it with
+      leakage-aware methods, compare it against baselines, and report the result honestly.
     </p>
 
     <section class="panel">
-      <h2>Honest Headline Result</h2>
+      <h2>Research Question</h2>
       <p>
-        The only current performance headline is from <code>honest_backtest/run.py</code>:
-        fixed logistic signal, 60 median yfinance tickers, train-fold scaling, purge/embargo,
-        next-day execution, and explicit costs plus slippage.
+        Can daily price and volume features produce an economically meaningful out-of-sample equity signal
+        after execution costs and multiple-testing adjustment?
       </p>
+    </section>
+
+    <section class="panel">
+      <h2>Validation Controls</h2>
+      <p>
+        The current harness uses train-fold-only scaling, purged and embargoed walk-forward validation,
+        next-day execution, explicit cost plus slippage, buy-hold and random baselines, and a deflated
+        Sharpe adjustment using a lower-bound count of prior model trials.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Headline Result</h2>
       <table>
         <thead>
           <tr><th>Method</th><th>Total Return</th><th>Ann. Sharpe</th><th>Max Drawdown</th></tr>
         </thead>
         <tbody>
-          <tr><td>Fixed signal, net</td><td class="ok">+1.84%</td><td>0.097</td><td class="bad">-10.21%</td></tr>
+          <tr><td>Fixed logistic signal, net</td><td class="ok">+1.84%</td><td>0.097</td><td class="bad">-10.21%</td></tr>
           <tr><td>Equal-weight buy-hold</td><td class="ok">+64.20%</td><td>0.646</td><td class="bad">-14.95%</td></tr>
           <tr><td>Zero-skill random, net</td><td class="bad">-15.74%</td><td>-3.499</td><td class="bad">-16.42%</td></tr>
         </tbody>
       </table>
       <p>
         IC 0.00728, IC t-stat 2.19, active hit rate 53.47%, deflated Sharpe -0.707.
+        The signal is statistically small and not economically compelling versus the passive baseline.
       </p>
     </section>
 
     <section class="panel">
-      <h2>Read The Audit</h2>
+      <h2>Artifacts</h2>
       <p>
-        Start with <a href="../LEAKAGE_AUDIT.md">LEAKAGE_AUDIT.md</a>,
+        Review <a href="../README.md">README.md</a>,
+        <a href="../LEAKAGE_AUDIT.md">LEAKAGE_AUDIT.md</a>,
         <a href="../SECURITY_FINDINGS.md">SECURITY_FINDINGS.md</a>, and
         <a href="../honest_backtest/results/summary_metrics.csv">summary_metrics.csv</a>.
       </p>
     </section>
   </main>
-  <!-- terminal_app.js is retained as a legacy asset but intentionally not loaded by this audit page. -->
+  <!-- terminal_app.js is retained as a legacy asset but intentionally not loaded by this portfolio page. -->
 </body>
 </html>
