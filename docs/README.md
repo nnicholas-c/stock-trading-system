@@ -1,5 +1,5 @@
-# AXIOM — AI Trading Intelligence Dashboard
+# AXIOM Research Audit Page
 
-Live dashboard: https://nnicholas-c.github.io/stock-trading-system/
+Live page: https://nnicholas-c.github.io/stock-trading-system/
 
-Built with Perplexity Computer. ML/RL stock analysis for PLTR, AAPL, NVDA, TSLA.
+The old dashboard claims have been invalidated. This page now points to the honest backtest and audit documents.

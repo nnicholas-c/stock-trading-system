@@ -1,14 +1,13 @@
 // AXIOM iOS — APIService.swift
 // Central networking layer. Async/await + Combine.
-// Replace BASE_URL with your Railway/Render deployment URL.
+// Replace baseURL with your deployed API URL when you have one.
 
 import Foundation
 import Combine
 
 // ── Base URL ─────────────────────────────────────────────────────────────────
 enum APIConfig {
-    static let baseURL = "https://YOUR-RAILWAY-APP.railway.app"
-    // For local dev: static let baseURL = "http://localhost:8000"
+    static let baseURL = "http://localhost:8000"
 }
 
 // ── Errors ────────────────────────────────────────────────────────────────────

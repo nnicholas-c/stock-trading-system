@@ -25,8 +25,10 @@ Copy the entire `ios/AXIOM/` folder into your Xcode project.
 ### 3. Configure API URL
 Edit `Services/APIService.swift`:
 ```swift
-static let baseURL = "https://YOUR-RAILWAY-APP.railway.app"
+static let baseURL = "http://localhost:8000"
 ```
+
+Replace this with your deployed API URL only after you have deployed one.
 
 ### 4. Enable Push Notifications
 In Xcode → Signing & Capabilities → + Capability → Push Notifications
