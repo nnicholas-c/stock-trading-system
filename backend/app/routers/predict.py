@@ -20,6 +20,41 @@ async def predict_intraday(ticker: str):
     if ticker not in settings.tickers:
         raise HTTPException(404, f"Ticker not supported")
 
+    forecast = ModelService.get_forecast(ticker)
+    if forecast:
+        signal = forecast["signal"]
+        news = forecast.get("news") or await NewsService.fetch(ticker)
+        trend_snapshot = forecast.get("trend_snapshot", {})
+        probability_up = float(signal.get("probability_up", 50.0)) / 100.0
+        trust = float(signal.get("trust_score", 50.0)) / 100.0
+        news_score = float(news.get("net_score", 0.0))
+        trend_score = float(trend_snapshot.get("score", 0.0))
+        score = (probability_up - 0.5) * 2.2 + news_score * 0.18 + (trust - 0.5) * 0.8 + trend_score * 0.9
+        direction = "UP" if score > 0.15 else "DOWN" if score < -0.15 else "FLAT"
+        confidence = min(0.95, max(0.15, abs(score) * 0.55 + trust * 0.45))
+        price = float(signal["current_price"])
+        expected_return = float(forecast["horizons"]["1d"]["expected_return_pct"]) / 100.0
+        daily_range = max(price * 0.012, abs(expected_return) * price * 1.3)
+        articles = news.get("articles", [])
+        return {
+            "ticker": ticker,
+            "generated_at": datetime.now().isoformat(),
+            "direction": direction,
+            "confidence": round(confidence, 3),
+            "expected_range_lo": round(price - daily_range, 2),
+            "expected_range_hi": round(price + daily_range, 2),
+            "catalyst": news.get("summary") or (articles[0]["headline"] if articles else "No catalyst identified"),
+            "news_sentiment": news.get("overall_sentiment", "NEUTRAL"),
+            "ml_signal": signal["signal"],
+            "macd_direction": "BULLISH" if probability_up >= 0.5 else "BEARISH",
+            "rsi": round(float(forecast["technical_snapshot"].get("rsi14", 50.0)), 1),
+            "vol_regime": "HIGH_VOL" if float(forecast["technical_snapshot"].get("ret_20d_pct", 0.0)) < -8 else "MED_VOL",
+            "trend_state": trend_snapshot.get("state", "MIXED"),
+            "trend_score": round(trend_score, 4),
+            "trend_supported": bool(trend_snapshot.get("trend_supported", True)),
+            "score": round(score, 2),
+        }
+
     sig  = ModelService.get_cached_signal(ticker)
     news = await NewsService.fetch(ticker)
 
@@ -30,7 +65,7 @@ async def predict_intraday(ticker: str):
     ml_int       = sig.get("signal_int", 0)
     news_impact  = news.get("intraday_impact", "FLAT")
     rsi          = sig.get("rsi14", 50)
-    macd_h       = sig.get("macd_hist", 0)
+    macd_h       = sig.get("macd_hist", sig.get("macd_h", 0))
     regime       = sig.get("vol_regime", "MED_VOL")
 
     # Scoring model
@@ -69,6 +104,37 @@ async def predict_weekly(ticker: str):
     ticker = ticker.upper()
     if ticker not in settings.tickers:
         raise HTTPException(404)
+
+    forecast = ModelService.get_forecast(ticker)
+    if forecast:
+        signal = forecast["signal"]
+        trend_snapshot = forecast.get("trend_snapshot", {})
+        week_targets = []
+        for horizon_key, label in (("1d", 1), ("5d", 5), ("10d", 10)):
+            horizon = forecast["horizons"][horizon_key]
+            week_targets.append({
+                "week": label,
+                "price": horizon["target_price"],
+                "pct_chg": horizon["expected_return_pct"],
+                "direction": "UP" if horizon["expected_return_pct"] > 0.25 else "DOWN" if horizon["expected_return_pct"] < -0.25 else "FLAT",
+                "probability_up": horizon["probability_up"],
+                "trust_score": horizon["trust_score"],
+                "trend_supported": horizon.get("trend_supported", True),
+            })
+
+        return {
+            "ticker": ticker,
+            "generated_at": datetime.now().isoformat(),
+            "current_price": signal["current_price"],
+            "week_targets": week_targets,
+            "lgb_4w_est": round(float(forecast["horizons"]["10d"]["expected_return_pct"]), 2),
+            "model_signal": signal["signal"],
+            "conviction": "HIGH" if float(signal["trust_score"]) >= 65 else "MEDIUM" if float(signal["trust_score"]) >= 50 else "LOW",
+            "analyst_target": signal["target_price"],
+            "analyst_upside": round(((float(signal["target_price"]) / float(signal["current_price"])) - 1.0) * 100.0, 2),
+            "trend_state": trend_snapshot.get("state", "MIXED"),
+            "trend_score": trend_snapshot.get("score", 0.0),
+        }
 
     sig = ModelService.get_cached_signal(ticker)
     if not sig:
@@ -113,6 +179,42 @@ async def predict_scenarios(ticker: str):
     ticker = ticker.upper()
     if ticker not in settings.tickers:
         raise HTTPException(404)
+
+    forecast = ModelService.get_forecast(ticker)
+    if forecast:
+        signal = forecast["signal"]
+        current_price = float(signal["current_price"])
+        one_day = forecast["horizons"]["1d"]
+        five_day = forecast["horizons"]["5d"]
+        ten_day = forecast["horizons"]["10d"]
+        trend_snapshot = forecast.get("trend_snapshot", {})
+        return {
+            "ticker": ticker,
+            "current_price": current_price,
+            "horizon": "1 to 10 trading days",
+            "trend_state": trend_snapshot.get("state", "MIXED"),
+            "trend_score": trend_snapshot.get("score", 0.0),
+            "scenarios": {
+                "bull": {
+                    "price": round(current_price * (1.0 + max(ten_day["expected_return_pct"], five_day["expected_return_pct"]) / 100.0), 2),
+                    "pct": round(max(ten_day["expected_return_pct"], five_day["expected_return_pct"]), 1),
+                    "catalyst": "Supportive calibration bucket plus constructive tape and aligned daily trend",
+                    "probability": round(max(one_day["probability_up"], five_day["probability_up"], ten_day["probability_up"]) / 100.0, 2),
+                },
+                "base": {
+                    "price": five_day["target_price"],
+                    "pct": round(five_day["expected_return_pct"], 1),
+                    "catalyst": "Champion base path from calibrated walk-forward probabilities and current trend state",
+                    "probability": 0.45,
+                },
+                "bear": {
+                    "price": round(current_price * (1.0 - max(2.0, abs(min(one_day["expected_return_pct"], five_day["expected_return_pct"]))) / 100.0), 2),
+                    "pct": round(-max(2.0, abs(min(one_day["expected_return_pct"], five_day["expected_return_pct"]))), 1),
+                    "catalyst": "Confidence bucket fails, news reverses, or the daily trend remains damaged",
+                    "probability": round(max(0.05, 1.0 - five_day["probability_up"] / 100.0 - 0.20), 2),
+                },
+            },
+        }
 
     sig = ModelService.get_cached_signal(ticker)
     if not sig:

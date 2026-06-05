@@ -2,9 +2,7 @@
 
 from fastapi import APIRouter, HTTPException, Query
 from datetime import datetime
-from typing import Optional
 
-from app.models.schemas import SignalResponse
 from app.services.model_service import ModelService
 from app.core.config import settings
 
@@ -12,6 +10,10 @@ router = APIRouter()
 
 @router.get("/", summary="All 4 ticker signals")
 async def get_all_signals():
+    artifact = ModelService.get_all_forecasts()
+    if artifact.get("tickers"):
+        return artifact
+
     signals = {}
     for ticker in settings.tickers:
         sig = ModelService.get_cached_signal(ticker)
@@ -29,6 +31,11 @@ async def get_signal(
     if ticker not in settings.tickers:
         raise HTTPException(404, f"Ticker {ticker} not supported. Use: {settings.tickers}")
 
+    forecast = ModelService.get_forecast(ticker)
+    if forecast:
+        forecast["fetched_at"] = datetime.now().isoformat()
+        return forecast
+
     sig = ModelService.get_cached_signal(ticker)
     if not sig:
         raise HTTPException(503, "Signal not yet generated. Try again in a moment.")
@@ -41,6 +48,35 @@ async def get_signal(
 @router.get("/{ticker}/summary", summary="One-line signal summary for OpenClaw/alerts")
 async def get_signal_summary(ticker: str):
     ticker = ticker.upper()
+    forecast = ModelService.get_forecast(ticker)
+    if forecast:
+        signal = forecast["signal"]
+        horizon_1d = forecast["horizons"]["1d"]
+        horizon_5d = forecast["horizons"]["5d"]
+        trend_snapshot = forecast.get("trend_snapshot", {})
+        one_day_edge = forecast.get("one_day_edge", {})
+        return {
+            "ticker": ticker,
+            "signal": signal["signal"],
+            "confidence": f"{signal['confidence']:.1f}%",
+            "price": f"${signal['current_price']:.2f}",
+            "target": f"${signal['target_price']:.2f}",
+            "probability_up": f"{signal['probability_up']:.1f}%",
+            "trust": f"{signal['trust_score']:.1f}%",
+            "trend_state": trend_snapshot.get("state", "MIXED"),
+            "trend_score": f"{float(trend_snapshot.get('score', 0.0)):+.2f}",
+            "one_day_edge": one_day_edge.get("label", "CALIBRATED 1D"),
+            "one_day": f"{horizon_1d['expected_return_pct']:+.2f}%",
+            "five_day": f"{horizon_5d['expected_return_pct']:+.2f}%",
+            "alert_text": (
+                f"{signal['signal']} {ticker} @ ${signal['current_price']:.2f} | "
+                f"Up odds {signal['probability_up']:.1f}% | Trust {signal['trust_score']:.1f}% | "
+                f"Trend {trend_snapshot.get('state', 'MIXED')} ({float(trend_snapshot.get('score', 0.0)):+.2f}) | "
+                f"1D {one_day_edge.get('label', 'CALIBRATED 1D')} | "
+                f"1D {horizon_1d['expected_return_pct']:+.2f}% | 5D {horizon_5d['expected_return_pct']:+.2f}%"
+            ),
+        }
+
     sig = ModelService.get_cached_signal(ticker)
     if not sig:
         raise HTTPException(503, "Signal unavailable")

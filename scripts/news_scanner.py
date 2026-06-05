@@ -21,6 +21,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 
+sys.path.insert(0, str(ROOT / "backend"))
+sys.path.insert(0, str(ROOT))
+
+try:
+    from app.services.openai_service import OpenAIService
+    from app.core.config import settings as backend_settings
+except Exception:
+    OpenAIService = None
+    backend_settings = None
+
 # Positive/negative keywords for basic sentiment scoring
 BULLISH_KEYWORDS = [
     "beat", "exceeds", "record", "upgrade", "strong", "raised", "accelerat",
@@ -102,19 +112,13 @@ def fetch_news_rss(ticker: str, company_name: str) -> list:
                 pub_date = pub_m.group(1).strip() if pub_m else ""
                 description = re.sub(r"<[^>]+>", "", desc_m.group(1)).strip() if desc_m else ""
                 link = link_m.group(1).strip() if link_m else ""
-
-                sentiment = score_sentiment(title, description)
-
                 articles.append({
                     "ticker": ticker,
                     "headline": title,
+                    "description": description,
+                    "source": "Google News",
                     "published": pub_date,
                     "url": link,
-                    "sentiment": sentiment["sentiment"],
-                    "net_score": sentiment["net_score"],
-                    "is_material": sentiment["is_material"],
-                    "bull_signals": sentiment["bull_signals"],
-                    "bear_signals": sentiment["bear_signals"]
                 })
 
         return articles
@@ -140,34 +144,94 @@ def scan_all(tickers: list) -> dict:
 
     for ticker in tickers:
         name = TICKER_NAMES.get(ticker, ticker)
-        articles = fetch_news_rss(ticker, name)
+        raw_articles = fetch_news_rss(ticker, name)
 
-        # Compute aggregate sentiment
-        sentiments = [a.get("sentiment", "neutral") for a in articles if "error" not in a]
-        bull = sentiments.count("bullish")
-        bear = sentiments.count("bearish")
-        neutral = sentiments.count("neutral")
+        llm_analysis = None
+        if OpenAIService and OpenAIService.is_configured():
+            try:
+                llm_analysis = OpenAIService.analyze_news(ticker, name, raw_articles)
+            except Exception:
+                llm_analysis = None
 
-        if bull > bear + neutral:
-            overall = "bullish"
-        elif bear > bull + neutral:
-            overall = "bearish"
-        elif bear > bull:
-            overall = "cautious"
+        if llm_analysis:
+            analysis_map = {item.headline: item for item in llm_analysis.articles}
+            articles = []
+            for article in raw_articles:
+                scored = analysis_map.get(article["headline"])
+                if scored is None:
+                    heuristic = score_sentiment(article["headline"], article.get("description", ""))
+                    articles.append({
+                        **article,
+                        "sentiment": heuristic["sentiment"].lower(),
+                        "net_score": heuristic["net_score"],
+                        "is_material": heuristic["is_material"],
+                        "bull_signals": heuristic["bull_signals"],
+                        "bear_signals": heuristic["bear_signals"],
+                        "rationale": "Fallback heuristic sentiment.",
+                    })
+                    continue
+
+                articles.append({
+                    **article,
+                    "sentiment": scored.sentiment.lower(),
+                    "net_score": scored.net_score,
+                    "is_material": scored.is_material,
+                    "bull_signals": [],
+                    "bear_signals": [],
+                    "rationale": scored.rationale,
+                })
+
+            overall = llm_analysis.overall_sentiment.lower()
+            material = [a for a in articles if a.get("is_material")]
+            top_headlines = sorted(articles, key=lambda x: abs(x.get("net_score", 0)), reverse=True)[:5]
+            analysis_provider = "openai"
+            analysis_model = backend_settings.openai_model if backend_settings else None
+            summary = llm_analysis.summary
         else:
-            overall = "neutral"
+            articles = []
+            for article in raw_articles:
+                heuristic = score_sentiment(article["headline"], article.get("description", ""))
+                articles.append({
+                    **article,
+                    "sentiment": heuristic["sentiment"],
+                    "net_score": heuristic["net_score"],
+                    "is_material": heuristic["is_material"],
+                    "bull_signals": heuristic["bull_signals"],
+                    "bear_signals": heuristic["bear_signals"],
+                    "rationale": "Keyword-based heuristic sentiment.",
+                })
 
-        material = [a for a in articles if a.get("is_material")]
-        top_headlines = sorted(articles, key=lambda x: abs(x.get("net_score", 0)), reverse=True)[:5]
+            sentiments = [a.get("sentiment", "neutral") for a in articles if "error" not in a]
+            bull = sentiments.count("bullish")
+            bear = sentiments.count("bearish")
+            neutral = sentiments.count("neutral")
+
+            if bull > bear + neutral:
+                overall = "bullish"
+            elif bear > bull + neutral:
+                overall = "bearish"
+            elif bear > bull:
+                overall = "cautious"
+            else:
+                overall = "neutral"
+
+            material = [a for a in articles if a.get("is_material")]
+            top_headlines = sorted(articles, key=lambda x: abs(x.get("net_score", 0)), reverse=True)[:5]
+            analysis_provider = "heuristic"
+            analysis_model = None
+            summary = f"{overall.upper()} read across {len(articles)} headline(s) for {ticker}."
 
         results["tickers"][ticker] = {
             "overall_sentiment": overall,
-            "bull_articles": bull,
-            "bear_articles": bear,
-            "neutral_articles": neutral,
+            "bull_articles": sum(1 for a in articles if a.get("sentiment") == "bullish"),
+            "bear_articles": sum(1 for a in articles if a.get("sentiment") == "bearish"),
+            "neutral_articles": sum(1 for a in articles if a.get("sentiment") == "neutral"),
             "material_events": len(material),
             "top_headlines": top_headlines,
-            "material_alerts": material[:3]
+            "material_alerts": material[:3],
+            "summary": summary,
+            "analysis_provider": analysis_provider,
+            "analysis_model": analysis_model,
         }
 
     # Save to file

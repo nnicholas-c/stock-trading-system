@@ -1,0 +1,25 @@
+{
+  "artifact_version": "research_v1",
+  "tickers": [
+    "PLTR",
+    "AAPL",
+    "NVDA",
+    "TSLA"
+  ],
+  "horizons": [
+    1,
+    5,
+    10
+  ],
+  "min_train_size": 180,
+  "validation_size": 12,
+  "step_size": 90,
+  "purge_size": 10,
+  "min_bucket_samples": 8,
+  "probability_cap_without_support": 0.65,
+  "random_state": 42,
+  "top_driver_count": 5,
+  "light_mode": true,
+  "publish_live_outputs": true,
+  "output_namespace": "live"
+}

@@ -86,13 +86,38 @@ axiom/
 
 ---
 
+## Local Setup
+
+```bash
+make setup
+cp backend/.env.example backend/.env
+```
+
+Environment variables use the `AXIOM_` prefix to avoid collisions with global shell variables:
+
+```bash
+AXIOM_DEBUG=false
+AXIOM_API_HOST=127.0.0.1
+AXIOM_API_PORT=8000
+AXIOM_NEWS_CACHE_TTL=300
+AXIOM_OPENAI_MODEL=gpt-5.4-mini
+AXIOM_OPENAI_NEWS_ENABLED=true
+```
+
+To enable OpenAI-backed news analysis, set either `OPENAI_API_KEY` in your shell or `AXIOM_OPENAI_API_KEY` in `backend/.env`. If no key is present, the app automatically falls back to the existing keyword-based news scoring.
+
 ## Running the Backend Locally
 
 ```bash
-cd backend
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+make run-backend
 # API docs: http://localhost:8000/docs
+```
+
+## Running the Dashboard Locally
+
+```bash
+make run-dashboard
+# Open http://localhost:8080
 ```
 
 ## Deploying to Railway (free tier)
@@ -106,15 +131,28 @@ railway up
 
 ## Running the Training Pipeline
 ```bash
-# Install deps
-pip install -r requirements.txt
+# Install deps first
+make setup
 
-# v2: LSTM + XGBoost + LightGBM + Meta-ensemble
-python prediction_engine.py
+# Research-grade nightly retrain
+.venv/bin/python prediction_engine.py --mode nightly
+
+# Premarket refresh: reuse champion model versions, refresh news and rationale
+.venv/bin/python prediction_engine.py --mode premarket
+
+# Thin runners retained for compatibility
+.venv/bin/python train_pltr_deep.py
+.venv/bin/python train_drl_v2.py
+
+# Explicit shared research scripts
+.venv/bin/python scripts/run_research_nightly.py
+.venv/bin/python scripts/run_research_premarket.py
 
 # v1: RF + PPO RL
-python ml_trading_system.py
+.venv/bin/python ml_trading_system.py
 ```
+
+The shared forecast artifact now lives at `trading_system/signals/research_forecasts.json` and is mirrored to `docs/research_forecasts.json`. The backend API and GitHub Pages UI both read that contract, while legacy files like `tomorrow_premarket_forecast.json`, `pltr_signal.json`, and `drl_v2_results.json` are exported for compatibility.
 
 ## OpenClaw Integration
 ```bash
