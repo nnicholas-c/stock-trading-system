@@ -9,8 +9,9 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+EXPERIMENTS = ROOT / "experiments"
 OUT_PATH = ROOT / "trading_system" / "pltr_deep" / "pltr_prediction_audit.json"
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(EXPERIMENTS))
 
 import train_pltr_deep as model
 

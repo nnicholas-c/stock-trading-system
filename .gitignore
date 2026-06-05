@@ -2,9 +2,23 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+*.env
 .venv/
 .DS_Store
 *.egg-info/
 dist/
 build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Generated/local research artifacts. Existing tracked files remain tracked
+# until intentionally removed with git rm --cached.
+data/
+trading_system/models/
 trading_system/research/sandboxes/
+*.pkl
+*.pt
+*.zip
+*.joblib
+*.h5
