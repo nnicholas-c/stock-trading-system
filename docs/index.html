@@ -201,9 +201,8 @@
       font-size: 13px;
     }
 
-    .figures {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .figures .wide { grid-column: 1 / -1; }
 
     figure {
       margin: 0;
@@ -319,6 +318,7 @@
       </div>
       <aside class="status" aria-label="Research status">
         <div class="status-row"><span>Universe</span><strong>60 median tickers</strong></div>
+        <div class="status-row"><span>OOS window</span><strong>2020-03-16 to 2026-03-20</strong></div>
         <div class="status-row"><span>Predictions</span><strong>90,713 OOS rows</strong></div>
         <div class="status-row"><span>Validation</span><strong>Purged WFO</strong></div>
         <div class="status-row"><span>Conclusion</span><strong>Weak signal</strong></div>
@@ -416,9 +416,9 @@
       </div>
       <div class="grid matrix">
         <div class="method-grid">
-          <div class="method"><strong>Fold-local preprocessing</strong><span>`StandardScaler` is inside the sklearn pipeline and fit only on training slices.</span></div>
+          <div class="method"><strong>Fold-local preprocessing</strong><span><code>StandardScaler</code> is inside the sklearn pipeline and fit only on training slices.</span></div>
           <div class="method"><strong>Purged walk-forward CV</strong><span>504-day minimum train windows, 63-day validation windows, 5-day purge, and 5-day embargo.</span></div>
-          <div class="method"><strong>Execution lag</strong><span>Signals use information at `close[t]`; fills occur at `open[t+1]` with exit at `close[t+1]`.</span></div>
+          <div class="method"><strong>Execution lag</strong><span>Signals use close[t] information; fills occur at open[t+1] with exit at close[t+1].</span></div>
           <div class="method"><strong>Cost model</strong><span>5 bps transaction cost plus 5 bps slippage per side, applied to active positions.</span></div>
         </div>
         <table>
@@ -439,21 +439,25 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <div class="label">Visual Evidence</div>
-          <h2>Equity curve and score diagnostic artifacts</h2>
+          <div class="label">Research Evidence Stack</div>
+          <h2>What should be displayed and why</h2>
         </div>
         <p>
-          These figures are generated directly by `honest_backtest/run.py` and checked into the repo with the result CSVs.
+          The page focuses on diagnostics that answer research questions: whether the strategy beats baselines, whether the score is monotonic across buckets, and whether signal quality is stable through time.
         </p>
       </div>
       <div class="grid figures">
-        <figure>
+        <figure class="wide">
           <img src="assets/equity_curves.png" alt="Equity curves for strategy, buy-hold baseline, and random baseline">
-          <figcaption>Growth of one dollar across the fixed signal, passive benchmark, and random baseline.</figcaption>
+          <figcaption><strong>Performance and drawdown.</strong> The fixed signal ends slightly positive but is dominated by equal-weight buy-hold; the drawdown panel shows that the small net return is not compensation for a clearly better risk profile.</figcaption>
         </figure>
         <figure>
-          <img src="assets/score_vs_return.png" alt="Scatter plot of signal score versus next-day open-to-close return">
-          <figcaption>Signal score versus next-day realized return. The weak slope is consistent with the small IC.</figcaption>
+          <img src="assets/score_deciles.png" alt="Bar chart of next-day return by signal score decile with hit-rate line">
+          <figcaption><strong>Score monotonicity.</strong> The top decile has the strongest realized return, but middle buckets are noisy; this supports a weak, non-production signal interpretation.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/rolling_diagnostics.png" alt="Rolling IC and trading intensity over time">
+          <figcaption><strong>Signal stability and trading intensity.</strong> Rolling IC decays and oscillates around zero while turnover spikes early; the signal is not stable enough to justify a strong performance claim.</figcaption>
         </figure>
       </div>
     </section>

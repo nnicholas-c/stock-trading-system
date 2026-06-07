@@ -363,20 +363,47 @@ def summarize(preds: pd.DataFrame, daily: pd.DataFrame, n_trials: int) -> pd.Dat
 
 
 def plot_results(daily: pd.DataFrame, preds: pd.DataFrame, output_dir: Path) -> None:
+    daily = daily.copy()
+    preds = preds.copy()
+    daily["signal_date"] = pd.to_datetime(daily["signal_date"])
+    preds["signal_date"] = pd.to_datetime(preds["signal_date"])
+
     equity = pd.DataFrame(
         {
-            "strategy_net": (1 + daily["strategy_return_net"]).cumprod(),
-            "buy_hold": (1 + daily["buy_hold_return"]).cumprod(),
-            "random_net": (1 + daily["random_return_net"]).cumprod(),
+            "Fixed signal, net": (1 + daily["strategy_return_net"]).cumprod().to_numpy(),
+            "Equal-weight buy-hold": (1 + daily["buy_hold_return"]).cumprod().to_numpy(),
+            "Random baseline, net": (1 + daily["random_return_net"]).cumprod().to_numpy(),
         },
-        index=pd.to_datetime(daily["signal_date"]),
+        index=daily["signal_date"],
     )
-    fig, ax = plt.subplots(figsize=(10, 5))
-    equity.plot(ax=ax)
-    ax.set_title("Honest Walk-Forward Equity Curves")
-    ax.set_ylabel("Growth of $1")
-    ax.grid(True, alpha=0.3)
-    fig.tight_layout()
+    drawdown = equity / equity.cummax() - 1.0
+
+    plt.style.use("default")
+    colors = {
+        "Fixed signal, net": "#2366a8",
+        "Equal-weight buy-hold": "#16794c",
+        "Random baseline, net": "#b13a35",
+    }
+
+    fig, (ax, dd_ax) = plt.subplots(
+        2,
+        1,
+        figsize=(11, 7),
+        sharex=True,
+        constrained_layout=True,
+        gridspec_kw={"height_ratios": [3, 1], "hspace": 0.08},
+    )
+    for column in equity.columns:
+        ax.plot(equity.index, equity[column], label=column, linewidth=2.0, color=colors[column])
+        dd_ax.plot(drawdown.index, drawdown[column] * 100, linewidth=1.4, color=colors[column])
+    ax.set_title("Walk-Forward Growth of $1")
+    ax.set_ylabel("Portfolio value")
+    ax.grid(True, alpha=0.25)
+    ax.legend(loc="upper left", frameon=False)
+    dd_ax.axhline(0, color="#222222", linewidth=0.8)
+    dd_ax.set_ylabel("DD %")
+    dd_ax.set_xlabel("Signal date")
+    dd_ax.grid(True, alpha=0.25)
     fig.savefig(output_dir / "equity_curves.png", dpi=160)
     plt.close(fig)
 
@@ -391,6 +418,58 @@ def plot_results(daily: pd.DataFrame, preds: pd.DataFrame, output_dir: Path) -> 
     ax.grid(True, alpha=0.3)
     fig.tight_layout()
     fig.savefig(output_dir / "score_vs_return.png", dpi=160)
+    plt.close(fig)
+
+    decile_frame = preds[["score", "target_return"]].dropna().copy()
+    decile_frame["score_decile"] = pd.qcut(decile_frame["score"], 10, labels=False, duplicates="drop") + 1
+    deciles = decile_frame.groupby("score_decile").agg(
+        mean_return_bps=("target_return", lambda x: float(x.mean() * 10_000)),
+        hit_rate=("target_return", lambda x: float((x > 0).mean() * 100)),
+        n=("target_return", "size"),
+    )
+    fig, ax = plt.subplots(figsize=(9, 5), constrained_layout=True)
+    bar_colors = ["#b13a35" if value < 0 else "#16794c" for value in deciles["mean_return_bps"]]
+    ax.bar(deciles.index.astype(str), deciles["mean_return_bps"], color=bar_colors, alpha=0.9)
+    ax.axhline(0, color="#222222", linewidth=0.9)
+    ax.set_title("Next-Day Return by Signal Score Decile")
+    ax.set_xlabel("Score decile, low to high")
+    ax.set_ylabel("Mean next-day return (bps)")
+    ax.grid(True, axis="y", alpha=0.25)
+    hit_ax = ax.twinx()
+    hit_ax.plot(deciles.index.astype(str), deciles["hit_rate"], color="#2366a8", marker="o", linewidth=1.8)
+    hit_ax.set_ylabel("Positive-return hit rate (%)")
+    hit_ax.set_ylim(45, 57)
+    fig.savefig(output_dir / "score_deciles.png", dpi=160)
+    plt.close(fig)
+
+    def daily_ic(group: pd.DataFrame) -> float:
+        if group["score"].nunique() < 2 or group["target_return"].nunique() < 2:
+            return np.nan
+        ic, _ = stats.spearmanr(group["score"], group["target_return"], nan_policy="omit")
+        return float(ic) if not np.isnan(ic) else np.nan
+
+    ic_series = preds.groupby("signal_date").apply(daily_ic).sort_index()
+    rolling_ic = ic_series.rolling(63, min_periods=20).mean()
+    fig, (ic_ax, turnover_ax) = plt.subplots(
+        2,
+        1,
+        figsize=(11, 6),
+        sharex=True,
+        constrained_layout=True,
+        gridspec_kw={"height_ratios": [1.2, 1], "hspace": 0.1},
+    )
+    ic_ax.plot(rolling_ic.index, rolling_ic, color="#2366a8", linewidth=1.5)
+    ic_ax.axhline(0, color="#222222", linewidth=0.8)
+    ic_ax.set_title("Rolling 63-Day Cross-Sectional IC and Trading Intensity")
+    ic_ax.set_ylabel("Rolling IC")
+    ic_ax.grid(True, alpha=0.25)
+    turnover_ax.plot(daily["signal_date"], daily["active_fraction"] * 100, label="Active names (%)", color="#8a5a10", linewidth=1.4)
+    turnover_ax.plot(daily["signal_date"], daily["avg_turnover"] * 100, label="Turnover (%)", color="#16794c", linewidth=1.4)
+    turnover_ax.set_ylabel("% of universe")
+    turnover_ax.set_xlabel("Signal date")
+    turnover_ax.grid(True, alpha=0.25)
+    turnover_ax.legend(loc="upper right", frameon=False)
+    fig.savefig(output_dir / "rolling_diagnostics.png", dpi=160)
     plt.close(fig)
 
 
