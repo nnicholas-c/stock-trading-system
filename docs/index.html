@@ -6,119 +6,482 @@
   <title>AXIOM Quant Research Portfolio</title>
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #0b0d10;
-      --panel: #141820;
-      --border: #2a3340;
-      --text: #eef2f6;
-      --muted: #a5b0bd;
-      --accent: #7dd3fc;
-      --bad: #fb7185;
-      --ok: #86efac;
+      color-scheme: light;
+      --paper: #f8faf8;
+      --surface: #ffffff;
+      --ink: #17201c;
+      --muted: #5f6d66;
+      --rule: #d8ded9;
+      --rule-strong: #aeb9b1;
+      --green: #16794c;
+      --red: #b13a35;
+      --blue: #2366a8;
+      --amber: #8a5a10;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font: 14px/1.48 var(--sans);
     }
-    main {
-      width: min(1040px, calc(100% - 32px));
+
+    a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 48px 0;
+      padding: 28px 0 48px;
     }
-    h1, h2 { line-height: 1.15; margin: 0 0 14px; }
-    h1 { font-size: clamp(32px, 6vw, 56px); }
-    h2 { font-size: 22px; margin-top: 32px; }
-    p { color: var(--muted); max-width: 800px; }
-    a { color: var(--accent); }
-    .panel {
-      border: 1px solid var(--border);
-      background: var(--panel);
-      border-radius: 8px;
-      padding: 20px;
-      margin: 22px 0;
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: end;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 14px;
     }
+
+    .label {
+      color: var(--muted);
+      font: 11px/1.2 var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 8px 0 0;
+      font-size: 38px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .status {
+      min-width: 270px;
+      border-left: 1px solid var(--rule-strong);
+      padding-left: 16px;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--rule);
+      padding: 5px 0;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .status-row:last-child { border-bottom: 0; }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .kpis {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      margin: 18px 0 28px;
+    }
+
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      min-height: 102px;
+      padding: 12px;
+    }
+
+    .kpi .value {
+      margin-top: 12px;
+      font: 700 26px/1 var(--mono);
+    }
+
+    .kpi .note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .pos { color: var(--green); }
+    .neg { color: var(--red); }
+    .warn { color: var(--amber); }
+
+    .section {
+      border-top: 1px solid var(--rule-strong);
+      padding-top: 18px;
+      margin-top: 24px;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 360px);
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .section p {
+      margin: 0;
+      color: var(--muted);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 12px;
+      background: var(--surface);
+      border: 1px solid var(--rule);
       font-variant-numeric: tabular-nums;
     }
+
     th, td {
       padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--rule);
       text-align: right;
+      vertical-align: top;
     }
+
+    th {
+      background: #eef2ef;
+      color: #46524c;
+      font: 11px/1.2 var(--mono);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
     th:first-child, td:first-child { text-align: left; }
-    th { color: var(--muted); font-weight: 600; }
-    .bad { color: var(--bad); }
-    .ok { color: var(--ok); }
+    tr:last-child td { border-bottom: 0; }
+
+    .matrix {
+      grid-template-columns: 1.05fr .95fr;
+      align-items: stretch;
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      border: 1px solid var(--rule);
+      background: var(--rule);
+    }
+
+    .method {
+      background: var(--surface);
+      padding: 14px;
+      min-height: 108px;
+    }
+
+    .method strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .method span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .figures {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    figure {
+      margin: 0;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: contain;
+      background: #f4f6f4;
+    }
+
+    figcaption {
+      border-top: 1px solid var(--rule);
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .audit-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .audit-item {
+      border-left: 3px solid var(--rule-strong);
+      background: var(--surface);
+      padding: 12px 12px 12px 14px;
+      min-height: 104px;
+    }
+
+    .audit-item strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .audit-item span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 11px;
+      border: 1px solid var(--rule-strong);
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--ink);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
     code {
-      display: inline-block;
-      padding: 2px 6px;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      background: #0d1117;
-      color: var(--text);
+      font-family: var(--mono);
+      background: #eef2ef;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 2px 5px;
+    }
+
+    @media (max-width: 920px) {
+      .topbar,
+      .section-head,
+      .matrix,
+      .figures {
+        grid-template-columns: 1fr;
+      }
+
+      .status {
+        border-left: 0;
+        border-top: 1px solid var(--rule-strong);
+        padding: 12px 0 0;
+      }
+
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .audit-list { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 20px, 1180px); padding-top: 18px; }
+      h1 { font-size: 30px; }
+      .kpis, .method-grid { grid-template-columns: 1fr; }
+      th, td { padding: 8px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1>AXIOM Quant Research Portfolio</h1>
-    <p>
-      A research project focused on equity signal design, backtest integrity, and model risk controls.
-      The work is presented as a quant research case study: define a signal hypothesis, validate it with
-      leakage-aware methods, compare it against baselines, and report the result honestly.
-    </p>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <div class="label">Equity Signal Research / Model Risk</div>
+        <h1>AXIOM Quant Research Portfolio</h1>
+        <p class="subtitle">
+          A research-grade case study in turning an overfit equity-signal prototype into a disciplined validation workflow:
+          causal features, purged walk-forward testing, explicit execution costs, baseline comparison, and auditability.
+        </p>
+      </div>
+      <aside class="status" aria-label="Research status">
+        <div class="status-row"><span>Universe</span><strong>60 median tickers</strong></div>
+        <div class="status-row"><span>Predictions</span><strong>90,713 OOS rows</strong></div>
+        <div class="status-row"><span>Validation</span><strong>Purged WFO</strong></div>
+        <div class="status-row"><span>Conclusion</span><strong>Weak signal</strong></div>
+      </aside>
+    </header>
 
-    <section class="panel">
-      <h2>Research Question</h2>
-      <p>
-        Can daily price and volume features produce an economically meaningful out-of-sample equity signal
-        after execution costs and multiple-testing adjustment?
-      </p>
+    <section class="grid kpis" aria-label="Headline metrics">
+      <div class="kpi">
+        <div class="label">Net Strategy Return</div>
+        <div class="value pos">+1.84%</div>
+        <div class="note">Fixed logistic signal after cost and slippage.</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Strategy Sharpe</div>
+        <div class="value">0.097</div>
+        <div class="note">Not competitive with passive exposure.</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Buy-Hold Return</div>
+        <div class="value pos">+64.20%</div>
+        <div class="note">Equal-weight baseline over same dates.</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Spearman IC</div>
+        <div class="value">0.0073</div>
+        <div class="note">Small positive rank signal.</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Deflated Sharpe</div>
+        <div class="value neg">-0.707</div>
+        <div class="note">Adjusted for 41 lower-bound trials.</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Turnover</div>
+        <div class="value warn">10.72%</div>
+        <div class="note">Average daily turnover after thresholding.</div>
+      </div>
     </section>
 
-    <section class="panel">
-      <h2>Validation Controls</h2>
-      <p>
-        The current harness uses train-fold-only scaling, purged and embargoed walk-forward validation,
-        next-day execution, explicit cost plus slippage, buy-hold and random baselines, and a deflated
-        Sharpe adjustment using a lower-bound count of prior model trials.
-      </p>
-    </section>
-
-    <section class="panel">
-      <h2>Headline Result</h2>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="label">Research Question</div>
+          <h2>Can daily OHLCV features produce an economically meaningful equity signal?</h2>
+        </div>
+        <p>
+          The result is intentionally not dressed up: the model shows a tiny positive IC, but the strategy fails to beat the passive benchmark and does not survive multiple-testing-aware Sharpe adjustment.
+        </p>
+      </div>
       <table>
         <thead>
-          <tr><th>Method</th><th>Total Return</th><th>Ann. Sharpe</th><th>Max Drawdown</th></tr>
+          <tr>
+            <th>Method</th>
+            <th>Total Return</th>
+            <th>Ann. Sharpe</th>
+            <th>Max Drawdown</th>
+            <th>Interpretation</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>Fixed logistic signal, net</td><td class="ok">+1.84%</td><td>0.097</td><td class="bad">-10.21%</td></tr>
-          <tr><td>Equal-weight buy-hold</td><td class="ok">+64.20%</td><td>0.646</td><td class="bad">-14.95%</td></tr>
-          <tr><td>Zero-skill random, net</td><td class="bad">-15.74%</td><td>-3.499</td><td class="bad">-16.42%</td></tr>
+          <tr>
+            <td>Fixed logistic signal, net</td>
+            <td class="pos">+1.84%</td>
+            <td>0.097</td>
+            <td class="neg">-10.21%</td>
+            <td>Statistically faint; economically weak after costs.</td>
+          </tr>
+          <tr>
+            <td>Equal-weight buy-hold</td>
+            <td class="pos">+64.20%</td>
+            <td>0.646</td>
+            <td class="neg">-14.95%</td>
+            <td>Passive exposure dominates this simple alpha attempt.</td>
+          </tr>
+          <tr>
+            <td>Zero-skill random, net</td>
+            <td class="neg">-15.74%</td>
+            <td>-3.499</td>
+            <td class="neg">-16.42%</td>
+            <td>Cost drag baseline with similar active rate.</td>
+          </tr>
         </tbody>
       </table>
-      <p>
-        IC 0.00728, IC t-stat 2.19, active hit rate 53.47%, deflated Sharpe -0.707.
-        The signal is statistically small and not economically compelling versus the passive baseline.
-      </p>
     </section>
 
-    <section class="panel">
-      <h2>Artifacts</h2>
-      <p>
-        Review <a href="../README.md">README.md</a>,
-        <a href="../LEAKAGE_AUDIT.md">LEAKAGE_AUDIT.md</a>,
-        <a href="../SECURITY_FINDINGS.md">SECURITY_FINDINGS.md</a>, and
-        <a href="../honest_backtest/results/summary_metrics.csv">summary_metrics.csv</a>.
-      </p>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="label">Validation Architecture</div>
+          <h2>Controls that make the result harder to fool</h2>
+        </div>
+        <p>
+          The research harness favors falsification over flattering performance. Each transform is fit inside the training fold, decisions lag execution, and benchmark comparisons use the same downloaded universe.
+        </p>
+      </div>
+      <div class="grid matrix">
+        <div class="method-grid">
+          <div class="method"><strong>Fold-local preprocessing</strong><span>`StandardScaler` is inside the sklearn pipeline and fit only on training slices.</span></div>
+          <div class="method"><strong>Purged walk-forward CV</strong><span>504-day minimum train windows, 63-day validation windows, 5-day purge, and 5-day embargo.</span></div>
+          <div class="method"><strong>Execution lag</strong><span>Signals use information at `close[t]`; fills occur at `open[t+1]` with exit at `close[t+1]`.</span></div>
+          <div class="method"><strong>Cost model</strong><span>5 bps transaction cost plus 5 bps slippage per side, applied to active positions.</span></div>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Diagnostic</th><th>Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>IC t-stat</td><td>2.19</td></tr>
+            <tr><td>Active hit rate</td><td>53.47%</td></tr>
+            <tr><td>Active fraction</td><td>5.36%</td></tr>
+            <tr><td>Configuration lower bound</td><td>41</td></tr>
+            <tr><td>DSR probability</td><td>1.79e-235</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="label">Visual Evidence</div>
+          <h2>Equity curve and score diagnostic artifacts</h2>
+        </div>
+        <p>
+          These figures are generated directly by `honest_backtest/run.py` and checked into the repo with the result CSVs.
+        </p>
+      </div>
+      <div class="grid figures">
+        <figure>
+          <img src="assets/equity_curves.png" alt="Equity curves for strategy, buy-hold baseline, and random baseline">
+          <figcaption>Growth of one dollar across the fixed signal, passive benchmark, and random baseline.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/score_vs_return.png" alt="Scatter plot of signal score versus next-day open-to-close return">
+          <figcaption>Signal score versus next-day realized return. The weak slope is consistent with the small IC.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="label">Audit Trail</div>
+          <h2>Model risk findings retained for reviewers</h2>
+        </div>
+        <p>
+          Earlier experiments are preserved because they show how impressive-looking metrics can emerge from narrow universes, same-bar assumptions, and repeated configuration search.
+        </p>
+      </div>
+      <div class="audit-list">
+        <div class="audit-item"><strong>Selection bias</strong><span>Legacy runs focused on four high-attention tickers and PLTR-only variants.</span></div>
+        <div class="audit-item"><strong>Preprocessing leakage</strong><span>Several early scripts fit scalers or thresholds on full datasets before splits.</span></div>
+        <div class="audit-item"><strong>Execution realism</strong><span>The validated harness adds next-day execution and explicit cost/slippage assumptions.</span></div>
+      </div>
+      <nav class="links" aria-label="Research artifacts">
+        <a href="https://github.com/nnicholas-c/stock-trading-system#readme">README</a>
+        <a href="https://github.com/nnicholas-c/stock-trading-system/blob/master/LEAKAGE_AUDIT.md">LEAKAGE_AUDIT</a>
+        <a href="https://github.com/nnicholas-c/stock-trading-system/blob/master/SECURITY_FINDINGS.md">SECURITY_FINDINGS</a>
+        <a href="https://github.com/nnicholas-c/stock-trading-system/blob/master/honest_backtest/results/summary_metrics.csv">summary_metrics.csv</a>
+        <a href="https://github.com/nnicholas-c/stock-trading-system/blob/master/honest_backtest/results/fold_predictions.csv">fold_predictions.csv</a>
+      </nav>
     </section>
   </main>
-  <!-- terminal_app.js is retained as a legacy asset but intentionally not loaded by this portfolio page. -->
+  <!-- terminal_app.js is retained as a legacy asset but intentionally not loaded by this research-grade UI. -->
 </body>
 </html>
