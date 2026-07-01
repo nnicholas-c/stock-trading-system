@@ -1,7 +1,6 @@
 """
 AXIOM Trading System — FastAPI Backend
-Production-grade API serving ML signals, LSTM forecasts, news, and RL decisions.
-Deploy to: Railway / Render / Fly.io (free tier)
+Serves the research signals, forecasts, news, and backtest artifacts to the app.
 """
 
 from fastapi import FastAPI, BackgroundTasks
@@ -14,19 +13,18 @@ from app.core.config import settings
 from app.routers import signals, predict, news, backtest, health
 from app.services.model_service import ModelService
 
-# ── Startup: load all models into memory once ────────────────────────────────
+# Load all models into memory once at startup.
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("🚀 AXIOM backend starting — loading models...")
+    print("AXIOM backend starting; loading models...")
     await ModelService.initialize()
-    print("✅ All models loaded")
+    print("Models loaded")
     yield
-    print("👋 AXIOM backend shutting down")
+    print("AXIOM backend shutting down")
 
-# ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(
     title="AXIOM Trading Intelligence API",
-    description="Hedge-fund grade ML/RL trading signals for PLTR, AAPL, NVDA, TSLA",
+    description="Research ML/RL trading signals for PLTR, AAPL, NVDA, TSLA",
     version="2.0.0",
     lifespan=lifespan,
 )

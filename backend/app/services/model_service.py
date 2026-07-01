@@ -190,10 +190,10 @@ class ModelService:
                     m["lstm"] = model
 
                 cls._models[ticker] = m
-                print(f"  ✓ {ticker}: {list(m.keys())}")
+                print(f"  {ticker}: {list(m.keys())}")
 
             except Exception as e:
-                print(f"  ⚠ {ticker} model load error: {e}")
+                print(f"  {ticker} model load error: {e}")
 
         cls._load_signal_cache()
 
