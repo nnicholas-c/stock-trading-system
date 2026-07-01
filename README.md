@@ -1,54 +1,46 @@
-# AXIOM - Quant Research Backtesting Portfolio
+# AXIOM
 
-AXIOM is a quantitative research portfolio project focused on equity signal design, backtest integrity, and model risk controls. The project documents an end-to-end research workflow: hypothesis formation, feature construction, walk-forward validation, leakage auditing, baseline comparison, cost modeling, and honest reporting of weak or negative results.
+I started this project to answer one question honestly: can daily price and volume
+data predict next-day equity returns well enough to beat buying and holding, once you
+pay realistic costs and stop fooling yourself with leakage and repeated trials?
 
-The central research question is simple:
+My answer, so far, is no. A fixed logistic model finds a statistically detectable but
+tiny signal. It loses badly to equal-weight buy-and-hold and does not survive a
+multiple-testing-aware Sharpe adjustment. I'm keeping the repository as a record of how
+I got to that answer, including the earlier attempts that looked good only because they
+were leaking.
 
-> Can daily price and volume features produce an economically meaningful out-of-sample equity signal after execution costs and multiple-testing adjustment?
+The two things worth reading first are:
 
-Current answer: not convincingly. The fixed validation harness finds a small statistical signal, but it is not economically attractive after costs, baselines, and deflated Sharpe adjustment. That is the point of the project: it shows research discipline rather than a polished performance claim.
+- `honest_backtest/run.py` — the current, leakage-aware evaluation. Every number below
+  comes from it.
+- `LEAKAGE_AUDIT.md` — a line-by-line account of what was wrong with the earlier work
+  and why its metrics can't be trusted.
 
-## Quant Research Skills Demonstrated
+## The honest result
 
-- Leakage-aware feature engineering and target construction.
-- Purged and embargoed walk-forward cross-validation.
-- Train-fold-only preprocessing with sklearn pipelines.
-- Explicit execution lag, transaction costs, and slippage.
-- Buy-hold and random baselines.
-- Information coefficient, t-stat, hit rate, turnover, out-of-sample Sharpe, drawdown, and deflated Sharpe reporting.
-- Post-research audit of model-selection bias, survivorship bias, and overfit experimental history.
-- Reproducible artifacts and command-line research workflow.
-
-## Research Design
-
-The current headline result comes from `honest_backtest/run.py`, a deliberately fixed-specification backtest:
-
-- Universe: 60 median tradable names from a current S&P 500 yfinance download.
-- Features: causal daily OHLCV-derived returns, volatility, moving-average distances, RSI, volume z-score, and intraday range.
-- Label/execution: decide at `close[t]`, enter at `open[t+1]`, exit at `close[t+1]`.
-- Model: `StandardScaler` plus `LogisticRegression`, fit only inside each training fold.
-- Validation: walk-forward folds with 504-day minimum train window, 63-day validation windows, 5-day purge, and 5-day embargo.
-- Costs: 5 bps transaction cost plus 5 bps slippage per side.
-- Baselines: equal-weight buy-hold and a zero-skill random strategy with comparable active rate.
-- Multiple testing: deflated Sharpe adjustment using a lower-bound count of 41 prior model/configuration trials found in the repository.
-
-Run:
+I run one fixed model specification and report net-of-cost, out-of-sample metrics. No
+configuration search, no cherry-picking. To reproduce:
 
 ```bash
 .venv/bin/python -m honest_backtest.run --max-tickers 60 --min-tickers 50
 ```
 
-## Headline Result
+That writes `honest_backtest/results/summary_metrics.csv`, which is the source of these
+numbers:
 
-Latest reproducible output: `honest_backtest/results/summary_metrics.csv`
+| Method | Total return | Ann. Sharpe | Max drawdown |
+| --- | ---: | ---: | ---: |
+| Fixed logistic signal, net | +1.84% | 0.097 | -10.21% |
+| Equal-weight buy-hold | +64.20% | 0.646 | -14.95% |
+| Zero-skill random, net | -15.74% | -3.499 | -16.42% |
 
-| Method | Total return | Ann. Sharpe | Max drawdown | Notes |
-| --- | ---: | ---: | ---: | --- |
-| Fixed logistic signal, net | +1.84% | 0.097 | -10.21% | 90,713 predictions, 60 median tickers |
-| Equal-weight buy-hold | +64.20% | 0.646 | -14.95% | Same universe and dates |
-| Zero-skill random, net | -15.74% | -3.499 | -16.42% | Same active rate and cost model |
+All three run over the same universe and dates, on 90,713 predictions across a median of
+60 tickers. The signal makes money in absolute terms, but far less than just holding the
+same names, and a random strategy with the same trade frequency and cost model loses money,
+which is the sanity check I wanted.
 
-Signal diagnostics:
+The signal diagnostics say the same thing more precisely:
 
 | Metric | Value |
 | --- | ---: |
@@ -62,38 +54,71 @@ Signal diagnostics:
 | Deflated Sharpe | -0.707 |
 | DSR probability | 1.79e-235 |
 
-Interpretation: the signal has a tiny positive IC, but the realized strategy is not competitive with the passive baseline and does not survive a multiple-testing-aware Sharpe adjustment. This is a useful research result because it prevents overstating an overfit strategy.
+There is a real, positive information coefficient — the IC t-stat clears 2 — but it's
+economically trivial. Once I deflate the Sharpe for the 41 model/configuration trials I
+can count in this repository, the strategy sits well below the threshold. That's the point:
+with enough trials something will look good, so the honest number is the deflated one, and
+it's negative.
 
-## Repository Guide
+## How the harness is built
+
+`honest_backtest/run.py` is deliberately plain. The choices that keep it honest:
+
+- Universe: 60 median tradable names from a current S&P 500 download (yfinance), with a
+  static fallback list if the Wikipedia table is unavailable.
+- Features: causal daily OHLCV features only — returns over several horizons, realized
+  volatility, moving-average distances, RSI, a volume z-score, and intraday range.
+- Timing: decide at `close[t]`, enter at `open[t+1]`, exit at `close[t+1]`. Nothing is
+  decided using a bar it then trades into.
+- Model: `StandardScaler` plus `LogisticRegression`, fit inside each training fold and
+  nowhere else.
+- Validation: walk-forward folds, 504-day minimum train window, 63-day validation windows,
+  with a 5-day purge and 5-day embargo between them.
+- Costs: 5 bps transaction cost plus 5 bps slippage per side.
+- Baselines: equal-weight buy-hold, and a zero-skill random strategy matched to the
+  signal's active rate and cost model.
+- Multiple testing: a deflated Sharpe adjustment using a lower-bound count of 41 prior
+  model/configuration trials found in the repository.
+
+`honest_backtest/README.md` has the same method statement alongside its assumptions and
+limitations.
+
+## The experiments/ directory is not results
+
+`experiments/` holds the earlier supervised, deep-learning, reinforcement-learning, and
+PLTR-specific attempts. I'm keeping them on purpose, but as documented anti-examples, not
+as evidence. Each of those files carries a header pointing back to the audit, and the
+specific flaws are catalogued in `LEAKAGE_AUDIT.md`: hand-picked tickers, scalers fit on
+the full series before the time split, same-bar execution, accuracy reported only on
+high-confidence signals, and repeated configuration search. `ml_trading_system.py` at the
+repository root is the oldest of these and has the most problems.
+
+`research/pipeline.py` is the one older component that mostly holds up — it uses sklearn
+pipelines, walk-forward validation, and fold-local fitting — but it still searches across
+candidate model families on a small universe, so I treat it as research rather than a
+performance claim. The audit's "What Survives" section says exactly how far I trust it.
+
+## Layout
 
 ```text
 honest_backtest/
-  run.py                    Fixed-specification validation harness
-  results/                  Reproducible result CSVs and figures
+  run.py                 Fixed-specification validation harness (the headline)
+  results/               Reproducible result CSVs and figures
 
-LEAKAGE_AUDIT.md            Detailed model-risk and leakage audit
-SECURITY_FINDINGS.md        Secret-scan and repository hygiene notes
+LEAKAGE_AUDIT.md         Line-by-line leakage and model-risk audit
+SECURITY_FINDINGS.md     Secret-scan and repository hygiene notes
 
-experiments/
-  train_v3.py ... train_v9_xgb.py
-  train_drl_v1.py, train_drl_v2.py
-  train_pltr_deep.py, train_pltr_ultra.py
-  self_improve.py
-  EXPERIMENTS.md            Historical experiment inventory
+experiments/             Earlier attempts, kept as documented anti-examples
+  train_v3.py ... train_v9_xgb.py, train_drl_*.py, train_pltr_*.py, self_improve.py
+  EXPERIMENTS.md         Historical experiment inventory
 
-research/
-  pipeline.py               Earlier research pipeline with stronger controls than the first experiments
+research/pipeline.py     Earlier pipeline with stronger controls than the experiments
+ml_trading_system.py     Oldest attempt; see the audit before reading it
 
-backend/, docs/, ios/       Supporting app surfaces retained for project context
+backend/, docs/, ios/    Supporting app surfaces kept for context
 ```
 
-## Historical Experiments
-
-The `experiments/` directory contains prior supervised learning, deep learning, reinforcement learning, and PLTR-specific research attempts. Those files are kept because they show the research path and the types of model risk that can enter an iterative project.
-
-They should not be read as validated performance evidence. The detailed audit in `LEAKAGE_AUDIT.md` documents full-series scaling, same-bar execution assumptions, narrow ticker selection, confidence-gated metrics, and repeated configuration search.
-
-## Run Locally
+## Running it locally
 
 ```bash
 make setup
@@ -101,24 +126,28 @@ make setup
 python -m pytest -q
 ```
 
-Backtest outputs:
+The backtest writes these to `honest_backtest/results/`:
 
-- `honest_backtest/results/summary_metrics.csv`
-- `honest_backtest/results/fold_predictions.csv`
-- `honest_backtest/results/daily_returns.csv`
-- `honest_backtest/results/universe.csv`
-- `honest_backtest/results/equity_curves.png`
-- `honest_backtest/results/score_vs_return.png`
-- `honest_backtest/results/run_config.json`
+- `summary_metrics.csv`, `fold_predictions.csv`, `daily_returns.csv`, `universe.csv`
+- `equity_curves.png`, `score_vs_return.png`, `run_config.json`
 
-## Limitations
+Because the harness pulls a current S&P 500 sample and live yfinance history, a fresh run
+extends the window to the current date and will not reproduce the committed numbers to the
+last basis point. The committed CSVs in `honest_backtest/results/` are the snapshot the
+tables above quote.
 
-- Current S&P 500 membership is used, so survivorship bias is reduced relative to four hand-picked tickers but not eliminated.
-- yfinance OHLCV is transparent and reproducible, but it is not institutional point-in-time market data.
-- The strategy uses daily bars only; it does not model intraday queue position, borrow, financing, tax, or capacity constraints.
-- The deflated Sharpe calculation is an approximation using a conservative lower-bound trial count.
-- This is a research portfolio project, not a production trading system.
+## What this doesn't do
+
+- It uses current S&P 500 membership, so survivorship bias is reduced relative to a few
+  hand-picked names but not removed.
+- yfinance OHLCV is transparent and reproducible, but it is not point-in-time institutional
+  data.
+- It uses daily bars only. There is no modeling of intraday queue position, borrow,
+  financing, tax, or capacity.
+- The deflated Sharpe is an approximation using a conservative lower-bound trial count.
+- This is a research project, not a trading system.
 
 ## Disclaimer
 
-This repository is for education and research only. It is not financial advice, not an investment recommendation, and not a live trading system.
+For education and research only. Not financial advice, not an investment recommendation,
+and not a live trading system.
