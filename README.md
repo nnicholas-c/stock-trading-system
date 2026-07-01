@@ -1,124 +1,33 @@
 # AXIOM
 
-I started this project to answer one question honestly: can daily price and volume
-data predict next-day equity returns well enough to beat buying and holding, once you
-pay realistic costs and stop fooling yourself with leakage and repeated trials?
+A quant research project about backtest integrity: building a stock predictor, auditing my own data leakage, and rebuilding it honestly.
 
-My answer, so far, is no. A fixed logistic model finds a statistically detectable but
-tiny signal. It loses badly to equal-weight buy-and-hold and does not survive a
-multiple-testing-aware Sharpe adjustment. I'm keeping the repository as a record of how
-I got to that answer, including the earlier attempts that looked good only because they
-were leaking.
+This started as an attempt to build a stock-prediction model that worked, and turned into something more useful — a study of how easy it is to convince yourself one does.
 
-The two things worth reading first are:
+The question I kept coming back to is narrow: can daily price and volume data predict next-day equity returns well enough to beat just holding the market, once you pay realistic costs and account for how many things you tried? After building the naive version, auditing it, and rebuilding it carefully, my answer is no — at least not with the features and universe here. The signal that survives a clean evaluation is real but tiny, loses to buy-and-hold, and doesn't clear a multiple-testing-adjusted bar.
 
-- `honest_backtest/run.py` — the current, leakage-aware evaluation. Every number below
-  comes from it.
-- `LEAKAGE_AUDIT.md` — a line-by-line account of what was wrong with the earlier work
-  and why its metrics can't be trusted.
+I've kept the whole arc in this repo on purpose, including the early models that looked good and were wrong, because the useful part isn't the result — it's why the first version lied.
 
-## The honest result
+## Start here
 
-I run one fixed model specification and report net-of-cost, out-of-sample metrics. No
-configuration search, no cherry-picking. To reproduce:
+- `honest_backtest/run.py` — the current, fixed-specification backtest. This is the only performance number I stand behind.
+- `LEAKAGE_AUDIT.md` — a line-by-line account of the data leakage in the earlier code, and how each issue inflated the results.
+- `experiments/` — the earlier attempts, kept as documented anti-examples rather than results. Every problem in them is catalogued in the audit.
 
-```bash
-.venv/bin/python -m honest_backtest.run --max-tickers 60 --min-tickers 50
-```
+## What the honest backtest does
 
-That writes `honest_backtest/results/summary_metrics.csv`, which is the source of these
-numbers:
+I stripped the project down to one fixed specification so there was nothing left to tune:
 
-| Method | Total return | Ann. Sharpe | Max drawdown |
-| --- | ---: | ---: | ---: |
-| Fixed logistic signal, net | +1.84% | 0.097 | -10.21% |
-| Equal-weight buy-hold | +64.20% | 0.646 | -14.95% |
-| Zero-skill random, net | -15.74% | -3.499 | -16.42% |
+- **Universe:** 60 of the more liquid current S&P 500 names (via yfinance).
+- **Features:** next-day-safe daily signals only — returns, volatility, distance from moving averages, RSI, a volume z-score, and intraday range.
+- **Execution:** decide at today's close, enter at tomorrow's open, exit at tomorrow's close. Nothing trades on information it wouldn't have had at decision time.
+- **Model:** a single logistic regression with standardization, fit only inside each training fold.
+- **Validation:** walk-forward folds with a 504-day minimum training window and 63-day test windows, with a 5-day purge and 5-day embargo between them.
+- **Costs:** 5 bps transaction plus 5 bps slippage per side.
+- **Baselines:** equal-weight buy-and-hold, and a zero-skill random strategy trading at the same rate.
+- **Multiple testing:** a deflated Sharpe ratio using a conservative count of 41 model/config variations found in the earlier code.
 
-All three run over the same universe and dates, on 90,713 predictions across a median of
-60 tickers. The signal makes money in absolute terms, but far less than just holding the
-same names, and a random strategy with the same trade frequency and cost model loses money,
-which is the sanity check I wanted.
-
-The signal diagnostics say the same thing more precisely:
-
-| Metric | Value |
-| --- | ---: |
-| Spearman IC | 0.00728 |
-| IC t-stat | 2.19 |
-| Active-signal hit rate | 53.47% |
-| Average active fraction | 5.36% |
-| Average daily turnover | 10.72% |
-| Config trials lower bound | 41 |
-| Deflated Sharpe threshold | 0.805 |
-| Deflated Sharpe | -0.707 |
-| DSR probability | 1.79e-235 |
-
-There is a real, positive information coefficient — the IC t-stat clears 2 — but it's
-economically trivial. Once I deflate the Sharpe for the 41 model/configuration trials I
-can count in this repository, the strategy sits well below the threshold. That's the point:
-with enough trials something will look good, so the honest number is the deflated one, and
-it's negative.
-
-## How the harness is built
-
-`honest_backtest/run.py` is deliberately plain. The choices that keep it honest:
-
-- Universe: 60 median tradable names from a current S&P 500 download (yfinance), with a
-  static fallback list if the Wikipedia table is unavailable.
-- Features: causal daily OHLCV features only — returns over several horizons, realized
-  volatility, moving-average distances, RSI, a volume z-score, and intraday range.
-- Timing: decide at `close[t]`, enter at `open[t+1]`, exit at `close[t+1]`. Nothing is
-  decided using a bar it then trades into.
-- Model: `StandardScaler` plus `LogisticRegression`, fit inside each training fold and
-  nowhere else.
-- Validation: walk-forward folds, 504-day minimum train window, 63-day validation windows,
-  with a 5-day purge and 5-day embargo between them.
-- Costs: 5 bps transaction cost plus 5 bps slippage per side.
-- Baselines: equal-weight buy-hold, and a zero-skill random strategy matched to the
-  signal's active rate and cost model.
-- Multiple testing: a deflated Sharpe adjustment using a lower-bound count of 41 prior
-  model/configuration trials found in the repository.
-
-`honest_backtest/README.md` has the same method statement alongside its assumptions and
-limitations.
-
-## The experiments/ directory is not results
-
-`experiments/` holds the earlier supervised, deep-learning, reinforcement-learning, and
-PLTR-specific attempts. I'm keeping them on purpose, but as documented anti-examples, not
-as evidence. Each of those files carries a header pointing back to the audit, and the
-specific flaws are catalogued in `LEAKAGE_AUDIT.md`: hand-picked tickers, scalers fit on
-the full series before the time split, same-bar execution, accuracy reported only on
-high-confidence signals, and repeated configuration search. `ml_trading_system.py` at the
-repository root is the oldest of these and has the most problems.
-
-`research/pipeline.py` is the one older component that mostly holds up — it uses sklearn
-pipelines, walk-forward validation, and fold-local fitting — but it still searches across
-candidate model families on a small universe, so I treat it as research rather than a
-performance claim. The audit's "What Survives" section says exactly how far I trust it.
-
-## Layout
-
-```text
-honest_backtest/
-  run.py                 Fixed-specification validation harness (the headline)
-  results/               Reproducible result CSVs and figures
-
-LEAKAGE_AUDIT.md         Line-by-line leakage and model-risk audit
-SECURITY_FINDINGS.md     Secret-scan and repository hygiene notes
-
-experiments/             Earlier attempts, kept as documented anti-examples
-  train_v3.py ... train_v9_xgb.py, train_drl_*.py, train_pltr_*.py, self_improve.py
-  EXPERIMENTS.md         Historical experiment inventory
-
-research/pipeline.py     Earlier pipeline with stronger controls than the experiments
-ml_trading_system.py     Oldest attempt; see the audit before reading it
-
-backend/, docs/, ios/    Supporting app surfaces kept for context
-```
-
-## Running it locally
+Run it:
 
 ```bash
 make setup
@@ -126,28 +35,51 @@ make setup
 python -m pytest -q
 ```
 
-The backtest writes these to `honest_backtest/results/`:
+## What it found
 
-- `summary_metrics.csv`, `fold_predictions.csv`, `daily_returns.csv`, `universe.csv`
-- `equity_curves.png`, `score_vs_return.png`, `run_config.json`
+Numbers below come straight from `honest_backtest/results/summary_metrics.csv`.
 
-Because the harness pulls a current S&P 500 sample and live yfinance history, a fresh run
-extends the window to the current date and will not reproduce the committed numbers to the
-last basis point. The committed CSVs in `honest_backtest/results/` are the snapshot the
-tables above quote.
+| Method | Total return | Ann. Sharpe | Max drawdown |
+| --- | ---: | ---: | ---: |
+| Fixed logistic signal, net | +1.84% | 0.097 | -10.21% |
+| Equal-weight buy-and-hold | +64.20% | 0.646 | -14.95% |
+| Zero-skill random, net | -15.74% | -3.499 | -16.42% |
 
-## What this doesn't do
+Across 90,713 predictions, the signal has a small positive information coefficient (0.00728, t = 2.19) and a hit rate just over half (53.47%), so it isn't pure noise. But it returns almost nothing after costs, loses badly to simply holding the universe, and its deflated Sharpe is -0.707 against a 0.805 threshold. Once you account for how many configurations were tried, there is no edge left to claim.
 
-- It uses current S&P 500 membership, so survivorship bias is reduced relative to a few
-  hand-picked names but not removed.
-- yfinance OHLCV is transparent and reproducible, but it is not point-in-time institutional
-  data.
-- It uses daily bars only. There is no modeling of intraday queue position, borrow,
-  financing, tax, or capacity.
-- The deflated Sharpe is an approximation using a conservative lower-bound trial count.
-- This is a research project, not a trading system.
+That is the point of the project. A tiny real signal that doesn't beat buy-and-hold is the honest outcome, and reaching it without talking myself into a trade is the thing I was actually practicing.
 
-## Disclaimer
+## Why the first version was wrong
 
-For education and research only. Not financial advice, not an investment recommendation,
-and not a live trading system.
+The early code in `experiments/` reported much better numbers, and all of it was leakage. The full breakdown is in `LEAKAGE_AUDIT.md`; the short version:
+
+- It hand-picked four winners — PLTR, AAPL, NVDA, TSLA — so the universe already knew which names would do well.
+- It scaled features and set label thresholds on the full dataset before splitting, letting the test period leak into training.
+- It made decisions and filled trades on the same bar, using the day's own candle.
+- It reported accuracy only on the high-confidence predictions, and kept the best of many training runs.
+
+Each of these makes a backtest look better than the strategy really is. The honest harness exists to remove them one at a time and see what is left.
+
+## Repository guide
+
+```
+honest_backtest/      the fixed evaluation harness and its result files
+LEAKAGE_AUDIT.md      what was wrong with the earlier code, cited line by line
+SECURITY_FINDINGS.md  secret-scan and repo-hygiene notes
+experiments/          earlier supervised / RL / PLTR-specific attempts (anti-examples)
+research/pipeline.py  an intermediate pipeline with stronger controls than the first scripts
+backend/ docs/ ios/   supporting app surfaces kept for context
+```
+
+The `experiments/` scripts (`train_v3` through `train_v9`, the DRL runs, the PLTR-specific runs, `self_improve.py`) are earlier research, not validated results. `LEAKAGE_AUDIT.md` documents exactly what is wrong with each.
+
+## Limitations
+
+I would rather state these than have them found:
+
+- The universe is today's S&P 500, so there is still survivorship bias.
+- yfinance OHLCV is reproducible but not true point-in-time market data.
+- Daily bars only — no intraday fills, borrow, financing, or capacity constraints.
+- The deflated Sharpe uses an approximate, conservative trial count.
+
+This is a research project, not a trading system, and nothing here is financial advice.
