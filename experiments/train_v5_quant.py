@@ -2371,7 +2371,7 @@ class SelfImprovementPipeline:
         if not self.error_records.empty:
             for ticker in self.error_records["ticker"].unique():
                 mae = self.rolling_mae(ticker, window=20)
-                status = "⚠ HIGH" if mae > self.cfg.retrain_mae_threshold else "OK"
+                status = "HIGH" if mae > self.cfg.retrain_mae_threshold else "OK"
                 lines.append(f"| {ticker} | {mae:.4f} | {status} |")
 
         lines += [

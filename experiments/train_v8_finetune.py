@@ -1483,7 +1483,7 @@ def main():
     print(f"  Data: {len(GROUND_TRUTH_PRICES)} months × 4 tickers = {len(GROUND_TRUTH_PRICES)*4} price points")
     print(f"  Events: {len(EVENT_DATABASE)} major events (earnings, macro, geopolitical)")
     print(f"  Walk-forward: {backtest_results.get('total_predictions',0)} predictions | {backtester.retrain_count} retrain iterations")
-    print(f"  Converged: {'✓' if backtest_results.get('converged') else '✗ (reached max iterations)'}")
+    print(f"  Converged: {'yes' if backtest_results.get('converged') else 'no (reached max iterations)'}")
     print(f"  Runtime: {elapsed:.1f}s")
     print("─" * 80)
     print(f"  {'METRIC':<28} {'VALUE'}")
@@ -1512,7 +1512,7 @@ def main():
     for k, v in final_results["key_findings_from_3yr_data"].items():
         print(f"  • {v}")
     print("═" * 80)
-    print("  ⚠  Not financial advice. Model trained on historical data for educational purposes.")
+    print("  Not financial advice. Model trained on historical data for educational purposes.")
     print("═" * 80)
     
     return final_results

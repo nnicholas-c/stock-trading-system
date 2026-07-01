@@ -833,7 +833,7 @@ def main():
     print("─" * 80)
     for ticker in TICKERS:
         m = all_metrics.get(ticker, {})
-        cv = "✓ YES" if m.get("converged") else "✗ NO"
+        cv = "YES" if m.get("converged") else "NO"
         print(f"  {ticker:<8} {m.get('overall_accuracy',0)*100:>7.1f}% "
               f"{m.get('high_conf_accuracy',0)*100:>9.1f}% "
               f"{m.get('high_conf_n',0):>8d} "
@@ -864,7 +864,7 @@ def main():
     print("  • Gating: DRL + XGB must AGREE for BUY/SELL — filters noise")
     print("  • High-conf: combined confidence ≥ 65% required")
     print("═" * 80)
-    print("  ⚠  Not financial advice. DRL model for educational purposes.")
+    print("  Not financial advice. DRL model for educational purposes.")
     print("═" * 80)
 
     # Save results

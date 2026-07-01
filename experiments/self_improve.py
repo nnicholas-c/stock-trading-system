@@ -272,10 +272,10 @@ def generate_improvement_report(errors: dict, perf: dict, retrained: list) -> st
     lines = [f"AXIOM Self-Improvement Report — {datetime.now().strftime('%Y-%m-%d %H:%M')}",
              "="*60]
     for ticker, err in errors.items():
-        status = "✓ ACCURATE" if not err['needs_retrain'] else "⚠ RETRAINED" if ticker in retrained else "⚠ HIGH ERROR"
+        status = "ACCURATE" if not err['needs_retrain'] else "RETRAINED" if ticker in retrained else "HIGH ERROR"
         lines.append(f"\n{ticker} {status}")
         lines.append(f"  Predicted: ${err['predicted']:.2f} | Actual: ${err['actual']:.2f}")
-        lines.append(f"  MAE: {err['mae_pct']:.2f}% | Direction: {'✓' if err['direction_correct'] else '✗'}")
+        lines.append(f"  MAE: {err['mae_pct']:.2f}% | Direction: {'yes' if err['direction_correct'] else 'no'}")
         lines.append(f"  Actual return: {err['actual_return_pct']:+.2f}%")
         t_perf = perf.get(ticker, {})
         mae_hist = t_perf.get('mae_history', [])
@@ -328,7 +328,7 @@ def run():
 
         err = compute_prediction_error(ticker, predicted_today, actual_today)
         errors[ticker] = err
-        log.info(f"  MAE: {err['mae_pct']:.2f}% | Direction: {'✓' if err['direction_correct'] else '✗'} | Retrain: {err['needs_retrain']}")
+        log.info(f"  MAE: {err['mae_pct']:.2f}% | Direction: {'yes' if err['direction_correct'] else 'no'} | Retrain: {err['needs_retrain']}")
 
         log_prediction({**err, 'lstm_1d_used': sig.get('lstm_1d',0), 'signal': sig.get('signal','?')})
 

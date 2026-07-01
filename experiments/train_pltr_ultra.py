@@ -1000,7 +1000,7 @@ def main():
     for k, v in fc.items():
         print(f"  • {k.replace('_',' ').title()}: {v}")
     print("="*80)
-    print("  ⚠  Not financial advice. Educational research model only.")
+    print("  Not financial advice. Educational research model only.")
     print("="*80)
 
     # Serialize for JSON (convert numpy types)

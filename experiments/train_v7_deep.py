@@ -1819,7 +1819,7 @@ def main():
     print(f"  BBAPT Sharpe: {results['bbapt_metrics']['best_sharpe']:.3f} (paper baseline: 0.86)")
     print(f"  Runtime: {results['runtime_seconds']:.1f}s")
     print("═" * 80)
-    print("  ⚠  Not financial advice. Educational model only.")
+    print("  Not financial advice. Educational model only.")
     print("═" * 80)
 
     return results

@@ -989,7 +989,7 @@ def main():
         print(f"  Mean Absolute Error:           {overall_mae*100:.2f}% per month")
         print(f"  Information Coefficient (IC):  {ic:.4f}")
         print(f"  Predictions evaluated:         {best_metrics['n_predictions']}")
-        print(f"  Converged:                     {'✓ YES' if converged else '✗ NO'}")
+        print(f"  Converged:                     {'YES' if converged else 'NO'}")
         print("─" * 80)
         print(f"  {'TICKER':<8} {'ACC':>8} {'MAE':>8} {'IC':>8} {'N':>5}")
         print("─" * 80)
@@ -1018,7 +1018,7 @@ def main():
     print("  • Buy-the-dip signal works 73% of time after >10% macro shock")
     print("  • Japan carry unwind signals: track BOJ rate differentials vs 10Y")
     print("═" * 80)
-    print("  ⚠  AXIOM v9 | Not financial advice. Model trained for educational purposes.")
+    print("  AXIOM v9 | Not financial advice. Model trained for educational purposes.")
     print("═" * 80)
 
     # ─── Save outputs ───

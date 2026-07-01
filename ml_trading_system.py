@@ -245,7 +245,7 @@ def train_random_forest_model(ticker: str, df_feat: pd.DataFrame):
     df_clean = df_feat.dropna(subset=FEATURE_COLS + ['label', 'forward_return'])
     
     if len(df_clean) < 40:
-        print(f"  ⚠ {ticker}: insufficient data ({len(df_clean)} rows)")
+        print(f"  {ticker}: insufficient data ({len(df_clean)} rows)")
         return None, None, None
     
     X = df_clean[FEATURE_COLS].values
@@ -532,7 +532,7 @@ def generate_current_signal(ticker: str, df_feat: pd.DataFrame, model_data: dict
     
     signal_map = {2: 'STRONG BUY', 1: 'BUY', 0: 'HOLD', -1: 'SELL'}
     signal_color = {2: '#00C853', 1: '#69F0AE', 0: '#FFD740', -1: '#FF5252'}
-    signal_icon = {2: '🚀', 1: '✅', 0: '⏸', -1: '🔴'}
+    signal_icon = {2: 'STRONG BUY', 1: 'BUY', 0: 'HOLD', -1: 'SELL'}
     
     fund = FUNDAMENTALS[ticker]
     analyst_upside = (fund['analyst_target'] / fund['price'] - 1) * 100
@@ -706,7 +706,7 @@ def train_rl_agent(ticker: str, df_feat: pd.DataFrame) -> dict:
         df_clean = df_feat.dropna(subset=FEATURE_COLS).reset_index(drop=True)
         
         if len(df_clean) < 50:
-            print(f"  ⚠ {ticker}: insufficient data for RL training")
+            print(f"  {ticker}: insufficient data for RL training")
             return {}
         
         env = StockTradingEnv(df_clean, FEATURE_COLS, initial_capital=100_000)
@@ -749,7 +749,7 @@ def train_rl_agent(ticker: str, df_feat: pd.DataFrame) -> dict:
         return metrics
         
     except Exception as e:
-        print(f"  ⚠ {ticker} RL training error: {e}")
+        print(f"  {ticker} RL training error: {e}")
         return {}
 
 
@@ -869,7 +869,7 @@ def generate_analysis_chart(ticker: str, df_feat: pd.DataFrame, signal: dict, ba
     plt.savefig(OUTPUT_DIR / 'charts' / f'{ticker}_analysis.png',
                 dpi=130, bbox_inches='tight', facecolor='#0D1117')
     plt.close(fig)
-    print(f"  ✓ {ticker} chart saved")
+    print(f"  {ticker} chart saved")
 
 
 # ─── MAIN EXECUTION ─────────────────────────────────────────────────────────
@@ -894,7 +894,7 @@ def main():
             csv_path = DATA_DIR / f'{ticker}_price_history_2024-01-01_2026-04-07_1month_cd0858.csv'
         
         if not csv_path.exists():
-            print(f"  ⚠ No price data found for {ticker}, skipping")
+            print(f"  No price data found for {ticker}, skipping")
             continue
         
         df = pd.read_csv(csv_path)
