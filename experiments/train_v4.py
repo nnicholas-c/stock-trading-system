@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# NOTE: This is an earlier modeling attempt, kept in the repository as a
+# documented anti-example. It contains data-leakage and evaluation flaws
+# catalogued in LEAKAGE_AUDIT.md, so its numbers are not validated results.
+# The current, leakage-aware evaluation is honest_backtest/run.py.
+
 """
 AXIOM Enterprise v4 — Full Training & Signal Generation
 Real data only: OHLCV CSVs, live Google News RSS, VADER NLP, real earnings history.

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# NOTE: This is an earlier modeling attempt, kept in the repository as a
+# documented anti-example. It contains data-leakage and evaluation flaws
+# catalogued in LEAKAGE_AUDIT.md, so its numbers are not validated results.
+# The current, leakage-aware evaluation is honest_backtest/run.py.
+
 """
 AXIOM Self-Improving Model Pipeline
 ====================================

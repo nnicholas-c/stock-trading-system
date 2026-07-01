@@ -1,3 +1,8 @@
+# NOTE: This is an earlier modeling attempt, kept in the repository as a
+# documented anti-example. It contains data-leakage and evaluation flaws
+# catalogued in LEAKAGE_AUDIT.md, so its numbers are not validated results.
+# The current, leakage-aware evaluation is honest_backtest/run.py.
+
 """
 AXIOM v9 — Enterprise Walk-Forward ML System
 XGBoost + LightGBM Ensemble with proper feature engineering
