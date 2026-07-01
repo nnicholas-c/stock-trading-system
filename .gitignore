@@ -12,14 +12,11 @@ build/
 .mypy_cache/
 .ruff_cache/
 
-# Generated/local research artifacts, now removed from tracking with
-# git rm --cached. The reproducible headline outputs in honest_backtest/results/
-# are kept on purpose and are not ignored.
+# Generated/local research artifacts, removed from tracking with git rm --cached.
+# trading_system/ holds only generated model outputs (no source) and is local-only.
+# The reproducible headline outputs in honest_backtest/results/ are kept on purpose.
 data/
-trading_system/models/
-trading_system/research/runs/
-trading_system/research/champion/
-trading_system/research/sandboxes/
+trading_system/
 docs/*.json
 bloomberg/*.json
 *.pkl
