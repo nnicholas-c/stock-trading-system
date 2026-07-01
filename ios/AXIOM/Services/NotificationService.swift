@@ -7,7 +7,7 @@ import UIKit
 final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
     static let shared = NotificationService()
 
-    // ── Request permission on first launch ───────────────────────────────────
+ // Request permission on first launch
     func requestPermission() async -> Bool {
         let center = UNUserNotificationCenter.current()
         do {
@@ -15,14 +15,14 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         } catch { return false }
     }
 
-    // ── Register for APNs (call from AppDelegate.didFinishLaunching) ─────────
+ // Register for APNs (call from AppDelegate.didFinishLaunching)
     func registerForAPNs() {
         DispatchQueue.main.async {
             UIApplication.shared.registerForRemoteNotifications()
         }
     }
 
-    // ── Send APNs token to your backend ─────────────────────────────────────
+ // Send APNs token to your backend
     func sendTokenToBackend(_ tokenData: Data) async {
         let token = tokenData.map { String(format: "%02.2hhx", $0) }.joined()
         guard let url = URL(string: "\(APIConfig.baseURL)/notifications/register") else { return }
@@ -33,10 +33,10 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         _ = try? await URLSession.shared.data(for: req)
     }
 
-    // ── Schedule a LOCAL alert (for OpenClaw-style background checking) ──────
+ // Schedule a LOCAL alert (for OpenClaw-style background checking)
     func scheduleSignalAlert(ticker: String, signal: String, confidence: Double, price: Double) {
         let content = UNMutableNotificationContent()
-        content.title = "🚨 AXIOM Signal — \(ticker)"
+        content.title = "AXIOM Signal — \(ticker)"
         content.body  = "\(signal) @ $\(String(format:"%.2f",price)) · \(Int(confidence*100))% confidence"
         content.sound = .defaultCritical
         content.categoryIdentifier = "TRADING_SIGNAL"
@@ -48,14 +48,14 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().add(req)
     }
 
-    // ── Schedule daily pre-market brief (6:30 AM local) ─────────────────────
+ // Schedule daily pre-market brief (6:30 AM local)
     func schedulePremarketBrief() {
         var components = DateComponents()
         components.hour   = 6
         components.minute = 30
 
         let content        = UNMutableNotificationContent()
-        content.title      = "🌅 AXIOM Pre-Market Brief"
+        content.title      = "AXIOM Pre-Market Brief"
         content.body       = "Open the app to see today's signals, intraday predictions, and market news."
         content.sound      = .default
         content.userInfo   = ["action": "open_premarket"]
@@ -65,7 +65,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().add(req)
     }
 
-    // ── Category registration (for notification actions) ─────────────────────
+ // Category registration (for notification actions)
     func registerCategories() {
         let viewAction = UNNotificationAction(identifier: "VIEW_SIGNAL",
                                               title: "View Signal", options: .foreground)

@@ -9,7 +9,7 @@ class SchemaModel(BaseModel):
     model_config = ConfigDict(protected_namespaces=())
 
 
-# ── Signal ────────────────────────────────────────────────────────────────────
+# Signal
 class SignalResponse(SchemaModel):
     ticker:           str
     generated_at:     datetime
@@ -89,7 +89,7 @@ class CanonicalForecastResponse(SchemaModel):
     card:               dict
 
 
-# ── Prediction ────────────────────────────────────────────────────────────────
+# Prediction
 class IntraDayPrediction(SchemaModel):
     ticker:            str
     generated_at:      datetime
@@ -112,7 +112,7 @@ class WeeklyPrediction(SchemaModel):
     conviction:   str            # HIGH / MEDIUM / LOW
 
 
-# ── News ──────────────────────────────────────────────────────────────────────
+# News
 class NewsArticle(SchemaModel):
     ticker:    str
     headline:  str
@@ -139,7 +139,7 @@ class NewsResponse(SchemaModel):
     cached:            bool
 
 
-# ── Backtest ──────────────────────────────────────────────────────────────────
+# Backtest
 class BacktestResponse(SchemaModel):
     ticker:           str
     start_date:       str
@@ -159,7 +159,7 @@ class BacktestResponse(SchemaModel):
     rl_max_dd:        float
 
 
-# ── Health ────────────────────────────────────────────────────────────────────
+# Health
 class HealthResponse(SchemaModel):
     status:       str
     models_loaded: bool

@@ -37,47 +37,43 @@ def load_cached_signals():
 
 def format_telegram_message(signals: dict) -> str:
     """Format signals as a Telegram-ready message."""
-    lines = ["📊 *TRADING SIGNAL UPDATE*", f"_{datetime.now().strftime('%b %d, %Y %H:%M')} PDT_", ""]
+    lines = ["*TRADING SIGNAL UPDATE*", f"_{datetime.now().strftime('%b %d, %Y %H:%M')} PDT_", ""]
 
-    signal_emoji = {"STRONG BUY": "🚀", "BUY": "✅", "HOLD": "⏸", "SELL": "🔴"}
     risk_label = lambda r: "Low" if r < 3 else "Moderate" if r < 6 else "High" if r < 8 else "Very High"
 
     for ticker, sig in signals.get("signals", {}).items():
-        emoji = signal_emoji.get(sig["signal"], "⚪")
         conf = sig["confidence"] * 100
         upside = sig["analyst_upside"]
         risk = sig["risk_score"]
         rsi = sig.get("rsi_14", 0)
         macd = sig.get("macd_hist", 0)
-        macd_dir = "↑ Bullish" if macd > 0 else "↓ Bearish"
+        macd_dir = "Bullish" if macd > 0 else "Bearish"
 
-        lines.append(f"{emoji} *{ticker}* — {sig['signal']} ({conf:.0f}% confidence)")
-        lines.append(f"   💰 ${sig['current_price']:.2f} → Target ${sig['analyst_target']:.0f} (*{upside:+.1f}%*)")
-        lines.append(f"   📊 RSI: {rsi:.1f} | MACD: {macd_dir} | Risk: {risk_label(risk)} ({risk:.1f}/10)")
-        lines.append(f"   👥 Analyst consensus: {sig['bull_pct']:.0f}% bullish")
+        lines.append(f"*{ticker}* — {sig['signal']} ({conf:.0f}% confidence)")
+        lines.append(f"   Price ${sig['current_price']:.2f} -> Target ${sig['analyst_target']:.0f} (*{upside:+.1f}%*)")
+        lines.append(f"   RSI: {rsi:.1f} | MACD: {macd_dir} | Risk: {risk_label(risk)} ({risk:.1f}/10)")
+        lines.append(f"   Analyst consensus: {sig['bull_pct']:.0f}% bullish")
 
-        # Top ML features
         top_feats = [f[0] for f in sig.get("top_features", [])[:3]]
         if top_feats:
-            lines.append(f"   🧠 Top signals: `{'`, `'.join(top_feats)}`")
+            lines.append(f"   Top signals: `{'`, `'.join(top_feats)}`")
         lines.append("")
 
-    # Backtest reminder
-    lines.append("─────────────────────────")
-    lines.append("_⚠️ Not financial advice. Always do your own research._")
+    lines.append("-------------------------")
+    lines.append("_Not financial advice. Always do your own research._")
 
     return "\n".join(lines)
 
 
 def format_discord_message(signals: dict) -> str:
     """Format signals as Discord embed-ready."""
-    lines = ["**📊 TRADING SIGNAL UPDATE**",
+    lines = ["**TRADING SIGNAL UPDATE**",
              f"> Generated: {datetime.now().strftime('%b %d %Y %H:%M')} PDT", ""]
 
     for ticker, sig in signals.get("signals", {}).items():
         conf = sig["confidence"] * 100
         lines.append(f"**{ticker}** — `{sig['signal']}` ({conf:.0f}% conf)")
-        lines.append(f"> Price: **${sig['current_price']:.2f}** → Target **${sig['analyst_target']:.0f}** ({sig['analyst_upside']:+.1f}%)")
+        lines.append(f"> Price: **${sig['current_price']:.2f}** -> Target **${sig['analyst_target']:.0f}** ({sig['analyst_upside']:+.1f}%)")
         lines.append(f"> RSI {sig.get('rsi_14', 0):.1f} | Risk {sig['risk_score']:.1f}/10 | {sig['bull_pct']:.0f}% bulls")
         lines.append("")
 
@@ -96,7 +92,7 @@ def main():
     data = load_cached_signals()
 
     if data is None or args.refresh or data.get("is_stale"):
-        print("⟳ Signals stale or missing — re-running ML engine...", file=sys.stderr)
+        print("Signals stale or missing; re-running ML engine...", file=sys.stderr)
         result = subprocess.run(
             [sys.executable, str(ROOT / "ml_trading_system.py")],
             capture_output=True, text=True, cwd=str(ROOT)
@@ -126,7 +122,7 @@ def main():
         for ticker, sig in data.get("signals", {}).items():
             conf = sig["confidence"] * 100
             print(f"{ticker}: {sig['signal']} ({conf:.0f}% confidence) | "
-                  f"${sig['current_price']:.2f} → ${sig['analyst_target']:.0f} "
+                  f"${sig['current_price']:.2f} -> ${sig['analyst_target']:.0f} "
                   f"({sig['analyst_upside']:+.1f}%)")
 
 

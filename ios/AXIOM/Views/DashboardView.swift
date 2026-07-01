@@ -4,7 +4,7 @@
 import SwiftUI
 import Charts  // Swift Charts (iOS 16+)
 
-// ── App Entry ─────────────────────────────────────────────────────────────────
+// App Entry
 @main
 struct AXIOMApp: App {
     @StateObject private var store = AppStore()
@@ -15,7 +15,7 @@ struct AXIOMApp: App {
     }
 }
 
-// ── App Store (ObservableObject) ──────────────────────────────────────────────
+// App Store (ObservableObject)
 @MainActor
 final class AppStore: ObservableObject {
     @Published var signals: [String: SignalData] = [:]
@@ -63,7 +63,7 @@ final class AppStore: ObservableObject {
     }
 }
 
-// ── Root Navigation ───────────────────────────────────────────────────────────
+// Root Navigation
 struct ContentView: View {
     @EnvironmentObject var store: AppStore
     var body: some View {
@@ -82,7 +82,7 @@ struct ContentView: View {
     }
 }
 
-// ── Dashboard ─────────────────────────────────────────────────────────────────
+// Dashboard
 struct DashboardView: View {
     @EnvironmentObject var store: AppStore
     @State private var selectedTicker = "PLTR"
@@ -135,7 +135,7 @@ struct DashboardView: View {
     }
 }
 
-// ── KPI Strip ─────────────────────────────────────────────────────────────────
+// KPI Strip
 struct KPIStripView: View {
     let kpis: [(String, String, Color)] = [
         ("Avg Alpha", "+73.9%", Color(hex: "00E5A0")),
@@ -160,7 +160,7 @@ struct KPIStripView: View {
     }
 }
 
-// ── Ticker Selector ───────────────────────────────────────────────────────────
+// Ticker Selector
 struct TickerSelectorView: View {
     @Binding var selected: String
     let tickers = ["PLTR","AAPL","NVDA","TSLA"]
@@ -180,7 +180,7 @@ struct TickerSelectorView: View {
     }
 }
 
-// ── Signal Card ───────────────────────────────────────────────────────────────
+// Signal Card
 struct SignalCardView: View {
     let signal: SignalData
     var body: some View {
@@ -269,7 +269,7 @@ struct MetricCell: View {
     }
 }
 
-// ── LSTM Chart (Swift Charts) ─────────────────────────────────────────────────
+// LSTM Chart (Swift Charts)
 struct PricePoint: Identifiable {
     let id = UUID(); let week: Int; let price: Double; let isForecast: Bool
 }
@@ -349,7 +349,7 @@ struct Legend: View {
     }
 }
 
-// ── All Positions Grid ────────────────────────────────────────────────────────
+// All Positions Grid
 struct AllPositionsGrid: View {
     @EnvironmentObject var store: AppStore
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
@@ -395,7 +395,7 @@ struct PositionMiniCard: View {
     }
 }
 
-// ── Predictions View ──────────────────────────────────────────────────────────
+// Predictions View
 struct PredictionsView: View {
     @EnvironmentObject var store: AppStore
     @State private var selected = "PLTR"
@@ -482,7 +482,7 @@ struct WeeklyCard: View {
     }
 }
 
-// ── News View ─────────────────────────────────────────────────────────────────
+// News View
 struct NewsView: View {
     @EnvironmentObject var store: AppStore
     var body: some View {
@@ -523,7 +523,7 @@ struct NewsRow: View {
     }
 }
 
-// ── Backtest View ─────────────────────────────────────────────────────────────
+// Backtest View
 struct BacktestView: View {
     @EnvironmentObject var store: AppStore
     @State private var results: [BacktestResult] = []

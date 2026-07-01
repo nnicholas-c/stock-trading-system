@@ -16,7 +16,7 @@ import torch.nn as nn
 
 from app.core.config import settings
 
-# ── LSTM Architecture (must match training) ───────────────────────────────────
+# LSTM Architecture (must match training)
 class LSTMForecaster(nn.Module):
     def __init__(self, input_size=1, hidden=128, layers=3, dropout=0.2, forecast_steps=4):
         super().__init__()

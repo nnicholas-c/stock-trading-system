@@ -29,7 +29,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ── CORS (allow GitHub Pages + local dev) ─────────────────────────────────────
+# CORS (allow GitHub Pages + local dev)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -43,7 +43,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Routers ───────────────────────────────────────────────────────────────────
+# Routers
 app.include_router(health.router,   prefix="/health",   tags=["Health"])
 app.include_router(signals.router,  prefix="/signals",  tags=["Signals"])
 app.include_router(predict.router,  prefix="/predict",  tags=["Predictions"])

@@ -4,7 +4,7 @@
 import Foundation
 import SwiftUI
 
-// ── Signal ────────────────────────────────────────────────────────────────────
+// Signal
 struct AllSignalsResponse: Codable {
     let generatedAt: String
     let signals: [String: SignalData]
@@ -83,7 +83,7 @@ struct SignalSummary: Codable {
     let alertText: String
 }
 
-// ── Predictions ───────────────────────────────────────────────────────────────
+// Predictions
 struct IntradayPrediction: Codable {
     let ticker: String
     let generatedAt: String
@@ -140,7 +140,7 @@ struct ScenariosResponse: Codable {
     let scenarios: [String: Scenario]  // "bull", "base", "bear"
 }
 
-// ── News ──────────────────────────────────────────────────────────────────────
+// News
 struct NewsArticle: Codable, Identifiable {
     var id: String { headline }
     let ticker: String
@@ -180,7 +180,7 @@ struct PremarketStory: Codable {
     let impact: String
 }
 
-// ── Backtest ──────────────────────────────────────────────────────────────────
+// Backtest
 struct BacktestResult: Codable, Identifiable {
     var id: String { ticker }
     let ticker: String
@@ -199,7 +199,7 @@ struct BacktestResult: Codable, Identifiable {
     let rlMaxDd: Double
 }
 
-// ── Health ────────────────────────────────────────────────────────────────────
+// Health
 struct HealthResponse: Codable {
     let status: String
     let modelsLoaded: Bool
@@ -208,7 +208,7 @@ struct HealthResponse: Codable {
     let tickers: [String]
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// Helpers
 struct AnyCodable: Codable {
     let value: Any
     init(_ value: Any) { self.value = value }

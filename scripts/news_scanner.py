@@ -245,20 +245,16 @@ def scan_all(tickers: list) -> dict:
 
 def format_for_openclaw(results: dict) -> str:
     """Format news scan results as a clean alert message for OpenClaw."""
-    lines = ["📰 MARKET NEWS SCAN", f"_{datetime.now().strftime('%b %d %H:%M')} PDT_", ""]
-
-    sentiment_emoji = {"bullish": "🟢", "bearish": "🔴", "cautious": "🟡", "neutral": "⚪"}
+    lines = ["MARKET NEWS SCAN", f"_{datetime.now().strftime('%b %d %H:%M')} PDT_", ""]
 
     for ticker, data in results.get("tickers", {}).items():
-        emoji = sentiment_emoji.get(data["overall_sentiment"], "⚪")
-        lines.append(f"{emoji} **{ticker}** — News sentiment: {data['overall_sentiment'].upper()}")
+        lines.append(f"**{ticker}** — News sentiment: {data['overall_sentiment'].upper()}")
 
         if data["material_events"] > 0:
-            lines.append(f"   ⚠️ {data['material_events']} material event(s) detected!")
+            lines.append(f"   {data['material_events']} material event(s) detected")
 
         for art in data["top_headlines"][:3]:
-            s_emoji = "📈" if art["sentiment"] == "bullish" else "📉" if art["sentiment"] == "bearish" else "➡️"
-            lines.append(f"   {s_emoji} {art['headline']}")
+            lines.append(f"   [{art['sentiment']}] {art['headline']}")
 
         lines.append("")
 

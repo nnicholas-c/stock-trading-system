@@ -5,12 +5,12 @@
 import Foundation
 import Combine
 
-// ── Base URL ─────────────────────────────────────────────────────────────────
+// Base URL
 enum APIConfig {
     static let baseURL = "http://localhost:8000"
 }
 
-// ── Errors ────────────────────────────────────────────────────────────────────
+// Errors
 enum APIError: LocalizedError {
     case invalidURL, decodingError(Error), networkError(Error), notFound
     var errorDescription: String? {
@@ -23,7 +23,7 @@ enum APIError: LocalizedError {
     }
 }
 
-// ── Service ───────────────────────────────────────────────────────────────────
+// Service
 final class APIService {
     static let shared = APIService()
     private let session = URLSession.shared
@@ -48,7 +48,7 @@ final class APIService {
         catch { throw APIError.networkError(error) }
     }
 
-    // ── Signals ───────────────────────────────────────────────────────────────
+ // Signals
     func allSignals() async throws -> AllSignalsResponse {
         try await fetch("/signals/")
     }
@@ -59,7 +59,7 @@ final class APIService {
         try await fetch("/signals/\(ticker)/summary")
     }
 
-    // ── Predictions ───────────────────────────────────────────────────────────
+ // Predictions
     func intradayPrediction(for ticker: String) async throws -> IntradayPrediction {
         try await fetch("/predict/\(ticker)/intraday")
     }
@@ -70,7 +70,7 @@ final class APIService {
         try await fetch("/predict/\(ticker)/scenarios")
     }
 
-    // ── News ──────────────────────────────────────────────────────────────────
+ // News
     func news(for ticker: String) async throws -> NewsResponse {
         try await fetch("/news/\(ticker)")
     }
@@ -78,12 +78,12 @@ final class APIService {
         try await fetch("/news/\(ticker)/premarket")
     }
 
-    // ── Backtest ──────────────────────────────────────────────────────────────
+ // Backtest
     func backtest(for ticker: String) async throws -> BacktestResult {
         try await fetch("/backtest/\(ticker)")
     }
 
-    // ── Health ────────────────────────────────────────────────────────────────
+ // Health
     func health() async throws -> HealthResponse {
         try await fetch("/health")
     }

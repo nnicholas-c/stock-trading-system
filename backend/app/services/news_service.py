@@ -27,7 +27,7 @@ COMPANY_NAMES = {
 }
 
 class NewsService:
-    _cache: dict = {}  # ticker → {data, expires_at}
+    _cache: dict = {}  # ticker -> {data, expires_at}
 
     @classmethod
     def _score(cls, text: str) -> dict:
