@@ -309,11 +309,11 @@
   <main class="shell">
     <header class="topbar">
       <div>
-        <div class="label">Equity Signal Research / Model Risk</div>
-        <h1>AXIOM Quant Research Portfolio</h1>
+        <div class="label">Quant research project</div>
+        <h1>AXIOM</h1>
         <p class="subtitle">
-          A research-grade case study in turning an overfit equity-signal prototype into a disciplined validation workflow:
-          causal features, purged walk-forward testing, explicit execution costs, baseline comparison, and auditability.
+          I tried to build a daily stock-prediction signal, caught the first version leaking, and rebuilt it honestly.
+          This page shows what's left after a clean test: a small signal that loses to just holding the market.
         </p>
       </div>
       <aside class="status" aria-label="Research status">
@@ -334,7 +334,7 @@
       <div class="kpi">
         <div class="label">Strategy Sharpe</div>
         <div class="value">0.097</div>
-        <div class="note">Not competitive with passive exposure.</div>
+        <div class="note">Below buy-and-hold.</div>
       </div>
       <div class="kpi">
         <div class="label">Buy-Hold Return</div>
@@ -361,11 +361,11 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <div class="label">Research Question</div>
-          <h2>Can daily OHLCV features produce an economically meaningful equity signal?</h2>
+          <div class="label">The question</div>
+          <h2>Can daily price and volume data beat buy-and-hold?</h2>
         </div>
         <p>
-          The result is intentionally not dressed up: the model shows a tiny positive IC, but the strategy fails to beat the passive benchmark and does not survive multiple-testing-aware Sharpe adjustment.
+          Short version: the model finds a tiny positive signal, but it loses to just holding the same names and doesn't survive a Sharpe adjustment for how many things I tried.
         </p>
       </div>
       <table>
@@ -384,21 +384,21 @@
             <td class="pos">+1.84%</td>
             <td>0.097</td>
             <td class="neg">-10.21%</td>
-            <td>Statistically faint; economically weak after costs.</td>
+            <td>Real but tiny; barely positive after costs.</td>
           </tr>
           <tr>
             <td>Equal-weight buy-hold</td>
             <td class="pos">+64.20%</td>
             <td>0.646</td>
             <td class="neg">-14.95%</td>
-            <td>Passive exposure dominates this simple alpha attempt.</td>
+            <td>Just holding the names wins easily.</td>
           </tr>
           <tr>
             <td>Zero-skill random, net</td>
             <td class="neg">-15.74%</td>
             <td>-3.499</td>
             <td class="neg">-16.42%</td>
-            <td>Cost drag baseline with similar active rate.</td>
+            <td>Trades at the same rate; shows the cost drag.</td>
           </tr>
         </tbody>
       </table>
@@ -407,11 +407,11 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <div class="label">Validation Architecture</div>
-          <h2>Controls that make the result harder to fool</h2>
+          <div class="label">How it's validated</div>
+          <h2>What keeps the test honest</h2>
         </div>
         <p>
-          The research harness favors falsification over flattering performance. Each transform is fit inside the training fold, decisions lag execution, and benchmark comparisons use the same downloaded universe.
+          The harness is built to fail the strategy if it can. Every transform is fit inside the training fold, trades lag the signal by a day, and the baselines use the same data the signal does.
         </p>
       </div>
       <div class="grid matrix">
@@ -439,25 +439,25 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <div class="label">Research Evidence Stack</div>
-          <h2>What should be displayed and why</h2>
+          <div class="label">Charts</div>
+          <h2>What the plots show</h2>
         </div>
         <p>
-          The page focuses on diagnostics that answer research questions: whether the strategy beats baselines, whether the score is monotonic across buckets, and whether signal quality is stable through time.
+          These are the three plots I actually care about: does it beat the baselines, does a higher score mean a higher return, and does the signal hold up over time.
         </p>
       </div>
       <div class="grid figures">
         <figure class="wide">
           <img src="assets/equity_curves.png" alt="Equity curves for strategy, buy-hold baseline, and random baseline">
-          <figcaption><strong>Performance and drawdown.</strong> The fixed signal ends slightly positive but is dominated by equal-weight buy-hold; the drawdown panel shows that the small net return is not compensation for a clearly better risk profile.</figcaption>
+          <figcaption><strong>Performance and drawdown.</strong> The signal ends slightly positive, but buy-and-hold runs away with it, and the drawdown panel shows the small return isn't buying a better risk profile.</figcaption>
         </figure>
         <figure>
           <img src="assets/score_deciles.png" alt="Bar chart of next-day return by signal score decile with hit-rate line">
-          <figcaption><strong>Score monotonicity.</strong> The top decile has the strongest realized return, but middle buckets are noisy; this supports a weak, non-production signal interpretation.</figcaption>
+          <figcaption><strong>Score vs. return.</strong> The top decile has the best next-day return, but the middle buckets are noisy &mdash; a weak signal, not a tradable one.</figcaption>
         </figure>
         <figure>
           <img src="assets/rolling_diagnostics.png" alt="Rolling IC and trading intensity over time">
-          <figcaption><strong>Signal stability and trading intensity.</strong> Rolling IC decays and oscillates around zero while turnover spikes early; the signal is not stable enough to justify a strong performance claim.</figcaption>
+          <figcaption><strong>Stability over time.</strong> Rolling IC drifts around zero while turnover spikes early &mdash; not steady enough to lean on.</figcaption>
         </figure>
       </div>
     </section>
@@ -465,17 +465,17 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <div class="label">Audit Trail</div>
-          <h2>Model risk findings retained for reviewers</h2>
+          <div class="label">The audit</div>
+          <h2>Why the old numbers can't be trusted</h2>
         </div>
         <p>
-          Earlier experiments are preserved because they show how impressive-looking metrics can emerge from narrow universes, same-bar assumptions, and repeated configuration search.
+          I kept the earlier experiments because they show how good-looking metrics come out of a narrow ticker list, same-bar trades, and trying a lot of configs.
         </p>
       </div>
       <div class="audit-list">
-        <div class="audit-item"><strong>Selection bias</strong><span>Legacy runs focused on four high-attention tickers and PLTR-only variants.</span></div>
-        <div class="audit-item"><strong>Preprocessing leakage</strong><span>Several early scripts fit scalers or thresholds on full datasets before splits.</span></div>
-        <div class="audit-item"><strong>Execution realism</strong><span>The validated harness adds next-day execution and explicit cost/slippage assumptions.</span></div>
+        <div class="audit-item"><strong>Selection bias</strong><span>The old runs used four hand-picked tickers, or just PLTR.</span></div>
+        <div class="audit-item"><strong>Leakage</strong><span>Early scripts fit scalers and thresholds on the full dataset before splitting.</span></div>
+        <div class="audit-item"><strong>Execution</strong><span>The honest harness trades next-day and pays real costs and slippage.</span></div>
       </div>
       <nav class="links" aria-label="Research artifacts">
         <a href="https://github.com/nnicholas-c/stock-trading-system#readme">README</a>
@@ -486,6 +486,6 @@
       </nav>
     </section>
   </main>
-  <!-- terminal_app.js is retained as a legacy asset but intentionally not loaded by this research-grade UI. -->
+  <!-- terminal_app.js is an old asset, intentionally not loaded here. -->
 </body>
 </html>
