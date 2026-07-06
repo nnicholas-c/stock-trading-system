@@ -2,8 +2,8 @@
 
 This project is really about not fooling myself. I wanted to know a simple thing: can daily
 price and volume data predict next-day stock moves well enough to beat just holding the market,
-once you pay realistic costs and stay honest about how many things you tried? I built the naive
-version first, caught it cheating, and rebuilt it carefully. The honest answer is no — the signal
+once you pay realistic costs and account for how many things you tried? I built the naive
+version first, caught it cheating, and rebuilt it carefully. The answer is no — the signal
 that survives a clean test is real but tiny, loses to buy-and-hold, and doesn't clear a
 multiple-testing bar.
 
@@ -19,7 +19,7 @@ interesting part isn't the result. It's why the first version lied.
 - `experiments/` — the earlier attempts. I keep them as examples of what not to do, not as results.
   Every problem in them is written up in the audit.
 
-## What the honest backtest does
+## What the backtest does
 
 I stripped it down to one fixed spec so there was nothing left to tune:
 
@@ -60,7 +60,7 @@ barely makes anything, it gets crushed by just holding the same names, and its d
 -0.707 against a 0.805 threshold. Once you account for how many configs got tried, there's no edge
 left to claim.
 
-That's the whole point. A tiny real signal that can't beat buy-and-hold is the honest answer, and
+That's the whole point. A tiny real signal that can't beat buy-and-hold is the answer, and
 getting there without talking myself into a trade was the actual exercise.
 
 ## Why the first version was wrong
@@ -74,7 +74,7 @@ write-up is in `LEAKAGE_AUDIT.md`; the short version:
 - It decided and filled trades on the same bar, using that bar's own candle.
 - It scored accuracy only on the high-confidence calls, and kept the best of many training runs.
 
-Each of those makes a backtest look better than the strategy is. The honest harness exists to strip
+Each of those makes a backtest look better than the strategy is. The fixed harness exists to strip
 them out one at a time and see what's left.
 
 ## Repository guide

@@ -312,7 +312,7 @@
         <div class="label">Quant research project</div>
         <h1>AXIOM</h1>
         <p class="subtitle">
-          I tried to build a daily stock-prediction signal, caught the first version leaking, and rebuilt it honestly.
+          I tried to build a daily stock-prediction signal, caught the first version leaking, and rebuilt it carefully.
           This page shows what's left after a clean test: a small signal that loses to just holding the market.
         </p>
       </div>
@@ -408,7 +408,7 @@
       <div class="section-head">
         <div>
           <div class="label">How it's validated</div>
-          <h2>What keeps the test honest</h2>
+          <h2>What keeps the test clean</h2>
         </div>
         <p>
           The harness is built to fail the strategy if it can. Every transform is fit inside the training fold, trades lag the signal by a day, and the baselines use the same data the signal does.
@@ -475,7 +475,7 @@
       <div class="audit-list">
         <div class="audit-item"><strong>Selection bias</strong><span>The old runs used four hand-picked tickers, or just PLTR.</span></div>
         <div class="audit-item"><strong>Leakage</strong><span>Early scripts fit scalers and thresholds on the full dataset before splitting.</span></div>
-        <div class="audit-item"><strong>Execution</strong><span>The honest harness trades next-day and pays real costs and slippage.</span></div>
+        <div class="audit-item"><strong>Execution</strong><span>The fixed harness trades next-day and pays real costs and slippage.</span></div>
       </div>
       <nav class="links" aria-label="Research artifacts">
         <a href="https://github.com/nnicholas-c/stock-trading-system#readme">README</a>
