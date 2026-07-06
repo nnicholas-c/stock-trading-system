@@ -1,6 +1,6 @@
 # Honest Backtest Harness
 
-This module is the defensible re-evaluation for the AXIOM audit.
+This is the clean re-run behind the AXIOM audit — the one backtest here I'd actually defend.
 
 Run:
 

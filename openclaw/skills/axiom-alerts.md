@@ -1,14 +1,5 @@
-# AXIOM Research Integration Note
+# AXIOM alert integration (inactive)
 
-This legacy alert integration is inactive because AXIOM is presented as a quant research portfolio project, not as a live signal-delivery product.
+This old alert integration is turned off. AXIOM is a research project now, not a live signal service — the point of it is the process (leakage-aware validation, real execution and cost assumptions, baseline comparisons, and a plain reading of a weak result), not buy/sell calls.
 
-The current project value is in the research process:
-
-- leakage-aware validation,
-- explicit execution assumptions,
-- cost and slippage modeling,
-- baseline comparison,
-- auditability of historical experiments,
-- honest interpretation of weak signal results.
-
-If an alerting integration is restored later, it should send research-status notifications only: data refresh status, validation results, audit warnings, and links to reproducible artifacts. It should not send BUY/SELL alerts unless a new audited live-signal process is built and documented.
+If someone wires alerts back up later, they should only send research status: data-refresh updates, validation results, audit warnings, and links to the result files. No BUY/SELL alerts unless a new, audited live process gets built and documented first.
